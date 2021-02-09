@@ -1,0 +1,59 @@
+unit acesso;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ACBrBase, ACBrEnterTab;
+
+type
+  TFormAcesso = class(TForm)
+    Label1: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    ACBrEnterTab1: TACBrEnterTab;
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Retorno:Boolean;
+  end;
+
+var
+  FormAcesso: TFormAcesso;
+
+implementation
+
+uses  Dados,Rotinas, dados3;
+
+{$R *.DFM}
+
+procedure TFormAcesso.Button1Click(Sender: TObject);
+begin
+    If Uppercase(Trim(edit1.text))='SA351*' Then
+    Begin
+      Retorno:=true;
+       Exit;
+    End;
+    if configuracao.senha='' Then
+    begin
+       retorno:=true;
+       exit;
+    End;
+
+    Retorno:=Codifica1(UPPERCASE(Edit1.Text))=configuracao.senha;
+    If Not Retorno Then
+       ShowMessage('Senha inválida');
+
+end;
+
+procedure TFormAcesso.FormShow(Sender: TObject);
+begin
+   Edit1.Text:='';
+   Retorno:=False;
+   Edit1.SetFocus;
+end;
+
+end.

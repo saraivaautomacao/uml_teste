@@ -1,0 +1,23 @@
+unit udmOrcamento;
+
+interface
+
+uses
+  SysUtils, Classes;
+
+type
+  TdmOrcamento = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmOrcamento: TdmOrcamento;
+
+implementation
+
+{$R *.dfm}
+
+end.

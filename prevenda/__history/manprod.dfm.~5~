@@ -1,0 +1,977 @@
+object frManprod: TfrManprod
+  Left = 207
+  Top = 274
+  Caption = 'Manuten'#231#227'o de Produtos'
+  ClientHeight = 611
+  ClientWidth = 1047
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnKeyUp = FormKeyUp
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 14
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 1047
+    Height = 96
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    TabOrder = 0
+    object PageControl1: TPageControl
+      Left = 0
+      Top = 0
+      Width = 1047
+      Height = 96
+      ActivePage = TabSheet1
+      Align = alTop
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      OnChange = PageControl1Change
+      object TabSheet1: TTabSheet
+        Caption = '&C'#243'digo'
+      end
+      object TabSheet2: TTabSheet
+        Caption = '&Descri'#231#227'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ImageIndex = 1
+        ParentFont = False
+        object Label5: TLabel
+          Left = 323
+          Top = -1
+          Width = 39
+          Height = 18
+          Caption = 'Grupo'
+        end
+      end
+      object TabSheet3: TTabSheet
+        Caption = 'Codigo Auxiliar'
+        ImageIndex = 2
+      end
+    end
+    object Edit1: TEdit
+      Left = 8
+      Top = 45
+      Width = 312
+      Height = 26
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      Text = 'Edit1'
+      OnExit = Edit1Exit
+      OnKeyUp = Edit1KeyUp
+    end
+  end
+  object RxDBGrid1: TRxDBGrid
+    Left = 0
+    Top = 96
+    Width = 1047
+    Height = 449
+    Align = alClient
+    BiDiMode = bdLeftToRight
+    BorderStyle = bsNone
+    DataSource = DataSource1
+    FixedColor = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    ParentBiDiMode = False
+    ParentFont = False
+    ParentShowHint = False
+    PopupMenu = Menu
+    ShowHint = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBlue
+    TitleFont.Height = -13
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = [fsBold]
+    OnColExit = RxDBGrid1ColExit
+    OnDblClick = RxDBGrid1DblClick
+    OnKeyDown = RxDBGrid1KeyDown
+    FixedCols = 2
+    TitleButtons = True
+    OnGetCellParams = RxDBGrid1GetCellParams
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'CODIGO'
+        Title.Alignment = taCenter
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 90
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Title.Alignment = taCenter
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 264
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ETIQUETAS'
+        Title.Caption = 'Etiq.'
+        Width = 39
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Unid.'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 37
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Laboratorio'
+        Title.Alignment = taCenter
+        Title.Caption = 'Fabricante'
+        Width = 89
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PFISCALCUSTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Refer.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOCUSTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'P Custo'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 57
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOVENDA'
+        Title.Alignment = taCenter
+        Title.Caption = 'P. Venda'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 61
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTMINIMO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Est. Min'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 52
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QUANT'
+        Title.Alignment = taCenter
+        Title.Caption = 'Est. Atual'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'Tahoma'
+        Title.Font.Style = [fsBold]
+        Width = 66
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTFISCAL'
+        Title.Caption = 'Est. Fiscal'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LUCRO'
+        Title.Caption = 'Lucro(%)'
+        Width = 73
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MARGEMREVENDA'
+        Title.Caption = 'Rev (%)'
+        Width = 59
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOREVENDA'
+        Title.Caption = 'Revenda'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LOCAL'
+        Width = 63
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODIGOAUXLIAR'
+        Title.Alignment = taCenter
+        Title.Caption = 'Cod. Auxiliar'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CTS'
+        Title.Caption = 'Sit. Trib.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'setor'
+        Title.Alignment = taCenter
+        Title.Caption = 'Grupo'
+        Width = 89
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Fornecedor'
+        Width = 183
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCONTO'
+        Title.Caption = 'Max. Desconto %'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FRACAO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MOVESTOQUE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NAOSAITABELA'
+        PickList.Strings = (
+          'S'
+          'N')
+        Title.Caption = 'Inativo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NCM'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IAT'
+        PickList.Strings = (
+          'A'
+          'T')
+        Width = 28
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IPPT'
+        PickList.Strings = (
+          'T'
+          'P')
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PROMOCAO'
+        PickList.Strings = (
+          'S'
+          'N')
+        Width = 86
+        Visible = True
+      end>
+  end
+  object fldSetor: TRxDBLookupCombo
+    Left = 326
+    Top = 46
+    Width = 177
+    Height = 27
+    DropDownCount = 8
+    DisplayEmpty = '<Todos>'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    LookupField = 'Controle'
+    LookupDisplay = 'Setor'
+    LookupSource = dmMod.dsSetor
+    ParentFont = False
+    TabOrder = 2
+    OnClick = fldSetorClick
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 545
+    Width = 1047
+    Height = 66
+    Align = alBottom
+    BevelInner = bvLowered
+    TabOrder = 3
+    DesignSize = (
+      1047
+      66)
+    object fldTotal1: TRxLabel
+      Left = 778
+      Top = 10
+      Width = 217
+      Height = 30
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'fldTotal1'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      Anchors = [akTop, akRight]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      WordWrap = True
+    end
+    object Label1: TLabel
+      Left = 169
+      Top = 45
+      Width = 181
+      Height = 14
+      Caption = '*Verde - marcados como inativos'
+    end
+    object DBText1: TDBText
+      Left = 420
+      Top = 46
+      Width = 54
+      Height = 15
+      Color = clWhite
+      DataField = 'Notafiscal'
+      DataSource = DataSource1
+      ParentColor = False
+    end
+    object DBText2: TDBText
+      Left = 519
+      Top = 46
+      Width = 47
+      Height = 15
+      Color = clWhite
+      DataField = 'QuantNotaFiscal'
+      DataSource = DataSource1
+      ParentColor = False
+    end
+    object DBText3: TDBText
+      Left = 647
+      Top = 46
+      Width = 182
+      Height = 14
+      Color = clWhite
+      DataField = 'forn1'
+      DataSource = DataSource1
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 359
+      Top = 46
+      Width = 60
+      Height = 14
+      Caption = 'Ultima NF:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 475
+      Top = 46
+      Width = 42
+      Height = 14
+      Caption = 'Quant:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 571
+      Top = 46
+      Width = 72
+      Height = 14
+      Caption = 'Fornecedor:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object rgOrdem: TRadioGroup
+      Left = 4
+      Top = 4
+      Width = 316
+      Height = 37
+      Caption = 'Refer'#234'ncias'
+      Columns = 4
+      Items.Strings = (
+        'P. Custo'
+        'P.  Venda'
+        'Ref.'
+        'Total Itens')
+      TabOrder = 0
+    end
+    object Button1: TButton
+      Left = 543
+      Top = 11
+      Width = 70
+      Height = 27
+      Caption = 'Somar'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 435
+      Top = 9
+      Width = 102
+      Height = 27
+      Caption = 'Recompor C'#243'digo'
+      TabOrder = 2
+      OnClick = Button2Click
+    end
+    object Button3: TButton
+      Left = 327
+      Top = 11
+      Width = 103
+      Height = 27
+      Caption = 'Excluir'
+      TabOrder = 3
+      OnClick = Button3Click
+    end
+    object ckbDestaque: TCheckBox
+      Left = 9
+      Top = 44
+      Width = 164
+      Height = 18
+      Caption = 'Destacar  estoque m'#237'nimo'
+      TabOrder = 4
+      OnClick = ckbDestaqueClick
+    end
+  end
+  object fldFab: TRxDBLookupCombo
+    Left = 504
+    Top = 46
+    Width = 177
+    Height = 27
+    DropDownCount = 8
+    DisplayEmpty = '<Todos>'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    LookupField = 'Controle'
+    LookupDisplay = 'Laboratorio'
+    LookupSource = dmMod.dsLab
+    ParentFont = False
+    TabOrder = 4
+    OnClick = fldSetorClick
+  end
+  object Menu: TPopupMenu
+    AutoHotkeys = maManual
+    AutoLineReduction = maManual
+    Left = 168
+    Top = 128
+    object AlteraoEstoqueGeral1: TMenuItem
+      Caption = 'Permitir Altera'#231#245'es na Tabela'
+      OnClick = AlteraoEstoqueGeral1Click
+    end
+    object AlteraoEstoqueFiscal1: TMenuItem
+      Caption = 'Manuten'#231#227'o Estoque Fiscal'
+      OnClick = AlteraoEstoqueFiscal1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object GerarNotaEntrada1: TMenuItem
+      Caption = 'Gerar Nota Entrada'
+      object Direta1: TMenuItem
+        Caption = 'Direta'
+        OnClick = Direta1Click
+      end
+    end
+    object Etiquetas1: TMenuItem
+      Caption = 'Etiquetas'
+      object Habilitar1: TMenuItem
+        AutoHotkeys = maManual
+        AutoLineReduction = maManual
+        Caption = 'Habilitar'
+        OnClick = Habilitar1Click
+      end
+      object Filtrar1: TMenuItem
+        AutoHotkeys = maManual
+        AutoLineReduction = maManual
+        Caption = 'Filtrar'
+        OnClick = Filtrar1Click
+      end
+      object Imprimir1: TMenuItem
+        Caption = 'Imprimir'
+        OnClick = Imprimir1Click
+      end
+      object Zerar1: TMenuItem
+        Caption = 'Zerar'
+        OnClick = Zerar1Click
+      end
+    end
+    object AcompdePreos1: TMenuItem
+      Caption = 'Acomp. de Pre'#231'os - F7'
+    end
+    object ZerarPosicaodeEstoque1: TMenuItem
+      Caption = 'Zerar Posicao de Estoque'
+      object EstoqueGeral1: TMenuItem
+        Caption = 'Estoque Geral'
+      end
+      object EstoqueExtra1: TMenuItem
+        Caption = 'Estoque Fiscal'
+      end
+    end
+    object QAjsute1: TMenuItem
+      Caption = 'Ajuste Precos pela NF'
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = Table1
+    Left = 664
+    Top = 208
+  end
+  object Table1: TZTable
+    Connection = dmMod.zConPrinc
+    Filter = 'codigo<>'#39'99999'#39' and codigo<>'#39'99998'#39'  and codigo<>'#39'99997'#39
+    Filtered = True
+    BeforePost = Table1BeforePost
+    AfterPost = Table1AfterPost
+    TableName = 'TABEST1'
+    Left = 584
+    Top = 200
+    object Table1CODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Required = True
+      Size = 15
+    end
+    object Table1CONTROLE: TIntegerField
+      FieldName = 'CONTROLE'
+    end
+    object Table1CODIGOAUXLIAR: TWideStringField
+      FieldName = 'CODIGOAUXLIAR'
+      Size = 15
+    end
+    object Table1CODIGOINTERNO: TWideStringField
+      FieldName = 'CODIGOINTERNO'
+      Size = 1
+    end
+    object Table1PRODUTO: TWideStringField
+      FieldName = 'PRODUTO'
+      Size = 50
+    end
+    object Table1LKSETOR: TIntegerField
+      FieldName = 'LKSETOR'
+    end
+    object Table1FABRICANTE: TWideStringField
+      FieldName = 'FABRICANTE'
+    end
+    object Table1LKFORNEC: TWideStringField
+      FieldName = 'LKFORNEC'
+      Size = 8
+    end
+    object Table1PRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+      currency = True
+    end
+    object Table1CUSTOMEDIO: TFloatField
+      FieldName = 'CUSTOMEDIO'
+      currency = True
+    end
+    object Table1PRECOVENDA: TFloatField
+      FieldName = 'PRECOVENDA'
+      currency = True
+    end
+    object Table1ESTMINIMO: TFloatField
+      FieldName = 'ESTMINIMO'
+    end
+    object Table1QUANT: TFloatField
+      FieldName = 'QUANT'
+    end
+    object Table1UNIDADE: TWideStringField
+      FieldName = 'UNIDADE'
+      Size = 2
+    end
+    object Table1LUCRO: TFloatField
+      FieldName = 'LUCRO'
+      DisplayFormat = '##0.00'
+    end
+    object Table1MOEDA: TWideStringField
+      FieldName = 'MOEDA'
+      Size = 5
+    end
+    object Table1ULTREAJ: TDateField
+      FieldName = 'ULTREAJ'
+      DisplayFormat = 'dd/mm/yyyy'
+    end
+    object Table1FOTO: TBlobField
+      FieldName = 'FOTO'
+    end
+    object Table1OBS: TWideMemoField
+      FieldName = 'OBS'
+      BlobType = ftWideMemo
+    end
+    object Table1NAOSAITABELA: TWideStringField
+      FieldName = 'NAOSAITABELA'
+      Size = 1
+    end
+    object Table1INATIVO: TWideStringField
+      FieldName = 'INATIVO'
+      Size = 1
+    end
+    object Table1CODIGOIPI: TWideStringField
+      FieldName = 'CODIGOIPI'
+      Size = 12
+    end
+    object Table1IPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object Table1CTS: TWideStringField
+      FieldName = 'CTS'
+      Size = 2
+    end
+    object Table1ICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object Table1BASECALCULO: TFloatField
+      FieldName = 'BASECALCULO'
+    end
+    object Table1DESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object Table1LOCAL: TWideStringField
+      FieldName = 'LOCAL'
+      Size = 14
+    end
+    object Table1PESO: TFloatField
+      FieldName = 'PESO'
+    end
+    object Table1PEDIDO: TFloatField
+      FieldName = 'PEDIDO'
+    end
+    object Table1VENCIMENTO: TDateField
+      FieldName = 'VENCIMENTO'
+    end
+    object Table1LKLAB: TIntegerField
+      FieldName = 'LKLAB'
+    end
+    object Table1ESTFISCAL: TFloatField
+      FieldName = 'ESTFISCAL'
+    end
+    object Table1SITUACAO: TWideStringField
+      FieldName = 'SITUACAO'
+      Size = 1
+    end
+    object Table1ETIQUETAS: TSmallintField
+      FieldName = 'ETIQUETAS'
+    end
+    object Table1MARGEMREVENDA: TFloatField
+      FieldName = 'MARGEMREVENDA'
+      DisplayFormat = '##0.00'
+    end
+    object Table1PRECOREVENDA: TFloatField
+      FieldName = 'PRECOREVENDA'
+    end
+    object Table1ENQFOTO: TWideStringField
+      FieldName = 'ENQFOTO'
+      Size = 1
+    end
+    object Table1PFISCALCUSTO: TFloatField
+      FieldName = 'PFISCALCUSTO'
+    end
+    object Table1INVENTARIO: TFloatField
+      FieldName = 'INVENTARIO'
+    end
+    object Table1FRACAO: TWideStringField
+      FieldName = 'FRACAO'
+      Size = 1
+    end
+    object Table1MOVESTOQUE: TWideStringField
+      FieldName = 'MOVESTOQUE'
+      Size = 1
+    end
+    object Table1NCM: TWideStringField
+      FieldName = 'NCM'
+      Size = 10
+    end
+    object Table1CLASFISCAL: TWideStringField
+      FieldName = 'CLASFISCAL'
+      Size = 10
+    end
+    object Table1IAT: TWideStringField
+      FieldName = 'IAT'
+      Size = 1
+    end
+    object Table1IPPT: TWideStringField
+      FieldName = 'IPPT'
+      Size = 1
+    end
+    object Table1PROMOCAO: TWideStringField
+      FieldName = 'PROMOCAO'
+      Size = 1
+    end
+    object Table1NOTAFISCAL: TWideStringField
+      FieldName = 'NOTAFISCAL'
+      Size = 10
+    end
+    object Table1QUANTNOTAFISCAL: TFloatField
+      FieldName = 'QUANTNOTAFISCAL'
+    end
+    object Table1LKFORNNOTAFISCAL: TWideStringField
+      FieldName = 'LKFORNNOTAFISCAL'
+      Size = 8
+    end
+    object Table1TRIBUTACAO: TWideStringField
+      FieldName = 'TRIBUTACAO'
+      Size = 25
+    end
+    object Table1CST: TWideStringField
+      FieldName = 'CST'
+      Size = 3
+    end
+    object Table1CSOSN: TWideStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object Table1IPI_ALIQ: TFloatField
+      FieldName = 'IPI_ALIQ'
+    end
+    object Table1ICMS_ALIQ: TFloatField
+      FieldName = 'ICMS_ALIQ'
+    end
+    object Table1ICMS_RED: TFloatField
+      FieldName = 'ICMS_RED'
+    end
+    object Table1PIS_ST: TWideStringField
+      FieldName = 'PIS_ST'
+      Size = 2
+    end
+    object Table1ICMS_SUB: TFloatField
+      FieldName = 'ICMS_SUB'
+    end
+    object Table1PIS_BASE: TFloatField
+      FieldName = 'PIS_BASE'
+    end
+    object Table1PIS_ALIQ: TFloatField
+      FieldName = 'PIS_ALIQ'
+    end
+    object Table1PIS_SUB_BASE: TFloatField
+      FieldName = 'PIS_SUB_BASE'
+    end
+    object Table1COFINS_ST: TWideStringField
+      FieldName = 'COFINS_ST'
+      Size = 2
+    end
+    object Table1COFINS_BASE: TFloatField
+      FieldName = 'COFINS_BASE'
+    end
+    object Table1CONFINS_ALIQ: TFloatField
+      FieldName = 'CONFINS_ALIQ'
+    end
+    object Table1CONFINS_SUB_BASE: TFloatField
+      FieldName = 'CONFINS_SUB_BASE'
+    end
+    object Table1COFINS_SUB_ALIQ: TFloatField
+      FieldName = 'COFINS_SUB_ALIQ'
+    end
+    object Table1PIS_SUB_ALIQ: TFloatField
+      FieldName = 'PIS_SUB_ALIQ'
+    end
+    object Table1UNID_COMPRA: TWideStringField
+      FieldName = 'UNID_COMPRA'
+      Size = 2
+    end
+    object Table1FATOR: TWideStringField
+      FieldName = 'FATOR'
+      Size = 5
+    end
+    object Table1forn1: TStringField
+      FieldKind = fkLookup
+      FieldName = 'forn1'
+      LookupDataSet = dmMod.tblForn
+      LookupKeyFields = 'CODIGO'
+      LookupResultField = 'EMPRESA'
+      KeyFields = 'LKFORNEC'
+      Size = 40
+      Lookup = True
+    end
+  end
+  object Table2: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'TABEST2'
+    Left = 584
+    Top = 264
+    object Table2CONTROLE: TIntegerField
+      FieldName = 'CONTROLE'
+      Required = True
+    end
+    object Table2LKFORN: TWideStringField
+      FieldName = 'LKFORN'
+      Size = 8
+    end
+    object Table2CODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Size = 8
+    end
+    object Table2DATA: TDateField
+      FieldName = 'DATA'
+    end
+    object Table2TOTAL: TFloatField
+      FieldName = 'TOTAL'
+    end
+  end
+  object Table3: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'TABEST2A'
+    Left = 504
+    Top = 240
+    object Table3DATA: TDateField
+      FieldName = 'DATA'
+    end
+    object Table3LKEST2: TWideStringField
+      FieldName = 'LKEST2'
+      Size = 8
+    end
+    object Table3LKPRODUTO: TWideStringField
+      FieldName = 'LKPRODUTO'
+      Size = 15
+    end
+    object Table3QUANT: TFloatField
+      FieldName = 'QUANT'
+    end
+    object Table3PRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+    end
+    object Table3PRECOVENDA: TFloatField
+      FieldName = 'PRECOVENDA'
+    end
+    object Table3SITUACAO: TWideStringField
+      FieldName = 'SITUACAO'
+      Size = 1
+    end
+    object Table3LUCROVENDA: TFloatField
+      FieldName = 'LUCROVENDA'
+    end
+    object Table3LUCROREVENDA: TFloatField
+      FieldName = 'LUCROREVENDA'
+    end
+    object Table3CODIGOAUXILIAR: TWideStringField
+      FieldName = 'CODIGOAUXILIAR'
+      Size = 15
+    end
+    object Table3LOCAL: TWideStringField
+      FieldName = 'LOCAL'
+      Size = 15
+    end
+  end
+  object tblmem: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 568
+    Top = 144
+    Data = {
+      960000009619E0BD01000000180000000400000000000300000096000A446573
+      63726963616F3101004900000001000557494454480200020021000A44657363
+      726963616F3201004900000001000557494454480200020021000A4465736372
+      6963616F3301004900000001000557494454480200020021000A446573637269
+      63616F3401004900000001000557494454480200020021000000}
+    object tblmemDescricao1: TStringField
+      FieldName = 'Descricao1'
+      Size = 33
+    end
+    object tblmemDescricao2: TStringField
+      FieldName = 'Descricao2'
+      Size = 33
+    end
+    object tblmemDescricao3: TStringField
+      FieldName = 'Descricao3'
+      Size = 33
+    end
+    object tblmemDescricao4: TStringField
+      FieldName = 'Descricao4'
+      Size = 33
+    end
+  end
+end

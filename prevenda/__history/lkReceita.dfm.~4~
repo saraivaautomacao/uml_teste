@@ -1,0 +1,224 @@
+object FormlkReceita: TFormlkReceita
+  Left = 398
+  Top = 346
+  BorderStyle = bsDialog
+  Caption = 'Or'#231'amentos'
+  ClientHeight = 293
+  ClientWidth = 564
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 14
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 44
+    Width = 564
+    Height = 205
+    Align = alClient
+    BorderStyle = bsNone
+    Ctl3D = False
+    DataSource = DataSource1
+    ParentCtl3D = False
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'SELECAO'
+        PickList.Strings = (
+          'S'
+          'N')
+        Title.Caption = 'Sele'#231#227'o'
+        Width = 55
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'ORCAMENTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Or'#231'amento'
+        Width = 73
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Title.Alignment = taCenter
+        Title.Caption = 'Nome'
+        Width = 232
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCONTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Desconto(%)'
+        Width = 93
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TOTAL'
+        Title.Alignment = taCenter
+        Title.Caption = 'Total'
+        Visible = True
+      end>
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 249
+    Width = 564
+    Height = 44
+    Align = alBottom
+    TabOrder = 1
+    object Button1: TButton
+      Left = 184
+      Top = 9
+      Width = 81
+      Height = 27
+      Caption = 'OK'
+      ModalResult = 1
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 9
+      Top = 9
+      Width = 80
+      Height = 27
+      Caption = 'Excluir'
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+    object Button3: TButton
+      Left = 280
+      Top = 9
+      Width = 81
+      Height = 27
+      Caption = 'Cancelar'
+      ModalResult = 2
+      TabOrder = 2
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 564
+    Height = 44
+    Align = alTop
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 10
+      Top = 2
+      Width = 61
+      Height = 14
+      Caption = 'Or'#231'amento'
+    end
+    object Label2: TLabel
+      Left = 92
+      Top = 1
+      Width = 32
+      Height = 14
+      Caption = 'Nome'
+    end
+    object edorc: TEdit
+      Left = 9
+      Top = 17
+      Width = 61
+      Height = 22
+      TabOrder = 0
+      OnExit = edorcExit
+      OnKeyUp = edorcKeyUp
+    end
+    object edNome: TEdit
+      Left = 90
+      Top = 16
+      Width = 247
+      Height = 22
+      TabOrder = 1
+      OnExit = edNomeExit
+      OnKeyUp = edNomeKeyUp
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = tbReceita
+    Left = 240
+    Top = 88
+  end
+  object tbReceita: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'RECEITA'
+    Left = 160
+    Top = 88
+    object tbReceitaORCAMENTO: TIntegerField
+      FieldName = 'ORCAMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object tbReceitaNOME: TWideStringField
+      FieldName = 'NOME'
+      Size = 40
+    end
+    object tbReceitaENDERECO: TWideStringField
+      FieldName = 'ENDERECO'
+      Size = 40
+    end
+    object tbReceitaOBSERVACAO: TWideStringField
+      FieldName = 'OBSERVACAO'
+      Size = 40
+    end
+    object tbReceitaDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object tbReceitaTOTAL: TFloatField
+      FieldName = 'TOTAL'
+      currency = True
+    end
+    object tbReceitaFORMAPAGTO: TWideStringField
+      FieldName = 'FORMAPAGTO'
+    end
+    object tbReceitaHAVER: TFloatField
+      FieldName = 'HAVER'
+      currency = True
+    end
+    object tbReceitaSELECAO: TWideStringField
+      FieldName = 'SELECAO'
+      Size = 1
+    end
+  end
+  object Query1: TZQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      'Delete From receita1'
+      'Where lkOrc=:Orcamento')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'Orcamento'
+        ParamType = ptUnknown
+      end>
+    Left = 184
+    Top = 160
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'Orcamento'
+        ParamType = ptUnknown
+      end>
+  end
+end

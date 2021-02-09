@@ -1,0 +1,69 @@
+object FormLimCredito: TFormLimCredito
+  Left = 204
+  Top = 137
+  Width = 190
+  Height = 225
+  Caption = 'Limite Cr'#233'dito'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 64
+    Top = 24
+    Width = 54
+    Height = 13
+    Caption = 'Limite Atual'
+  end
+  object Label2: TLabel
+    Left = 64
+    Top = 72
+    Width = 56
+    Height = 13
+    Caption = 'Novo Limite'
+  end
+  object fldValor1: TCurrencyEdit
+    Left = 30
+    Top = 40
+    Width = 121
+    Height = 21
+    AutoSize = False
+    ReadOnly = True
+    TabOrder = 0
+    ZeroEmpty = False
+  end
+  object fldValor2: TCurrencyEdit
+    Left = 30
+    Top = 88
+    Width = 121
+    Height = 21
+    AutoSize = False
+    TabOrder = 1
+    ZeroEmpty = False
+  end
+  object Button1: TButton
+    Left = 53
+    Top = 120
+    Width = 75
+    Height = 25
+    Caption = 'OK'
+    ModalResult = 1
+    TabOrder = 2
+  end
+  object Button2: TButton
+    Left = 53
+    Top = 152
+    Width = 75
+    Height = 25
+    Caption = 'Cancelar'
+    ModalResult = 2
+    TabOrder = 3
+  end
+end

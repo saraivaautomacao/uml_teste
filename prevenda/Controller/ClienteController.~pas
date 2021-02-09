@@ -1,0 +1,69 @@
+{
+
+@author Fabio Saraiva
+*******************************************************************************}
+Unit ClienteController;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils, ClienteVO, Db, DBTables,rotinas;
+
+type
+  TClienteController = class
+  public
+    class Function ConsultaCodigo(pCodigo: String): TClienteVO;
+end;
+
+implementation
+
+var
+  ConsultaSQL: String;
+  Query: TQuery;
+
+
+
+{ TProdutoController }
+
+class function TClienteController.ConsultaCodigo(
+  pCodigo: String): TClienteVO;
+var
+  Cliente: TClienteVO;
+begin
+  ConsultaSQL := 'select * from tabcli where codigo=:p00';
+  try
+    try
+      If TipoString(pCodigo) Then
+        pCodigo:=StrZero(StrToInt(pCodigo),5);
+      Query := TQuery.Create(nil);
+      Query.databasename:='estoque1';
+      Query.sql.Text := ConsultaSQL;
+      query.Params[0].asString:=pCodigo;
+      Query.Open;
+      If not query.IsEmpty Then
+      begin
+        Cliente := TClienteVO.Create;
+        Cliente.Codigo   := Query.FieldByName('codigo').AsString;
+        Cliente.nome     := Query.FieldByName('nome').AsString;
+        Cliente.endereco := Query.FieldByName('endereco').AsString;
+        Cliente.bairro   := Query.FieldByName('bairro').AsString;
+        Cliente.cidade   := Query.FieldByName('cidade').AsString;
+        Cliente.codbloqueio := Query.FieldByName('lktipo').AsInteger;
+        Cliente.cnpj     := RemoveChar(Query.FieldByName('cnpj').AsString);
+        Cliente.cpf      := RemoveChar(Query.FieldByName('cpf').AsString);
+        Cliente.rg       := RemoveChar(Query.FieldByName('rg').AsString);
+        result := Cliente;
+      End
+      Else
+        result := nil;
+    except
+      result := nil;
+    end;
+  finally
+      Query.Free;
+   end;
+
+end;
+
+end.
+ 

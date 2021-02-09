@@ -1,0 +1,44 @@
+unit dados2;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db, DBTables, RxQuery;
+
+type
+  TdmMod2 = class(TDataModule)
+    tbCodigo: TTable;
+    tbCodigoProduto: TIntegerField;
+    tbCodigoCliente: TIntegerField;
+    tbCodigoFornecedor: TIntegerField;
+    tbCodigoVendedor: TIntegerField;
+    tbCodigoGrupo: TIntegerField;
+    tbCodigoFabricante: TIntegerField;
+    tbCodigoPagar: TIntegerField;
+    tbCodigoCampo1: TIntegerField;
+    tbCodigoCampo2: TIntegerField;
+    tbCodigoCampo3: TIntegerField;
+    tbMPag: TTable;
+    tbMPagDescricao: TStringField;
+    tbMPagSeq: TStringField;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmMod2: TdmMod2;
+
+implementation
+
+{$R *.DFM}
+
+procedure TdmMod2.DataModuleCreate(Sender: TObject);
+begin
+     tbCodigo.open;
+end;
+
+end.

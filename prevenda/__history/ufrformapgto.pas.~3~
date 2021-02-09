@@ -1,0 +1,374 @@
+unit ufrformapgto;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, Mask, Contnrs,formapgtoVo,
+  ACBrBase, ACBrEnterTab, ImpMat2, ImpMat, rxrxToolEdit, rxrxCurrEdit;
+
+type
+  TfrFormaPgto = class(TForm)
+    Image1: TImage;
+    GroupBox1: TGroupBox;
+    cbxFormapgto: TComboBox;
+    Label1: TLabel;
+    GroupBox2: TGroupBox;
+    Bevel7: TBevel;
+    Bevel4: TBevel;
+    Bevel3: TBevel;
+    Bevel2: TBevel;
+    Bevel1: TBevel;
+    labelDescricaoTotalVenda: TLabel;
+    lblTotalVenda: TLabel;
+    labelDescricaoDesconto: TLabel;
+    lblDesconto: TLabel;
+    labelDescricaoAcrescimo: TLabel;
+    lblAcrescimo: TLabel;
+    lblTotalReceber: TLabel;
+    labelDescricaoTotalReceber: TLabel;
+    labelDescricaoAindaFalta: TLabel;
+    lblAindaFalta: TLabel;
+    btnCancela: TButton;
+    btnConfirma: TButton;
+    edValor: TCurrencyEdit;
+    Label2: TLabel;
+    ACBrEnterTab1: TACBrEnterTab;
+    ImpMat1: TImpMat;
+    procedure FormShow(Sender: TObject);
+    procedure btnConfirmaClick(Sender: TObject);
+    procedure cbxFormapgtoChange(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edValorExit(Sender: TObject);
+  private
+    { Private declarations }
+      ListaTipoPagamento: TObjectList; //<TFormaPgtoVO>;
+      FormaPgto:TFormaPgtoVo;
+      ValorAcumulado:Extended;
+  public
+    { Public declarations }
+    perc,totalvenda,desconto,acrescimo,totalreceber:Extended;
+
+
+  end;
+
+var
+  frFormaPgto: TfrFormaPgto;
+
+implementation
+Uses rotinas, dados2, dados3, prevenda1, ufrpgtoprazo, dados1, Dados;
+
+{$R *.dfm}
+
+procedure TfrFormaPgto.FormShow(Sender: TObject);
+begin
+  formaPgto:=TFormaPgtoVo.Create;
+  ListaTipoPagamento:=TObjectList.Create;
+  edValor.readOnly:=false;
+  edValor.value:=totalReceber;
+  valorAcumulado:=totalreceber;
+  lblTotalVenda.Caption:=FloatToStrf(totalvenda,ffCurrency,12,2);
+  lblDesconto.Caption:=FloatToStrf(desconto,ffCurrency,12,2);
+  lblAcrescimo.Caption:=FloatToStrf(acrescimo,ffCurrency,12,2);
+  lblTotalReceber.caption:=FloatToStrf(totalreceber,ffCurrency,12,2);
+  lblAindaFalta.Caption:=FloatToStrf(totalreceber-ValorAcumulado,ffCurrency,12,2);
+  cbxFormapgto.SetFocus;
+end;
+
+procedure TfrFormaPgto.btnConfirmaClick(Sender: TObject);
+Var
+  Avanco, nLin,cont:Integer;
+  MontaSql:String;
+begin
+  If edValor.value>ValorAcumulado Then
+  begin
+     Mensagem('Valor incoerente');
+     exit;
+  end;
+  If ValorAcumulado>0 Then
+  begin
+      FormaPgto:=TformapgtoVo.Create;
+      //default
+      formaPgto.Parcelas:=0;
+      formaPgto.Valorparcela:=0;
+      formaPgto.Vencimento:='';
+      If (cbxFormapgto.ItemIndex=3) or (cbxFormapgto.ItemIndex=4) Then
+      begin
+        frPgtoPrazo.edValorParcela.value:=ValorAcumulado;
+        If frPgtoPrazo.ShowModal<>mrOk Then
+        begin
+         cbxFormapgto.Setfocus;
+         exit;
+        end;
+        formaPgto.Parcelas:=Trunc(frpgtoPrazo.edNumParcelas.value);
+        formaPgto.Valorparcela:=frpgtoPrazo.edValorParcela.Value/frpgtoPrazo.edNumParcelas.value;
+        formaPgto.Vencimento:=FormatDateTime('dd/mm/yyyy',frpgtoPrazo.edVencimento.date);
+      end;
+      Case cbxFormaPgto.ItemIndex Of
+      0,1:FormaPgto.formapgto:='A';
+        2:FormaPgto.formapgto:='V';
+        3:FormaPgto.formapgto:='P';
+        4:FormaPgto.formapgto:='P';
+        5:FormaPgto.formapgto:='C';
+      end;
+      formaPgto.Valor:=edValor.Value;
+      formaPgto.Descricao:=cbxFormapgto.Text;
+      ListaTipoPagamento.Add(FormaPgto);
+      valorAcumulado:=truncaValor(Abs(ValorAcumulado-edValor.value),2);
+      edValor.value:=ValorAcumulado;
+      cbxFormapgto.Setfocus;
+      lblAindaFalta.Caption:=FloatToStrf(ValorAcumulado,ffCurrency,12,2);
+  End ;
+  If edValor.value=0 Then
+  begin
+     //gravando dados nas tabelas pre-venda
+   dmMod2.tbcodigo.open;
+   dmmod2.tbCodigo.Edit;
+   dmMod2.tbcodigo.fieldByName('prevenda').asInteger:=
+   dmMod2.tbcodigo.fieldByname('prevenda').AsInteger+1;
+   dmmod2.tbCodigo.Post;
+   configuracao.NumeroPrevenda :=dmMod2.tbcodigo.fieldByName('prevenda').asInteger;
+   dmMod2.tbCodigo.Close;
+   With frprevenda1 do
+   begin
+       dmMod3.qryGeral.close;
+       dmMod3.qryGeral.sql.clear;
+            MontaSql:='insert into prevenda_cabecalho '+
+                             '(numero_pv,data_emissao,hora_emissao,'+
+                             'cpf_cnpj,cliente,endereco,numero,complemento,lkcliente,'+
+                             'taxa_desconto,desconto,taxa_acrescimo,acrescimo,subtotal,valor,codvend,finalizado)'+
+                             '   values  '+
+                             '(:p00,:p01,:p02,:p03,:p04,:p05,:p06,:p07,:p08,'+
+                             ':p09,:p10,:p11,:p12,:p13,:p14,:p15,:p16)';
+        dmMod3.qryGeral.sql.add(montasql);
+        dmMod3.qryGeral.Params[0].asInteger:=configuracao.numeroprevenda;     //numero prevenda/dav
+        dmMod3.qryGeral.Params[1].asDate:=date;       //data_eimissao
+        dmMod3.qryGeral.Params[2].asTime:= time;             //hora_emissao
+        dmMod3.qryGeral.Params[3].asString:=edDoc.text;     //cpf_cnpj
+        dmMod3.qryGeral.Params[4].asString:=edNome.Text;    //cliente
+        dmMod3.qryGeral.Params[5].asString:=edEnd.text;     //endereco
+        dmMod3.qryGeral.Params[6].asString:='';     //numero
+        dmMod3.qryGeral.Params[7].asString:='';    //complemento
+        dmMod3.qryGeral.params[8].asString:=edCodigo.text;  //codigo cliente
+        dmMod3.qryGeral.params[9].asFloat:=0;    //taxa desconto default
+        dmMod3.qryGeral.params[10].asCurrency:=0;   //desconto deflaut
+        if desconto<>0 Then
+        begin
+         dmMod3.qryGeral.params[9].asFloat:=perc;  //taxa desconto
+         dmMod3.qryGeral.params[10].asCurrency:=desconto;   //desconto
+        end;
+        dmMod3.qryGeral.params[11].asFloat:=0;    //taxa acrecimo default
+        dmMod3.qryGeral.params[12].asCurrency:=0;   //acrescimo deflaut
+        If acrescimo<>0 Then
+        begin
+          dmMod3.qryGeral.params[11].asFloat:=perc;  //taxa acrescimo
+          dmMod3.qryGeral.params[12].asCurrency:=acrescimo;   //acrescimo
+        end;
+        dmMod3.qryGeral.params[13].asCurrency:=totalvenda; //total bruto
+        dmMod3.qryGeral.params[14].asCurrency:=totalreceber;
+
+        dmMod3.qryGeral.params[15].asInteger:=vendedor.codigo;
+        dmMod3.qryGeral.params[16].asString:='N';  //finalizado default N
+
+        dmMod3.qryGeral.execSql;
+        dmMod3.qryGeral.close;
+        dmMod3.qryGeral.sql.Clear;
+        MontaSql:='Insert into prevenda_detalhe '+
+                  '(numero_pv,data_emissao,item,idcontrole,Quantidade,valor_unitario,'+
+                  'valor_total,nome_produto,unidade_produto,gtin,cancelado,taxa_desconto,valor_desconto,taxa_acrescimo,valor_acrescimo)'+
+                  '      values   '+
+                  '(:p00,:p01,:p02,:p03,:p04,:p05,:p06,:p07,:p08,:p09,:p10,:p11,:p12,:p13,:p14)';
+        dmMod3.qryGeral.sql.Add(montasql);
+        tbItens.first;
+        while not tbItens.Eof Do
+        Begin
+
+          dmMod3.qryGeral.params[0].asInteger:=configuracao.numeroprevenda;       //numero pre venda
+          dmMod3.qryGeral.params[1].asdate:=date;       //data emissao
+          dmMod3.qryGeral.params[2].asInteger:=tbItensitem.value;          //numero item
+          dmMod3.qryGeral.params[3].asinteger:=tbItensIdControle.value;  //codigo produto
+          dmMod3.qryGeral.params[4].asFloat:=tbItensQuantidade.value;     //quantidade
+          dmMod3.qryGeral.params[5].asCurrency:=tbItensValor_Unitario.value; //valor untario
+          dmMod3.qryGeral.params[6].asCurrency:=tbItensValor_total.value;  //valor total
+          dmMod3.qryGeral.params[7].asString:=tbItensNome_produto.value;      //nome produto
+          dmMod3.qryGeral.params[8].asString:= tbItensUnidade_produto.value;     //unidade
+          dmMod3.qryGeral.params[9].asString:=tbItensgtin.value;
+          dmMod3.qryGeral.params[10].asString:=tbItensCancelado.value;
+          //desconto padrao no item caso exista
+          dmMod3.qryGeral.params[11].asFloat:=tbItenstaxa_desconto.value;
+          dmMod3.qryGeral.params[12].asCurrency:=tbItensvalor_desconto.value;
+          If desconto<>0 then //desconto no total -sobrepoe o desconto do item
+          begin
+            dmMod3.qryGeral.params[11].asFloat:=perc;
+            dmMod3.qryGeral.params[12].asCurrency:=
+            (tbItensValor_unitario.value*tbItensQuantidade.value)*(perc/100);
+            dmMod3.qryGeral.params[6].asCurrency:=(tbItensValor_unitario.value*tbItensQuantidade.value)*
+            (1-perc/100);
+          end;
+          //acrescimo padrao no item
+          dmMod3.qryGeral.params[13].asFloat:=tbItenstaxa_acrescimo.value;
+          dmMod3.qryGeral.params[14].asCurrency:=tbItensvalor_acrescimo.value;
+          If acrescimo<>0 then //desconto no total -sobrepoe o desconto do item
+          begin
+            dmMod3.qryGeral.params[13].asFloat:=perc;
+            dmMod3.qryGeral.params[14].asCurrency:=
+            (tbItensValor_unitario.value*tbItensQuantidade.value)*(perc/100);
+            dmMod3.qryGeral.params[6].asCurrency:=(tbItensValor_unitario.value*tbItensQuantidade.value)*
+            (1+perc/100);
+          end;
+          dmMod3.qryGeral.execsql;
+          tbItens.Next;
+        End;
+       //forma de pagamento
+        dmMod3.qryGeral.close;
+        dmMod3.qryGeral.sql.Clear;
+        dmMod3.qryGeral.SQL.add('Insert into prevenda_pgto '+
+                  '(numero_pv,formapgto,descricao,valor,parcelas,vencimento,valorparcela)'+
+                  '      values   '+
+                  '(:p00,:p01,:p02,:p03,:p04,:p05,:P06)');
+        for cont:=0 to ListaTipoPagamento.Count-1 do
+        begin
+            FormaPgto:=TFormaPgtoVo(ListaTipoPagamento.items[cont]);
+            dmMod3.qryGeral.params[0].AsInteger:=configuracao.numeroprevenda;
+            dmMod3.qryGeral.params[1].AsString:=formapgto.formapgto;
+            dmMod3.qryGeral.params[2].AsString:=formapgto.descricao;
+            dmMod3.qryGeral.params[3].AsCurrency:=formapgto.valor;
+            dmMod3.qryGeral.params[4].AsInteger:= formapgto.parcelas;
+            dmMod3.qryGeral.params[5].AsString:=formapgto.Vencimento;
+            dmMod3.qryGeral.params[6].AsCurrency:=formapgto.ValorParcela;
+            dmMod3.qryGeral.execsql;
+        end;
+         //impressao de comprovante
+       If configuracao.ImprimeComp<>'S' Then
+         Exit;
+       impmat1.ArqDestino:=porta;
+       nLin:=2;
+       dmMod1.tblEmp.open;
+       If Not Cabecalho Then
+       Begin
+           Inc(nLin);
+           ImpMat1.PoeStr(nlin,2,dmMod1.tblEmpFantasia.Value);
+           Inc(nLin);
+           ImpMat1.PoeStr(nlin,2,'Fone:' +dmMod1.tblEmpFone1.value);
+           INC(nLin);
+           cabecalho:=true;
+       End;
+       ImpMat1.PoeStr(nlin,1,'             PRE-VENDA No '+Strzero(configuracao.numeroprevenda,6));
+       Inc(nLin);
+       ImpMat1.PoeStr(nLin,2,'Cod.: '+frprevenda1.edCodigo.text+'-'+
+       frprevenda1.edNome.text);
+       Inc(nLin);
+       ImpMat1.PoeStr(nLin,2,'Documento: '+frprevenda1.edDoc.text);
+       Inc(nLin);
+       ImpMat1.PoeStr(nLin,2,'End.: '+frprevenda1.EdEnd.text);
+       inc(nLin);
+       ImpMat1.PoeStr(nlin,2,        '---------------------------------------------');
+       Inc(nLin);
+       ImpMat1.PoeStr(nlin,2,        'Cod.     Descricao  Quant.  Preco Perc% Total ');
+       Inc(nLin);
+       ImpMat1.PoeStr(nlin,2,        '---------------------------------------------');
+       Inc(nLin);
+       tbItens.First;
+       While Not tbItens.Eof Do
+       Begin
+        ImpMat1.PoeStr(nLin,2,Copy(tbItensnome_Produto.Value,1,40));
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin,2,tbItensgtin.Value);
+        ImpMat1.PoeStr(nLin,14,TamStr(FloatToStr(tbItensQuantidade.value),5,'d'));
+        impMat1.PoeStr(nLin,25,TamStr(FloatToStrf(tbItensValor_Unitario.Value,ffNumber,7,2),7,'d'));
+        impMat1.PoeStr(nLin,33,TamStr(FloatToStrf(tbItenstaxa_desconto.Value+tbItenstaxa_Acrescimo.Value
+        ,ffNumber,5,2),5,'d')+'%');
+        ImpMat1.PoeStr(nLin,37,TamStr(FloatToStrf(tbItensValor_Total.Value,ffNumber,8,2),8,'d'));
+        Inc(nLin);
+        tbItens.Next;
+       End;
+       ImpMat1.PoeStr(nlin,2, '-----------------');
+       inc(nlin);
+       ImpMat1.PoeStr(nLin,2,'SUB-TOTAL:'+FloatToStrf(edTotalProd.value,ffcurrency,12,2)) ;
+       Inc(nlin);
+       if edperc.value<>0 Then
+       begin
+        ImpMat1.PoeStr(nLin,2,'perc(+/-) '+FloatToStrf(edPerc.value,ffnumber,6,2) +' %');
+        Inc(nlin);
+       end
+       Else if edTotalProd.value-edTotalOrc.value>0 Then
+       begin
+         ImpMat1.PoeStr(nLin,2,'Desconto: '+FloatToStrf(edTotalProd.value-edTotalOrc.value,ffCurrency,8,2));
+         Inc(nlin);
+       end;
+       ImpMat1.PoeStr(nLin,2,cIExpandido+'TOTAL: '+FloatToStrf(edTotalOrc.value,ffcurrency,12,2)+cFExpandido) ;
+       Inc(nlin);
+       ImpMat1.PoeStr(nLin,2,'Vendedor: '+vendedor.nome);
+       inc(nlin);
+       //formas de pagamento
+       ImpMat1.PoeStr(nlin,2, '-----------------------------------------------');
+       inc(nlin);
+       for cont:=0 to ListaTipoPagamento.Count-1 do
+       begin
+            FormaPgto:=TFormaPgtoVo(ListaTipoPagamento.items[cont]);
+            ImpMat1.PoeStr(nLin,2,cIExpandido+FormaPgto.Descricao+': '+
+            FloatToStrf(formapgto.Valor,ffcurrency,12,2)+cFExpandido);
+            if FormaPgto.Parcelas<>0 Then
+            begin
+              inc(nLin);
+              ImpMat1.PoeStr(nLin,2,'Parcelas: '+Inttostr(formapgto.parcelas)+
+              ' Vr. parcela: '+Floattostrf(formapgto.valorparcela,ffcurrency,12,2));
+              inc(nLin);
+              ImpMat1.PoeStr(nLin,2,'Vencimento: '+formapgto.Vencimento);
+            End;
+            inc(nLin);
+        end;
+        If configuracao.AvancoLinha<>0 Then
+             Avanco:=configuracao.AvancoLinha
+        Else
+             Avanco:=7;
+        For Cont:=1 to Avanco Do
+        Begin
+             ImpMat1.PoeStr(nLin,1,' ');
+             Inc(nlin);
+        End;
+        If Cabecalho Then
+        Begin
+             ImpMat1.PoeStr(nlin,2,dmMod1.tblEmpFantasia.Value);
+             Inc(nLin);
+             ImpMat1.PoeStr(nlin,2,'Fone:' +dmMod1.tblEmpFone1.value);
+             Inc(nLin);
+        End;
+        ImpMat1.ImprimeJob;
+        ImpMat1.LimpaBuffer;
+        //<ANALISAR> SERIA MELHOR GERAR PREVENDA APENAS EM ARQUIVO
+        { If controle='PRV' Then
+            Grava_carga(InttoStr(numeroPv),'PREVENDACABECALHO')
+        Else
+           Grava_carga(InttoStr(numeroPv),'DAVCABECALHO');}
+
+   end;
+
+   Mensagem(Pchar('Gerada prevenda Nº '+Strzero(configuracao.Numeroprevenda,10)));
+   close;
+  end;
+
+end;
+
+procedure TfrFormaPgto.cbxFormapgtoChange(Sender: TObject);
+begin
+   edValor.ReadOnly :=cbxFormapgto.ItemIndex>1;
+end;
+
+procedure TfrFormaPgto.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   iF KEY=vk_f2 Then
+     btnConfirma.click;
+   iF KEY=vk_f3 Then
+     btnCancela.click;
+
+end;
+
+procedure TfrFormaPgto.edValorExit(Sender: TObject);
+begin
+  edValor.value:=TruncaValor(edvalor.Value,2);
+end;
+
+End.

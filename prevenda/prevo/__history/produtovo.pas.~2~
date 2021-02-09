@@ -1,0 +1,30 @@
+Unit ProdutoVo;
+
+interface
+
+type
+  TProdutoVO = class
+  private
+    FCODIGO: String;
+    FPRODUTO: String;
+    FUNIDADE: String;
+    FQUANT  : Extended;
+    FPRECOVENDA: Extended;
+    FPRECOCUSTO: Extended;
+    FMOVESTOQUE:string;
+    FCST:string;
+  published
+    property Codigo: String read FCODIGO write FCODIGO;
+    property Produto: String read FPRODUTO write FPRODUTO;
+    property Unidade: String read FUNIDADE write FUNIDADE;
+    property Estoque : Extended read FQUANT write FQUANT;
+    property PrecoVenda: Extended read FPRECOVENDA write FPRECOVENDA;
+    property PrecoCusto: Extended read FPRECOCUSTO write FPRECOCUSTO;
+    property MovEstoque: String read FMOVESTOQUE write FMOVESTOQUE;
+    property cst: String read FCST write  FCST;
+  end;
+
+
+implementation
+
+end.

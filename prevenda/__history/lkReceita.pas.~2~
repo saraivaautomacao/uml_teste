@@ -1,0 +1,142 @@
+unit lkReceita;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, Grids, DBGrids, Db, Variants, ExtCtrls, DBTables, RxQuery;
+
+type
+  TFormlkReceita = class(TForm)
+    DataSource1: TDataSource;
+    DBGrid1: TDBGrid;
+    Panel2: TPanel;
+    Button1: TButton;
+    Query1: TQuery;
+    tbreceita: TTable;
+    tbreceitaOrcamento: TIntegerField;
+    tbreceitaNome: TStringField;
+    tbreceitaEndereco: TStringField;
+    tbreceitaObservacao: TStringField;
+    tbreceitaDesconto: TFloatField;
+    tbreceitaTotal: TCurrencyField;
+    tbreceitaHAVER: TCurrencyField;
+    tbreceitaFORMAPagto: TStringField;
+    tbreceitaSelecao: TStringField;
+    Button2: TButton;
+    Button3: TButton;
+    Panel1: TPanel;
+    Label1: TLabel;
+    edorc: TEdit;
+    Label2: TLabel;
+    edNome: TEdit;
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edorcExit(Sender: TObject);
+    procedure edNomeExit(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure edorcKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edNomeKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormlkReceita: TFormlkReceita;
+
+implementation
+
+{$R *.DFM}
+Uses rotinas;
+procedure TFormlkReceita.Button1Click(Sender: TObject);
+begin
+    Geral:=(tbReceitaOrcamento.Value);
+end;
+
+procedure TFormlkReceita.FormShow(Sender: TObject);
+begin
+   Geral:='';
+   edorc.clear;
+   edNome.clear;
+   edOrc.setFocus;
+   tbReceita.databasename:=ExtractFileDir(Application.ExeName);
+   query1.databasename:=ExtractFileDir(Application.ExeName);
+   tbReceita.open;
+   tbReceita.Last;
+end;
+
+procedure TFormlkReceita.Button2Click(Sender: TObject);
+begin
+   If Confirma('confirma exclusao de orcamento(s)')=idNo Then
+       Exit;
+   tbReceita.First;
+   While not tbReceita.Eof do
+   Begin
+     If Uppercase(tbReceitaSelecao.Value)='S' Then
+     Begin
+        Query1.Close;
+        Query1.Params[0].AsInteger:=tbReceitaOrcamento.Value;
+        Query1.ExecSQL;
+        tbReceita.Delete;
+        Continue;
+    End;
+    tbReceita.Next;
+   End;
+end;
+
+procedure TFormlkReceita.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  tbReceita.Close;
+  query1.Close;
+end;
+
+procedure TFormlkReceita.edorcExit(Sender: TObject);
+begin
+   if edorc.text<>''  Then
+      dbgrid1.setfocus;
+end;
+
+procedure TFormlkReceita.edNomeExit(Sender: TObject);
+begin
+  if edNome.Text<>'' Then
+    dbgrid1.setfocus;
+end;
+
+procedure TFormlkReceita.DBGrid1DblClick(Sender: TObject);
+begin
+  button1.click;
+end;
+
+procedure TFormlkReceita.edorcKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if edOrc.Text<>'' Then
+     tbReceita.locate('orcamento',strToInt(edOrc.text),[]);
+end;
+
+procedure TFormlkReceita.edNomeKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    if ednome.text<>'' Then
+       tbReceita.locate('nome',edNome.text,[loPartialkey,locaseinsensitive]);
+end;
+
+procedure TFormlkReceita.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+ If (Key=9) Then
+     Button1.Click;
+
+
+end;
+
+end.

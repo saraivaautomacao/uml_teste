@@ -1,0 +1,705 @@
+object dmMod3: TdmMod3
+  OldCreateOrder = False
+  Height = 428
+  Width = 548
+  object tbUnid: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'UNIDADE'
+    Left = 24
+    Top = 64
+    object tbUnidCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Required = True
+    end
+    object tbUnidUNIDADE: TWideStringField
+      FieldName = 'UNIDADE'
+      Size = 2
+    end
+    object tbUnidDESCRICAO: TWideStringField
+      FieldName = 'DESCRICAO'
+    end
+    object tbUnidFRACAO: TWideStringField
+      FieldName = 'FRACAO'
+      Size = 1
+    end
+  end
+  object tbUsuario: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'SENHAS'
+    Left = 128
+    Top = 88
+    object tbUsuarioUSUARIO: TWideStringField
+      FieldName = 'USUARIO'
+      Required = True
+      Size = 13
+    end
+    object tbUsuarioCADASTRO: TDateField
+      FieldName = 'CADASTRO'
+    end
+    object tbUsuarioULTIMOACESSO: TDateField
+      FieldName = 'ULTIMOACESSO'
+    end
+    object tbUsuarioSENHA: TWideStringField
+      FieldName = 'SENHA'
+      Size = 9
+    end
+    object tbUsuarioNIVEL: TWideStringField
+      FieldName = 'NIVEL'
+      Size = 1
+    end
+    object tbUsuarioA1: TWideStringField
+      FieldName = 'A1'
+      Size = 1
+    end
+    object tbUsuarioA2: TWideStringField
+      FieldName = 'A2'
+      Size = 1
+    end
+    object tbUsuarioA3: TWideStringField
+      FieldName = 'A3'
+      Size = 1
+    end
+    object tbUsuarioA4: TWideStringField
+      FieldName = 'A4'
+      Size = 1
+    end
+    object tbUsuarioA5: TWideStringField
+      FieldName = 'A5'
+      Size = 1
+    end
+    object tbUsuarioA6: TWideStringField
+      FieldName = 'A6'
+      Size = 1
+    end
+    object tbUsuarioA7: TWideStringField
+      FieldName = 'A7'
+      Size = 1
+    end
+    object tbUsuarioA8: TWideStringField
+      FieldName = 'A8'
+      Size = 1
+    end
+    object tbUsuarioA9: TWideStringField
+      FieldName = 'A9'
+      Size = 1
+    end
+    object tbUsuarioA10: TWideStringField
+      FieldName = 'A10'
+      Size = 1
+    end
+    object tbUsuarioA11: TWideStringField
+      FieldName = 'A11'
+      Size = 1
+    end
+    object tbUsuarioA12: TWideStringField
+      FieldName = 'A12'
+      Size = 1
+    end
+    object tbUsuarioA13: TWideStringField
+      FieldName = 'A13'
+      Size = 1
+    end
+    object tbUsuarioA14: TWideStringField
+      FieldName = 'A14'
+      Size = 1
+    end
+    object tbUsuarioA15: TWideStringField
+      FieldName = 'A15'
+      Size = 1
+    end
+    object tbUsuarioA16: TWideStringField
+      FieldName = 'A16'
+      Size = 1
+    end
+    object tbUsuarioA17: TWideStringField
+      FieldName = 'A17'
+      Size = 1
+    end
+    object tbUsuarioA18: TWideStringField
+      FieldName = 'A18'
+      Size = 1
+    end
+    object tbUsuarioA19: TWideStringField
+      FieldName = 'A19'
+      Size = 1
+    end
+    object tbUsuarioA20: TWideStringField
+      FieldName = 'A20'
+      Size = 1
+    end
+    object tbUsuarioB1: TWideStringField
+      FieldName = 'B1'
+      Size = 1
+    end
+    object tbUsuarioB2: TWideStringField
+      FieldName = 'B2'
+      Size = 1
+    end
+    object tbUsuarioB3: TWideStringField
+      FieldName = 'B3'
+      Size = 1
+    end
+    object tbUsuarioB4: TWideStringField
+      FieldName = 'B4'
+      Size = 1
+    end
+    object tbUsuarioB5: TWideStringField
+      FieldName = 'B5'
+      Size = 1
+    end
+    object tbUsuarioC1: TWideStringField
+      FieldName = 'C1'
+      Size = 1
+    end
+    object tbUsuarioC2: TWideStringField
+      FieldName = 'C2'
+      Size = 1
+    end
+    object tbUsuarioC3: TWideStringField
+      FieldName = 'C3'
+      Size = 1
+    end
+    object tbUsuarioC4: TWideStringField
+      FieldName = 'C4'
+      Size = 1
+    end
+    object tbUsuarioC5: TWideStringField
+      FieldName = 'C5'
+      Size = 1
+    end
+    object tbUsuarioD1: TWideStringField
+      FieldName = 'D1'
+      Size = 1
+    end
+    object tbUsuarioD2: TWideStringField
+      FieldName = 'D2'
+      Size = 1
+    end
+    object tbUsuarioE1: TWideStringField
+      FieldName = 'E1'
+      Size = 1
+    end
+    object tbUsuarioE2: TWideStringField
+      FieldName = 'E2'
+      Size = 1
+    end
+    object tbUsuarioE3: TWideStringField
+      FieldName = 'E3'
+      Size = 1
+    end
+    object tbUsuarioE4: TWideStringField
+      FieldName = 'E4'
+      Size = 1
+    end
+    object tbUsuarioE5: TWideStringField
+      FieldName = 'E5'
+      Size = 1
+    end
+    object tbUsuarioF1: TWideStringField
+      FieldName = 'F1'
+      Size = 1
+    end
+    object tbUsuarioF2: TWideStringField
+      FieldName = 'F2'
+      Size = 1
+    end
+    object tbUsuarioF3: TWideStringField
+      FieldName = 'F3'
+      Size = 1
+    end
+    object tbUsuarioG1: TWideStringField
+      FieldName = 'G1'
+      Size = 1
+    end
+    object tbUsuarioH1: TWideStringField
+      FieldName = 'H1'
+      Size = 1
+    end
+    object tbUsuarioH2: TWideStringField
+      FieldName = 'H2'
+      Size = 1
+    end
+    object tbUsuarioH3: TWideStringField
+      FieldName = 'H3'
+      Size = 1
+    end
+    object tbUsuarioH4: TWideStringField
+      FieldName = 'H4'
+      Size = 1
+    end
+    object tbUsuarioH5: TWideStringField
+      FieldName = 'H5'
+      Size = 1
+    end
+    object tbUsuarioH6: TWideStringField
+      FieldName = 'H6'
+      Size = 1
+    end
+    object tbUsuarioH7: TWideStringField
+      FieldName = 'H7'
+      Size = 1
+    end
+    object tbUsuarioH8: TWideStringField
+      FieldName = 'H8'
+      Size = 1
+    end
+    object tbUsuarioH9: TWideStringField
+      FieldName = 'H9'
+      Size = 1
+    end
+    object tbUsuarioH10: TWideStringField
+      FieldName = 'H10'
+      Size = 1
+    end
+    object tbUsuarioH11: TWideStringField
+      FieldName = 'H11'
+      Size = 1
+    end
+    object tbUsuarioH12: TWideStringField
+      FieldName = 'H12'
+      Size = 1
+    end
+    object tbUsuarioH13: TWideStringField
+      FieldName = 'H13'
+      Size = 1
+    end
+    object tbUsuarioH14: TWideStringField
+      FieldName = 'H14'
+      Size = 1
+    end
+    object tbUsuarioH15: TWideStringField
+      FieldName = 'H15'
+      Size = 1
+    end
+    object tbUsuarioH16: TWideStringField
+      FieldName = 'H16'
+      Size = 1
+    end
+    object tbUsuarioH17: TWideStringField
+      FieldName = 'H17'
+      Size = 1
+    end
+    object tbUsuarioH18: TWideStringField
+      FieldName = 'H18'
+      Size = 1
+    end
+    object tbUsuarioH19: TWideStringField
+      FieldName = 'H19'
+      Size = 1
+    end
+    object tbUsuarioH20: TWideStringField
+      FieldName = 'H20'
+      Size = 1
+    end
+    object tbUsuarioH21: TWideStringField
+      FieldName = 'H21'
+      Size = 1
+    end
+    object tbUsuarioH22: TWideStringField
+      FieldName = 'H22'
+      Size = 1
+    end
+    object tbUsuarioH23: TWideStringField
+      FieldName = 'H23'
+      Size = 1
+    end
+    object tbUsuarioH24: TWideStringField
+      FieldName = 'H24'
+      Size = 1
+    end
+    object tbUsuarioH25: TWideStringField
+      FieldName = 'H25'
+      Size = 1
+    end
+    object tbUsuarioH26: TWideStringField
+      FieldName = 'H26'
+      Size = 1
+    end
+    object tbUsuarioH27: TWideStringField
+      FieldName = 'H27'
+      Size = 1
+    end
+    object tbUsuarioH28: TWideStringField
+      FieldName = 'H28'
+      Size = 1
+    end
+    object tbUsuarioH29: TWideStringField
+      FieldName = 'H29'
+      Size = 1
+    end
+    object tbUsuarioH30: TWideStringField
+      FieldName = 'H30'
+      Size = 1
+    end
+    object tbUsuarioH31: TWideStringField
+      FieldName = 'H31'
+      Size = 1
+    end
+    object tbUsuarioH32: TWideStringField
+      FieldName = 'H32'
+      Size = 1
+    end
+    object tbUsuarioH33: TWideStringField
+      FieldName = 'H33'
+      Size = 1
+    end
+    object tbUsuarioI1: TWideStringField
+      FieldName = 'I1'
+      Size = 1
+    end
+    object tbUsuarioI2: TWideStringField
+      FieldName = 'I2'
+      Size = 1
+    end
+    object tbUsuarioI3: TWideStringField
+      FieldName = 'I3'
+      Size = 1
+    end
+    object tbUsuarioI4: TWideStringField
+      FieldName = 'I4'
+      Size = 1
+    end
+    object tbUsuarioI5: TWideStringField
+      FieldName = 'I5'
+      Size = 1
+    end
+    object tbUsuarioI6: TWideStringField
+      FieldName = 'I6'
+      Size = 1
+    end
+    object tbUsuarioI7: TWideStringField
+      FieldName = 'I7'
+      Size = 1
+    end
+    object tbUsuarioI8: TWideStringField
+      FieldName = 'I8'
+      Size = 1
+    end
+    object tbUsuarioI9: TWideStringField
+      FieldName = 'I9'
+      Size = 1
+    end
+    object tbUsuarioI10: TWideStringField
+      FieldName = 'I10'
+      Size = 1
+    end
+    object tbUsuarioI11: TWideStringField
+      FieldName = 'I11'
+      Size = 1
+    end
+    object tbUsuarioI12: TWideStringField
+      FieldName = 'I12'
+      Size = 1
+    end
+    object tbUsuarioI13: TWideStringField
+      FieldName = 'I13'
+      Size = 1
+    end
+    object tbUsuarioI14: TWideStringField
+      FieldName = 'I14'
+      Size = 1
+    end
+    object tbUsuarioI15: TWideStringField
+      FieldName = 'I15'
+      Size = 1
+    end
+    object tbUsuarioI16: TWideStringField
+      FieldName = 'I16'
+      Size = 1
+    end
+    object tbUsuarioPRECOCUSTO: TWideStringField
+      FieldName = 'PRECOCUSTO'
+      Size = 1
+    end
+    object tbUsuarioDESCONTOPDV: TWideStringField
+      FieldName = 'DESCONTOPDV'
+      Size = 1
+    end
+    object tbUsuarioALTERARPVENDA: TWideStringField
+      FieldName = 'ALTERARPVENDA'
+      Size = 1
+    end
+    object tbUsuarioDESCONTOBAIXACONTA: TWideStringField
+      FieldName = 'DESCONTOBAIXACONTA'
+      Size = 1
+    end
+    object tbUsuarioPERMITIREXCLUIR: TWideStringField
+      FieldName = 'PERMITIREXCLUIR'
+      Size = 1
+    end
+    object tbUsuarioSENHA1: TWideStringField
+      FieldName = 'SENHA1'
+      Size = 9
+    end
+    object tbUsuarioP1: TWideStringField
+      FieldName = 'P1'
+      Size = 1
+    end
+    object tbUsuarioP2: TWideStringField
+      FieldName = 'P2'
+      Size = 1
+    end
+    object tbUsuarioP3: TWideStringField
+      FieldName = 'P3'
+      Size = 1
+    end
+    object tbUsuarioP4: TWideStringField
+      FieldName = 'P4'
+      Size = 1
+    end
+    object tbUsuarioP5: TWideStringField
+      FieldName = 'P5'
+      Size = 1
+    end
+    object tbUsuarioP6: TWideStringField
+      FieldName = 'P6'
+      Size = 1
+    end
+    object tbUsuarioP7: TWideStringField
+      FieldName = 'P7'
+      Size = 1
+    end
+    object tbUsuarioP8: TWideStringField
+      FieldName = 'P8'
+      Size = 1
+    end
+    object tbUsuarioP9: TWideStringField
+      FieldName = 'P9'
+      Size = 1
+    end
+    object tbUsuarioP10: TWideStringField
+      FieldName = 'P10'
+      Size = 1
+    end
+  end
+  object qryErro: TZQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      'insert into erro'
+      '(data,erro,hora)'
+      'Values'
+      '(:data,:erro,:hora)')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'data'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'erro'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'hora'
+        ParamType = ptUnknown
+      end>
+    Left = 24
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'data'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'erro'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'hora'
+        ParamType = ptUnknown
+      end>
+  end
+  object qryCliente: TZQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      
+        'select codigo,tagfisica,nome,email,cpf,rg,insc,endereco,cep,bair' +
+        'ro,cidade,lktipo,'
+      
+        'estado,cnpj,contato,numero,complemento,coduf,codmunicipio from t' +
+        'abcli'
+      'Where codigo=:codigo')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'codigo'
+        ParamType = ptUnknown
+      end>
+    Left = 432
+    Top = 200
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'codigo'
+        ParamType = ptUnknown
+      end>
+    object qryClienteCODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Required = True
+      Size = 8
+    end
+    object qryClienteTAGFISICA: TWideStringField
+      FieldName = 'TAGFISICA'
+      Size = 1
+    end
+    object qryClienteNOME: TWideStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 50
+    end
+    object qryClienteEMAIL: TWideStringField
+      FieldName = 'EMAIL'
+      Size = 40
+    end
+    object qryClienteCPF: TWideStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object qryClienteRG: TWideStringField
+      FieldName = 'RG'
+    end
+    object qryClienteINSC: TWideStringField
+      FieldName = 'INSC'
+    end
+    object qryClienteENDERECO: TWideStringField
+      FieldName = 'ENDERECO'
+      Size = 40
+    end
+    object qryClienteCEP: TWideStringField
+      FieldName = 'CEP'
+      Size = 9
+    end
+    object qryClienteBAIRRO: TWideStringField
+      FieldName = 'BAIRRO'
+    end
+    object qryClienteCIDADE: TWideStringField
+      FieldName = 'CIDADE'
+      Size = 30
+    end
+    object qryClienteLKTIPO: TIntegerField
+      FieldName = 'LKTIPO'
+    end
+    object qryClienteESTADO: TWideStringField
+      FieldName = 'ESTADO'
+      Size = 2
+    end
+    object qryClienteCNPJ: TWideStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object qryClienteCONTATO: TWideStringField
+      FieldName = 'CONTATO'
+      Size = 40
+    end
+    object qryClienteNUMERO: TWideStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object qryClienteCOMPLEMENTO: TWideStringField
+      FieldName = 'COMPLEMENTO'
+    end
+    object qryClienteCODUF: TWideStringField
+      FieldName = 'CODUF'
+      Size = 2
+    end
+    object qryClienteCODMUNICIPIO: TWideStringField
+      FieldName = 'CODMUNICIPIO'
+      Size = 5
+    end
+  end
+  object qryprod: TZQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      
+        'select codigo,controle,unidade,cts,quant,estminimo,produto,preco' +
+        'venda,inativo,ncm,'
+      'IAT,IPPT,codigoauxliar,promocao,cst,csosn'
+      'from tabest1'
+      'where controle=:controle')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'controle'
+        ParamType = ptUnknown
+      end>
+    Left = 440
+    Top = 64
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'controle'
+        ParamType = ptUnknown
+      end>
+    object qryprodCODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Required = True
+      Size = 15
+    end
+    object qryprodCONTROLE: TIntegerField
+      FieldName = 'CONTROLE'
+    end
+    object qryprodUNIDADE: TWideStringField
+      FieldName = 'UNIDADE'
+      Size = 2
+    end
+    object qryprodCTS: TWideStringField
+      FieldName = 'CTS'
+      Size = 2
+    end
+    object qryprodQUANT: TFloatField
+      FieldName = 'QUANT'
+    end
+    object qryprodESTMINIMO: TFloatField
+      FieldName = 'ESTMINIMO'
+    end
+    object qryprodPRODUTO: TWideStringField
+      FieldName = 'PRODUTO'
+      Size = 50
+    end
+    object qryprodPRECOVENDA: TFloatField
+      FieldName = 'PRECOVENDA'
+    end
+    object qryprodINATIVO: TWideStringField
+      FieldName = 'INATIVO'
+      Size = 1
+    end
+    object qryprodNCM: TWideStringField
+      FieldName = 'NCM'
+      Size = 10
+    end
+    object qryprodIAT: TWideStringField
+      FieldName = 'IAT'
+      Size = 1
+    end
+    object qryprodIPPT: TWideStringField
+      FieldName = 'IPPT'
+      Size = 1
+    end
+    object qryprodCODIGOAUXLIAR: TWideStringField
+      FieldName = 'CODIGOAUXLIAR'
+      Size = 15
+    end
+    object qryprodPROMOCAO: TWideStringField
+      FieldName = 'PROMOCAO'
+      Size = 1
+    end
+    object qryprodCST: TWideStringField
+      FieldName = 'CST'
+      Size = 3
+    end
+    object qryprodCSOSN: TWideStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+  end
+  object qryGeral: TFDQuery
+    Connection = dmMod.fdConPrinc
+    Left = 24
+    Top = 144
+  end
+end

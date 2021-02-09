@@ -1,0 +1,16 @@
+unit usuarioVO;
+
+interface
+Type
+   TUsuarioVo=Class
+ Private
+   FUSUARIO: string;
+   FNIVEL:   char;
+ Published
+  property usuario: String read FUSUARIO write FUSUARIO;
+  property nivel:  char  read  FNIVEL  write FNIVEL;
+end;
+
+implementation
+
+end.

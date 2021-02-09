@@ -1,0 +1,87 @@
+unit ufrconprevenda;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Grids, DBGrids, Db,  DBTables;
+
+type
+  TfrconPrevenda = class(TForm)
+    tbConsulta: TTable;
+    tbConsultaNumero_pv: TIntegerField;
+    tbConsultaData_emissao: TDateField;
+    tbConsultaHora_emissao: TTimeField;
+    tbConsultaCpf_cnpj: TStringField;
+    tbConsultaCliente: TStringField;
+    tbConsultaEndereco: TStringField;
+    tbConsultaNumero: TStringField;
+    tbConsultaComplemento: TStringField;
+    tbConsultaTaxa_acrescimo: TFloatField;
+    tbConsultaAcrescimo: TCurrencyField;
+    tbConsultaTaxa_Desconto: TFloatField;
+    tbConsultaDesconto: TCurrencyField;
+    tbConsultaSubtotal: TCurrencyField;
+    tbConsultaValor: TCurrencyField;
+    tbConsultaLkcliente: TStringField;
+    tbConsultaSituacao: TStringField;
+    tbConsultaCodvend: TIntegerField;
+    tbConsultaFinalizado: TStringField;
+    dtsConsulta: TDataSource;
+    DBGrid1: TDBGrid;
+    Button1: TButton;
+    Button2: TButton;
+    tbConsultaCancelado: TStringField;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+    Permissao:boolean;
+  public
+    { Public declarations }
+  end;
+
+var
+  frconPrevenda: TfrconPrevenda;
+
+implementation
+uses rotinas, acesso;
+{$R *.dfm}
+
+procedure TfrconPrevenda.FormShow(Sender: TObject);
+begin
+    tbConsulta.open;
+    permissao:=false;
+end;
+
+procedure TfrconPrevenda.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  tbConsulta.close;
+end;
+
+procedure TfrconPrevenda.Button2Click(Sender: TObject);
+begin
+   if usuario.Nivel<>'2' Then
+   begin
+      mensagem('Nivel de usuário não permitido');
+      exit;
+   End;
+   If not permissao Then
+   begin
+     FormAcesso.ShowModal;
+     Permissao:=FormAcesso.Retorno;
+   End;
+   if Permissao Then
+      If Confirma(Pchar('confirma cancelamento pre-venda nº '+tbConsultaNumero_pv.AsString))=idYes Then
+      begin
+         tbConsulta.Edit;
+         tbConsultaCancelado.value:='S';
+         tbConsultaFinalizado.value:='S';
+         tbConsulta.post;
+      end;
+
+end;
+
+end.

@@ -1,0 +1,121 @@
+object frPgtoPrazo: TfrPgtoPrazo
+  Left = 815
+  Top = 297
+  BorderStyle = bsDialog
+  Caption = 'Pagamento a Prazo'
+  ClientHeight = 193
+  ClientWidth = 242
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -10
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object Label1: TLabel
+    Left = 15
+    Top = 15
+    Width = 74
+    Height = 13
+    Caption = 'Valor Parcela'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 15
+    Top = 59
+    Width = 64
+    Height = 13
+    Caption = 'N'#186' Parcelas'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 15
+    Top = 103
+    Width = 67
+    Height = 13
+    Caption = 'Vencimento'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object edValorParcela: TCurrencyEdit
+    Left = 15
+    Top = 30
+    Width = 89
+    Height = 19
+    AutoSize = False
+    ReadOnly = True
+    TabOrder = 0
+  end
+  object edNumParcelas: TRxSpinEdit
+    Left = 15
+    Top = 74
+    Width = 60
+    Height = 21
+    MaxValue = 20.000000000000000000
+    MinValue = 1.000000000000000000
+    Value = 1.000000000000000000
+    TabOrder = 1
+  end
+  object edVencimento: TDateEdit
+    Left = 15
+    Top = 118
+    Width = 111
+    Height = 21
+    ButtonWidth = 19
+    NumGlyphs = 2
+    TabOrder = 2
+  end
+  object Button1: TButton
+    Left = 45
+    Top = 155
+    Width = 69
+    Height = 23
+    Caption = 'OK'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ModalResult = 1
+    ParentFont = False
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 126
+    Top = 155
+    Width = 70
+    Height = 23
+    Caption = 'Cancelar'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ModalResult = 2
+    ParentFont = False
+    TabOrder = 4
+  end
+  object ACBrEnterTab1: TACBrEnterTab
+    EnterAsTab = True
+    Left = 184
+    Top = 40
+  end
+end

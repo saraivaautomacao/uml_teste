@@ -1,0 +1,443 @@
+object dmMod1: TdmMod1
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 178
+  Top = 45
+  Height = 375
+  Width = 636
+  object tblFinan: TTable
+    AfterPost = tblFinanAfterPost
+    DatabaseName = 'fiscal'
+    Filter = 'Fecha='#39'N'#39
+    Filtered = True
+    FieldDefs = <
+      item
+        Name = 'DataAbertura'
+        DataType = ftDate
+      end
+      item
+        Name = 'HoraAbertura'
+        DataType = ftTime
+      end
+      item
+        Name = 'Valorabertura'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DataFecha'
+        DataType = ftDate
+      end
+      item
+        Name = 'HoraFecha'
+        DataType = ftTime
+      end
+      item
+        Name = 'Dinheiro'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Cheque'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Vale'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Promissoria'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'PreDatado'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Estorno'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Sangria'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Reforco'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Fecha'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'Pagas'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Cartao'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Codvend'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Avista'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Recebimento'
+        DataType = ftCurrency
+      end>
+    MasterFields = 'Data'
+    StoreDefs = True
+    TableName = 'tabFinanc.DB'
+    Left = 8
+    Top = 8
+    object tblFinanDataAbertura: TDateField
+      FieldName = 'DataAbertura'
+    end
+    object tblFinanHoraAbertura: TTimeField
+      FieldName = 'HoraAbertura'
+    end
+    object tblFinanValorabertura: TCurrencyField
+      FieldName = 'Valorabertura'
+    end
+    object tblFinanDataFecha: TDateField
+      FieldName = 'DataFecha'
+    end
+    object tblFinanHoraFecha: TTimeField
+      FieldName = 'HoraFecha'
+    end
+    object tblFinanDinheiro: TCurrencyField
+      FieldName = 'Dinheiro'
+    end
+    object tblFinanCheque: TCurrencyField
+      FieldName = 'Cheque'
+    end
+    object tblFinanVale: TCurrencyField
+      FieldName = 'Vale'
+    end
+    object tblFinanPromissoria: TCurrencyField
+      FieldName = 'Promissoria'
+    end
+    object tblFinanPreDatado: TCurrencyField
+      FieldName = 'PreDatado'
+    end
+    object tblFinanEstorno: TCurrencyField
+      FieldName = 'Estorno'
+    end
+    object tblFinanSangria: TCurrencyField
+      FieldName = 'Sangria'
+    end
+    object tblFinanReforco: TCurrencyField
+      FieldName = 'Reforco'
+    end
+    object tblFinanFecha: TStringField
+      FieldName = 'Fecha'
+      Size = 1
+    end
+    object tblFinanPagas: TCurrencyField
+      FieldName = 'Pagas'
+    end
+    object tblFinanCartao: TCurrencyField
+      FieldName = 'Cartao'
+    end
+    object tblFinanAVISTA: TCurrencyField
+      FieldName = 'AVISTA'
+    end
+    object tblFinanRECEBIMENTO: TCurrencyField
+      FieldName = 'RECEBIMENTO'
+    end
+    object tblFinanCodvend: TIntegerField
+      FieldName = 'Codvend'
+    end
+  end
+  object dsFinan: TDataSource
+    DataSet = tblFinan
+    Left = 56
+    Top = 8
+  end
+  object tblEmp: TTable
+    DatabaseName = 'estoque1'
+    FieldDefs = <
+      item
+        Name = 'RazaoSocial'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'Fantasia'
+        DataType = ftString
+        Size = 25
+      end
+      item
+        Name = 'Referecia'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'Endereco'
+        DataType = ftString
+        Size = 60
+      end
+      item
+        Name = 'Cidade'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'Estado'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Cep'
+        DataType = ftString
+        Size = 9
+      end
+      item
+        Name = 'Fone1'
+        DataType = ftString
+        Size = 16
+      end
+      item
+        Name = 'Fone2'
+        DataType = ftString
+        Size = 16
+      end
+      item
+        Name = 'Cgc'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'Cgf'
+        DataType = ftString
+        Size = 13
+      end
+      item
+        Name = 'Logo'
+        DataType = ftGraphic
+      end>
+    StoreDefs = True
+    TableName = 'EMPRESA.DB'
+    Left = 8
+    Top = 64
+    object tblEmpRazaoSocial: TStringField
+      FieldName = 'RazaoSocial'
+      Size = 50
+    end
+    object tblEmpFantasia: TStringField
+      FieldName = 'Fantasia'
+      Size = 25
+    end
+    object tblEmpReferecia: TStringField
+      FieldName = 'Referecia'
+      Size = 50
+    end
+    object tblEmpEndereco: TStringField
+      FieldName = 'Endereco'
+      Size = 60
+    end
+    object tblEmpCidade: TStringField
+      FieldName = 'Cidade'
+      Size = 30
+    end
+    object tblEmpEstado: TStringField
+      FieldName = 'Estado'
+      Size = 2
+    end
+    object tblEmpCep: TStringField
+      FieldName = 'Cep'
+      Size = 9
+    end
+    object tblEmpFone1: TStringField
+      FieldName = 'Fone1'
+      Size = 16
+    end
+    object tblEmpFone2: TStringField
+      FieldName = 'Fone2'
+      Size = 16
+    end
+    object tblEmpCgc: TStringField
+      FieldName = 'Cgc'
+      Size = 18
+    end
+    object tblEmpCgf: TStringField
+      FieldName = 'Cgf'
+      Size = 13
+    end
+    object tblEmpLogo: TGraphicField
+      FieldName = 'Logo'
+      BlobType = ftGraphic
+    end
+  end
+  object dsEmp: TDataSource
+    DataSet = tblEmp
+    Left = 56
+    Top = 64
+  end
+  object tblFiscal: TTable
+    DatabaseName = 'estoque1'
+    FieldDefs = <
+      item
+        Name = 'Cts'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Tributacao'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'VALOR'
+        DataType = ftFloat
+      end>
+    StoreDefs = True
+    TableName = 'TabFiscal.db'
+    Left = 8
+    Top = 136
+    object tblFiscalCts: TStringField
+      FieldName = 'Cts'
+      Size = 2
+    end
+    object tblFiscalTributacao: TStringField
+      FieldName = 'Tributacao'
+      Size = 15
+    end
+  end
+  object dsFiscal: TDataSource
+    DataSet = tblFiscal
+    Left = 56
+    Top = 136
+  end
+  object tblImp: TTable
+    AfterPost = tblFinanAfterPost
+    DatabaseName = 'estoque1'
+    FieldDefs = <
+      item
+        Name = 'Modelo'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'Porta'
+        DataType = ftString
+        Size = 4
+      end
+      item
+        Name = 'Mensagem'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Desabiltar'
+        DataType = ftBoolean
+      end
+      item
+        Name = 'Mensagem1'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Mensagem2'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Mensaggem3'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Taxatrs'
+        DataType = ftString
+        Size = 8
+      end>
+    StoreDefs = True
+    TableName = 'impressoras.db'
+    Left = 112
+    Top = 8
+    object tblImpModelo: TStringField
+      FieldName = 'Modelo'
+      Size = 30
+    end
+    object tblImpPorta: TStringField
+      FieldName = 'Porta'
+      Size = 4
+    end
+    object tblImpMensagem: TStringField
+      FieldName = 'Mensagem'
+      Size = 40
+    end
+    object tblImpDesabiltar: TBooleanField
+      FieldName = 'Desabiltar'
+    end
+    object tblImpMensagem1: TStringField
+      FieldName = 'Mensagem1'
+      Size = 40
+    end
+    object tblImpMensagem2: TStringField
+      FieldName = 'Mensagem2'
+      Size = 40
+    end
+    object tblImpTaxatrs: TStringField
+      FieldName = 'Taxatrs'
+      Size = 8
+    end
+  end
+  object dsImp: TDataSource
+    DataSet = tblImp
+    Left = 168
+    Top = 16
+  end
+  object tblMatricial: TTable
+    DatabaseName = 'estoque1'
+    FieldDefs = <
+      item
+        Name = 'Estacao'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Compartilha'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Tipo'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'Path'
+        DataType = ftString
+        Size = 60
+      end>
+    StoreDefs = True
+    TableName = 'impmatricial.db'
+    Left = 112
+    Top = 72
+    object tblMatricialEstacao: TStringField
+      FieldName = 'Estacao'
+    end
+    object tblMatricialCompartilha: TStringField
+      FieldName = 'Compartilha'
+      Size = 40
+    end
+    object tblMatricialTipo: TStringField
+      FieldName = 'Tipo'
+      Size = 1
+    end
+    object tblMatricialPath: TStringField
+      FieldName = 'Path'
+      Size = 60
+    end
+  end
+  object dsMatricial: TDataSource
+    DataSet = tblMatricial
+    Left = 168
+    Top = 72
+  end
+end

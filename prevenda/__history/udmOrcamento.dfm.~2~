@@ -1,0 +1,23 @@
+object dmOrcamento: TdmOrcamento
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 115
+  Width = 169
+  object zConOrcamento: TZConnection
+    ControlsCodePage = cCP_UTF16
+    ClientCodepage = 'WIN1252'
+    Properties.Strings = (
+      'codepage=WIN1252'
+      'controls_cp=CP_UTF16'
+      'AutoEncodeStrings=ON')
+    TransactIsolationLevel = tiReadCommitted
+    Connected = True
+    Port = 3050
+    Database = 'C:\prevenda\orcamento.FDB'
+    User = 'sysdba'
+    Password = 'masterkey'
+    Protocol = 'firebirdd-2.5'
+    Left = 56
+    Top = 32
+  end
+end

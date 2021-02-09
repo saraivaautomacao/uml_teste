@@ -1,0 +1,116 @@
+unit ufrconexao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons,inifiles;
+
+type
+  Tfrconexao = class(TForm)
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    edPath: TEdit;
+    Label3: TLabel;
+    edCaixa: TEdit;
+    Label2: TLabel;
+    edPorta: TEdit;
+    Button1: TButton;
+    SpeedButton1: TSpeedButton;
+    GroupBox3: TGroupBox;
+    ListBox1: TListBox;
+    Button2: TButton;
+    procedure Button1Click(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+
+  private
+    { Private declarations }
+    PathExe:String;
+  public
+    { Public declarations }
+  end;
+
+var
+  frconexao: Tfrconexao;
+
+implementation
+uses rotinas;
+{$R *.dfm}
+
+procedure Tfrconexao.Button1Click(Sender: TObject);
+
+var
+  ini:tinifile;
+
+begin
+   try
+    ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+'Conexao.ini');
+    ini.WriteString('EXPORTA','REMOTEAPP',trim(edPath.text));
+    ini.WriteString('DIVERSOS','COMPUTADOR',trim(edcaixa.text));
+    ini.WriteString('DIVERSOS','PORTA',trim(edPorta.text));
+    ini.Free;
+    Mensagem('gravado com sucesso');
+  Except
+    Mensagem('Erro na gravação de configuração');
+  End;
+  
+end;
+
+procedure Tfrconexao.SpeedButton1Click(Sender: TObject);
+begin
+  if DirectoryExists(trim(edpath.text)) Then
+     Mensagem('Contato com o teminal PDV OK')
+  Else
+    Mensagem('Sem Contato com o teminal PDV OK');
+
+end;
+
+procedure Tfrconexao.FormShow(Sender: TObject);
+Var
+  i:integer;
+  sr:TSearchRec;
+begin
+   pathexe:=ExtractFileDir(Application.ExeName);
+   i:=FindFirst(pathexe+'\TXT\PREVENDA*.TXT',faAnyFile,sr);
+   ListBox1.Clear;
+   While I=0 do
+   Begin
+      if (sr.attr and faDirectory)<> faDirectory Then
+         ListBox1.Items.Add(sr.Name);
+      I:=FindNext(sr);
+   end;
+end;
+
+procedure Tfrconexao.Button2Click(Sender: TObject);
+Var
+  I:smallint;
+  ArquivoOrigem,ArquivoDestino:String;
+begin
+    If ListBox1.Items.count=0 Then
+    begin
+      ShowMessage('Lista de arquivos vazio');
+      exit;
+    End;
+    For I:=0 to ListBox1.Items.count-1 do
+    begin
+      ArquivoOrigem:=pathexe+'\txt\'+ListBox1.items[i];
+      ArquivoDestino:=edPath.Text+'\'+ListBox1.items[i];
+      if CopyFile(PChar(arquivoorigem), Pchar(arquivodestino), false) then
+      begin
+          deleteFile(arquivoOrigem);
+          ListBox1.Items[i]:='';
+
+      end
+      else
+      begin
+          Mensagem(' Erro na transferencia do arquivo. Verifique a conexao');
+          break;
+      end;
+    end;
+
+end;
+
+end.
+

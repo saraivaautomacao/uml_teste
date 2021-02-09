@@ -1,0 +1,358 @@
+object dmMod1: TdmMod1
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 259
+  Width = 340
+  object dsFinan: TDataSource
+    DataSet = tblFinan
+    Left = 96
+    Top = 160
+  end
+  object dsEmp: TDataSource
+    DataSet = tblEmp
+    Left = 160
+    Top = 160
+  end
+  object dsFiscal: TDataSource
+    DataSet = tblFiscal
+    Left = 232
+    Top = 160
+  end
+  object dsImp: TDataSource
+    DataSet = tblImp
+    Left = 200
+    Top = 80
+  end
+  object dsMatricial: TDataSource
+    DataSet = tblMatricial
+    Left = 88
+    Top = 80
+  end
+  object DataSource1: TDataSource
+    DataSet = qryUf
+    Left = 24
+    Top = 160
+  end
+  object qryUf: TZReadOnlyQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      'select codigo,uf from uf'
+      'order by uf')
+    Params = <>
+    Left = 80
+    Top = 16
+    object qryUfCODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Size = 2
+    end
+    object qryUfUF: TWideStringField
+      FieldName = 'UF'
+      Size = 2
+    end
+  end
+  object qryMunicipio: TZReadOnlyQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      'select lkuf,codigo,municipio'
+      'from municipio'
+      'where lkuf=:codigo'
+      'order by municipio')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'codigo'
+        ParamType = ptUnknown
+      end>
+    DataSource = DataSource1
+    Left = 152
+    Top = 16
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'codigo'
+        ParamType = ptUnknown
+      end>
+    object qryMunicipioLKUF: TWideStringField
+      FieldName = 'LKUF'
+      Size = 2
+    end
+    object qryMunicipioCODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Size = 5
+    end
+    object qryMunicipioMUNICIPIO: TWideStringField
+      FieldName = 'MUNICIPIO'
+      Size = 30
+    end
+  end
+  object tblFinan: TZTable
+    Connection = dmMod.zConPrinc
+    Filter = 'Fecha='#39'N'#39
+    Filtered = True
+    TableName = 'TABFINANC'
+    Left = 24
+    Top = 16
+    object tblFinanCODVEND: TSmallintField
+      FieldName = 'CODVEND'
+    end
+    object tblFinanDATAABERTURA: TDateField
+      FieldName = 'DATAABERTURA'
+      EditMask = '!99/99/0000;1;_'
+    end
+    object tblFinanHORAABERTURA: TTimeField
+      FieldName = 'HORAABERTURA'
+      EditMask = '!90:00;1;_'
+    end
+    object tblFinanVALORABERTURA: TFloatField
+      FieldName = 'VALORABERTURA'
+    end
+    object tblFinanDATAFECHA: TDateField
+      FieldName = 'DATAFECHA'
+      EditMask = '!99/99/0000;1;_'
+    end
+    object tblFinanHORAFECHA: TTimeField
+      FieldName = 'HORAFECHA'
+      EditMask = '!90:00;1;_'
+    end
+    object tblFinanDINHEIRO: TFloatField
+      FieldName = 'DINHEIRO'
+      currency = True
+    end
+    object tblFinanCHEQUE: TFloatField
+      FieldName = 'CHEQUE'
+      currency = True
+    end
+    object tblFinanVALE: TFloatField
+      FieldName = 'VALE'
+      currency = True
+    end
+    object tblFinanCARTAO: TFloatField
+      FieldName = 'CARTAO'
+      currency = True
+    end
+    object tblFinanPROMISSORIA: TFloatField
+      FieldName = 'PROMISSORIA'
+      currency = True
+    end
+    object tblFinanPREDATADO: TFloatField
+      FieldName = 'PREDATADO'
+      currency = True
+    end
+    object tblFinanESTORNO: TFloatField
+      FieldName = 'ESTORNO'
+      currency = True
+    end
+    object tblFinanSANGRIA: TFloatField
+      FieldName = 'SANGRIA'
+      currency = True
+    end
+    object tblFinanREFORCO: TFloatField
+      FieldName = 'REFORCO'
+      currency = True
+    end
+    object tblFinanFECHA: TWideStringField
+      FieldName = 'FECHA'
+      Size = 1
+    end
+    object tblFinanPAGAS: TFloatField
+      FieldName = 'PAGAS'
+      currency = True
+    end
+    object tblFinanAVISTA: TFloatField
+      FieldName = 'AVISTA'
+      currency = True
+    end
+    object tblFinanRECEBIMENTO: TFloatField
+      FieldName = 'RECEBIMENTO'
+      currency = True
+    end
+  end
+  object tblMatricial: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'IMPMATRICIAL'
+    Left = 24
+    Top = 80
+    object tblMatricialESTACAO: TWideStringField
+      FieldName = 'ESTACAO'
+    end
+    object tblMatricialCOMPARTILHA: TWideStringField
+      FieldName = 'COMPARTILHA'
+      Size = 40
+    end
+    object tblMatricialTIPO: TWideStringField
+      FieldName = 'TIPO'
+      Size = 1
+    end
+    object tblMatricialPATH: TWideStringField
+      FieldName = 'PATH'
+      Size = 60
+    end
+    object tblMatricialMARCA: TWideStringField
+      FieldName = 'MARCA'
+      Size = 1
+    end
+    object tblMatricialPATHCARGA: TWideStringField
+      FieldName = 'PATHCARGA'
+      Size = 40
+    end
+    object tblMatricialID: TIntegerField
+      FieldName = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+  end
+  object tblImp: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'IMPRESSORAS'
+    Left = 152
+    Top = 80
+    object tblImpMODELO: TWideStringField
+      FieldName = 'MODELO'
+      Size = 30
+    end
+    object tblImpPORTA: TWideStringField
+      FieldName = 'PORTA'
+      Size = 4
+    end
+    object tblImpMENSAGEM: TWideStringField
+      FieldName = 'MENSAGEM'
+      Size = 40
+    end
+    object tblImpDESABILTAR: TWideStringField
+      FieldName = 'DESABILTAR'
+      Size = 1
+    end
+    object tblImpMENSAGEM1: TWideStringField
+      FieldName = 'MENSAGEM1'
+      Size = 40
+    end
+    object tblImpMENSAGEM2: TWideStringField
+      FieldName = 'MENSAGEM2'
+      Size = 40
+    end
+    object tblImpTAXATRS: TWideStringField
+      FieldName = 'TAXATRS'
+      Size = 10
+    end
+  end
+  object tblEmp: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'EMPRESA'
+    Left = 224
+    Top = 16
+    object tblEmpRAZAOSOCIAL: TWideStringField
+      FieldName = 'RAZAOSOCIAL'
+      Size = 50
+    end
+    object tblEmpFANTASIA: TWideStringField
+      FieldName = 'FANTASIA'
+      Size = 25
+    end
+    object tblEmpREFERECIA: TWideStringField
+      FieldName = 'REFERECIA'
+      Size = 50
+    end
+    object tblEmpENDERECO: TWideStringField
+      FieldName = 'ENDERECO'
+      Size = 60
+    end
+    object tblEmpCIDADE: TWideStringField
+      FieldName = 'CIDADE'
+      Size = 30
+    end
+    object tblEmpESTADO: TWideStringField
+      FieldName = 'ESTADO'
+      Size = 2
+    end
+    object tblEmpCEP: TWideStringField
+      FieldName = 'CEP'
+      EditMask = '00000\-999;1;_'
+      Size = 9
+    end
+    object tblEmpFONE1: TWideStringField
+      FieldName = 'FONE1'
+      EditMask = '!\(999\)0000-0000;1;'
+      Size = 16
+    end
+    object tblEmpFONE2: TWideStringField
+      FieldName = 'FONE2'
+      EditMask = '!\(999\)0000-0000;1;'
+      Size = 16
+    end
+    object tblEmpCGC: TWideStringField
+      FieldName = 'CGC'
+      EditMask = '!99.999.999/9999-99;1;_'
+      Size = 18
+    end
+    object tblEmpCGF: TWideStringField
+      FieldName = 'CGF'
+      Size = 13
+    end
+    object tblEmpLOGO: TBlobField
+      FieldName = 'LOGO'
+    end
+    object tblEmpPASTA: TWideStringField
+      FieldName = 'PASTA'
+    end
+    object tblEmpCODUF: TWideStringField
+      FieldName = 'CODUF'
+      Size = 2
+    end
+    object tblEmpCODMUNICIPIO: TWideStringField
+      FieldName = 'CODMUNICIPIO'
+      Size = 5
+    end
+    object tblEmpNUMERO: TWideStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object tblEmpCOMPLEMENTO: TWideStringField
+      FieldName = 'COMPLEMENTO'
+    end
+    object tblEmpCNAE: TWideStringField
+      FieldName = 'CNAE'
+      Size = 7
+    end
+    object tblEmpINSCMUNICIPAL: TWideStringField
+      FieldName = 'INSCMUNICIPAL'
+      Size = 15
+    end
+    object tblEmpINSCESTADUAL: TWideStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 14
+    end
+    object tblEmpBAIRRO: TWideStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object tblEmpREGIMETRIB: TWideStringField
+      FieldName = 'REGIMETRIB'
+      Size = 1
+    end
+    object tblEmpEMAILPRINCIPAL: TWideStringField
+      FieldName = 'EMAILPRINCIPAL'
+      Size = 60
+    end
+    object tblEmpEMAILALTERNATIVO: TWideStringField
+      FieldName = 'EMAILALTERNATIVO'
+      Size = 60
+    end
+  end
+  object tblFiscal: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'TABFISCAL'
+    Left = 248
+    Top = 88
+    object tblFiscalCTS: TWideStringField
+      FieldName = 'CTS'
+      Size = 2
+    end
+    object tblFiscalTRIBUTACAO: TWideStringField
+      FieldName = 'TRIBUTACAO'
+      Size = 15
+    end
+    object tblFiscalVALOR: TFloatField
+      FieldName = 'VALOR'
+      currency = True
+    end
+  end
+end

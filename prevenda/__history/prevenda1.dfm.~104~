@@ -1,0 +1,1014 @@
+object frPrevenda1: TfrPrevenda1
+  Left = 960
+  Top = 386
+  Caption = 'Sistema Pre-Venda'
+  ClientHeight = 604
+  ClientWidth = 881
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -9
+  Font.Name = 'Arial'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poDesigned
+  WindowState = wsMaximized
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnKeyUp = FormKeyUp
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object Panel1: TPanel
+    Left = 0
+    Top = 41
+    Width = 881
+    Height = 141
+    Align = alTop
+    TabOrder = 0
+    object RxLabel1: TRxLabel
+      Left = 9
+      Top = 4
+      Width = 84
+      Height = 32
+      Caption = 'C'#243'digo Cliente'#13#10' '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object RxLabel2: TRxLabel
+      Left = 754
+      Top = -24
+      Width = 49
+      Height = 12
+      Caption = 'CPF/CNPJ'
+    end
+    object RxLabel3: TRxLabel
+      Left = 106
+      Top = 4
+      Width = 90
+      Height = 16
+      Caption = 'Nome/Empresa'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object RxLabel4: TRxLabel
+      Left = 14
+      Top = 52
+      Width = 57
+      Height = 16
+      Caption = 'Endere'#231'o'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object RxLabel7: TRxLabel
+      Left = 508
+      Top = 4
+      Width = 57
+      Height = 16
+      Caption = 'CNPJ/CPF'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object edCodigo: TComboEdit
+      Left = 12
+      Top = 22
+      Width = 91
+      Height = 22
+      ClickKey = 113
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tanoma'
+      Font.Style = []
+      GlyphKind = gkEllipsis
+      ButtonWidth = 18
+      MaxLength = 5
+      NumGlyphs = 1
+      ParentFont = False
+      TabOrder = 0
+      Text = 'edCodigo'
+      OnButtonClick = edCodigoButtonClick
+      OnExit = edCodigoExit
+    end
+    object edNome: TEdit
+      Left = 106
+      Top = 22
+      Width = 396
+      Height = 22
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tanoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      Text = 'edNome'
+    end
+    object EdEnd: TEdit
+      Left = 14
+      Top = 70
+      Width = 488
+      Height = 22
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tanoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      Text = 'Edit2'
+      OnExit = EdEndExit
+    end
+    object edDoc: TMaskEdit
+      Left = 508
+      Top = 22
+      Width = 204
+      Height = 22
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tanoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      Text = 'edDoc'
+    end
+    object GroupBox1: TGroupBox
+      Left = 508
+      Top = 50
+      Width = 333
+      Height = 69
+      Caption = 'Informa'#231#245'es'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      object Label3: TLabel
+        Left = 11
+        Top = 24
+        Width = 36
+        Height = 16
+        Caption = 'D'#233'bito'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 122
+        Top = 24
+        Width = 63
+        Height = 16
+        Caption = 'Venc. Base'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 237
+        Top = 24
+        Width = 79
+        Height = 16
+        Caption = 'Limite Credito'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object stDebito: TStaticText
+        Left = 11
+        Top = 42
+        Width = 105
+        Height = 17
+        AutoSize = False
+        Caption = 'stDebito'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 0
+        Transparent = False
+      end
+      object stVencimento: TStaticText
+        Left = 122
+        Top = 42
+        Width = 106
+        Height = 17
+        AutoSize = False
+        Caption = 'stDebito'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 1
+        Transparent = False
+      end
+      object stLimite: TStaticText
+        Left = 236
+        Top = 42
+        Width = 81
+        Height = 17
+        AutoSize = False
+        Caption = 'stDebito'
+        Color = clWhite
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        TabOrder = 2
+        Transparent = False
+      end
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 182
+    Width = 881
+    Height = 422
+    Align = alClient
+    TabOrder = 1
+    object Panel2: TPanel
+      Left = 1
+      Top = 357
+      Width = 879
+      Height = 64
+      Align = alBottom
+      BevelOuter = bvLowered
+      TabOrder = 0
+      object RxLabel14: TRxLabel
+        Left = 103
+        Top = 11
+        Width = 54
+        Height = 16
+        Caption = 'Desconto'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+        WordWrap = True
+      end
+      object RxLabel15: TRxLabel
+        Left = 185
+        Top = 12
+        Width = 95
+        Height = 16
+        Caption = 'Total Pre-Venda'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object RxLabel16: TRxLabel
+        Left = 5
+        Top = 11
+        Width = 85
+        Height = 16
+        Caption = 'Total Produtos'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object edPerc: TCurrencyEdit
+        Left = 101
+        Top = 28
+        Width = 79
+        Height = 21
+        Margins.Left = 4
+        Margins.Top = 1
+        AutoSize = False
+        DisplayFormat = ',0.00 %;-,0.00 %'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnExit = edPercExit
+      end
+      object edTotalProd: TCurrencyEdit
+        Left = 8
+        Top = 28
+        Width = 87
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 2
+        AutoSize = False
+        Color = clInfoBk
+        Ctl3D = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object edTotalOrc: TCurrencyEdit
+        Left = 188
+        Top = 28
+        Width = 96
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 2
+        AutoSize = False
+        Color = clInfoBk
+        Ctl3D = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object btnFinalizar: TButton
+        Left = 569
+        Top = 21
+        Width = 111
+        Height = 27
+        Caption = 'F7-&Finalizar'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial Narrow'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        OnClick = btnFinalizarClick
+      end
+      object btnCancelar: TButton
+        Left = 342
+        Top = 21
+        Width = 129
+        Height = 27
+        Caption = 'DEL-Cancelar  Item'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 4
+        OnClick = btnCancelarClick
+      end
+      object ckbPrecoRevenda: TCheckBox
+        Left = 708
+        Top = 25
+        Width = 132
+        Height = 24
+        Caption = 'Usar Pre'#231'o Revenda'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 5
+        Visible = False
+      end
+    end
+    object Panel5: TPanel
+      Left = 1
+      Top = 1
+      Width = 879
+      Height = 126
+      Align = alTop
+      BevelKind = bkTile
+      BevelOuter = bvNone
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      object RxLabel11: TRxLabel
+        Left = 665
+        Top = 7
+        Width = 41
+        Height = 14
+        Caption = 'Estoque'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object Label1: TLabel
+        Left = 6
+        Top = 6
+        Width = 118
+        Height = 14
+        Caption = 'Descri'#231#227'o do Produto'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblDesconto: TLabel
+        Left = 6
+        Top = 99
+        Width = 129
+        Height = 13
+        Caption = 'Desconto Maximo permitdo'
+      end
+      object Label2: TLabel
+        Left = 521
+        Top = 7
+        Width = 60
+        Height = 13
+        Caption = 'Pre'#231'o Venda'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object RxLabel8: TRxLabel
+        Left = 9
+        Top = 51
+        Width = 35
+        Height = 13
+        Caption = 'C'#243'digo'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object RxLabel12: TRxLabel
+        Left = 195
+        Top = 51
+        Width = 32
+        Height = 13
+        Caption = 'Quant'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object RxLabel13: TRxLabel
+        Left = 371
+        Top = 52
+        Width = 66
+        Height = 13
+        Caption = 'Valor Unitario'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object RxLabel5: TRxLabel
+        Left = 278
+        Top = 51
+        Width = 47
+        Height = 13
+        Caption = 'Desconto'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object RxLabel6: TRxLabel
+        Left = 461
+        Top = 51
+        Width = 26
+        Height = 13
+        Caption = 'Total'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object edCodProd: TComboEdit
+        Left = 7
+        Top = 66
+        Width = 178
+        Height = 21
+        ClickKey = 113
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        GlyphKind = gkEllipsis
+        ButtonWidth = 18
+        NumGlyphs = 1
+        ParentFont = False
+        TabOrder = 0
+        Text = 'edCodigo'
+        OnButtonClick = edCodProdButtonClick
+        OnExit = edCodProdExit
+      end
+      object edQuant: TCurrencyEdit
+        Left = 193
+        Top = 66
+        Width = 79
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 1
+        AutoSize = False
+        DecimalPlaces = 3
+        DisplayFormat = ',0.000;-,0.00'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnExit = edQuantExit
+        OnKeyPress = edQuantKeyPress
+      end
+      object edVrUnit: TCurrencyEdit
+        Left = 371
+        Top = 66
+        Width = 84
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 1
+        AutoSize = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        OnExit = edVrUnitExit
+        OnKeyPress = edVrUnitKeyPress
+      end
+      object btnLancar: TButton
+        Left = 603
+        Top = 62
+        Width = 75
+        Height = 27
+        Caption = 'Lancar'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 5
+        OnClick = btnLancarClick
+        OnKeyPress = btnLancarKeyPress
+      end
+      object edProd: TEdit
+        Left = 6
+        Top = 24
+        Width = 507
+        Height = 17
+        BorderStyle = bsNone
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 6
+        Text = 'edNome'
+      end
+      object edEstoque: TEdit
+        Left = 665
+        Top = 23
+        Width = 137
+        Height = 18
+        BorderStyle = bsNone
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 7
+        Text = 'edNome'
+      end
+      object edDesconto: TCurrencyEdit
+        Left = 279
+        Top = 66
+        Width = 85
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 1
+        AutoSize = False
+        DisplayFormat = ',0.00 %'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        HideSelection = False
+        ParentFont = False
+        TabOrder = 2
+        OnExit = edDescontoExit
+        OnKeyPress = edDescontoKeyPress
+      end
+      object edTotal: TCurrencyEdit
+        Left = 464
+        Top = 66
+        Width = 105
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 1
+        AutoSize = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 4
+        OnKeyPress = edTotalKeyPress
+      end
+      object edPrecovenda: TEdit
+        Left = 519
+        Top = 24
+        Width = 139
+        Height = 17
+        BorderStyle = bsNone
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 8
+        Text = 'edNome'
+      end
+    end
+    object dbgrid1: TJvDBUltimGrid
+      AlignWithMargins = True
+      Left = 4
+      Top = 130
+      Width = 873
+      Height = 224
+      Align = alClient
+      BorderStyle = bsNone
+      Ctl3D = False
+      DataSource = dtsPreDet
+      ParentCtl3D = False
+      ParentShowHint = False
+      ReadOnly = True
+      ShowHint = False
+      TabOrder = 2
+      TitleFont.Charset = ANSI_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -9
+      TitleFont.Name = 'Arial'
+      TitleFont.Style = []
+      AutoAppend = False
+      AutoSort = False
+      BevelEdges = []
+      BeepOnError = False
+      AutoSizeColumns = True
+      AutoSizeColumnIndex = 1
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      CanDelete = False
+      EditControls = <>
+      RowsHeight = 16
+      TitleRowHeight = 16
+      Columns = <
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'item'
+          Title.Alignment = taCenter
+          Width = 51
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'gtin'
+          Title.Alignment = taCenter
+          Title.Caption = 'C'#243'digo'
+          Width = 111
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'nome_produto'
+          Title.Alignment = taCenter
+          Title.Caption = 'Produto'
+          Width = 292
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'unidade_produto'
+          Title.Alignment = taCenter
+          Title.Caption = 'Und'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'quantidade'
+          Title.Alignment = taCenter
+          Title.Caption = 'Quant'
+          Width = 86
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'taxa_desconto'
+          Title.Alignment = taCenter
+          Title.Caption = 'Desc(%)'
+          Width = 86
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'valor_unitario'
+          Title.Alignment = taCenter
+          Title.Caption = 'Vr. Unit.'
+          Width = 81
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'valor_total'
+          Title.Alignment = taCenter
+          Title.Caption = 'Total'
+          Width = 86
+          Visible = True
+        end>
+    end
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 0
+    Width = 881
+    Height = 41
+    Align = alTop
+    TabOrder = 2
+    object lblNumeroPv: TLabel
+      Left = 629
+      Top = 1
+      Width = 251
+      Height = 39
+      Align = alRight
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Ultima Pre Venda'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = True
+      Layout = tlCenter
+      ExplicitLeft = 627
+    end
+    object lblVendedor: TLabel
+      Left = 434
+      Top = 14
+      Width = 67
+      Height = 13
+      Caption = 'lblVendedor'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object btnNovo: TButton
+      Left = 6
+      Top = 6
+      Width = 101
+      Height = 29
+      Caption = 'F3 - &Novo'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      OnClick = btnNovoClick
+    end
+    object Button2: TButton
+      Left = 135
+      Top = 14
+      Width = 66
+      Height = 21
+      Caption = 'Re-Impress'#227'o'
+      TabOrder = 1
+      Visible = False
+    end
+    object Button3: TButton
+      Left = 113
+      Top = 6
+      Width = 101
+      Height = 29
+      Caption = 'F4-Cons. pre'#231'o'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+      OnClick = Button3Click
+    end
+    object Button4: TButton
+      Left = 220
+      Top = 6
+      Width = 101
+      Height = 29
+      Caption = 'Hist. Cliente'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+      OnClick = Button4Click
+    end
+    object Button1: TButton
+      Left = 327
+      Top = 6
+      Width = 101
+      Height = 29
+      Caption = 'Configurar '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 4
+      OnClick = Button1Click
+    end
+  end
+  object dtsPreDet: TDataSource
+    DataSet = tbitens
+    Left = 216
+    Top = 401
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 144
+    Top = 432
+  end
+  object tbitens: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    StoreDefs = True
+    Left = 144
+    Top = 360
+    object tbitensdata_emissao: TDateField
+      FieldName = 'data_emissao'
+    end
+    object tbitensitem: TSmallintField
+      FieldName = 'item'
+    end
+    object tbitensquantidade: TFloatField
+      FieldName = 'quantidade'
+    end
+    object tbitensvalor_unitario: TCurrencyField
+      FieldName = 'valor_unitario'
+    end
+    object tbitensnome_produto: TStringField
+      FieldName = 'nome_produto'
+      Size = 80
+    end
+    object tbitensunidade_produto: TStringField
+      FieldName = 'unidade_produto'
+      Size = 2
+    end
+    object tbitensidControle: TIntegerField
+      FieldName = 'idControle'
+    end
+    object tbitensvalor_total: TCurrencyField
+      FieldName = 'valor_total'
+    end
+    object tbitensgtin: TStringField
+      FieldName = 'gtin'
+      Size = 14
+    end
+    object tbitensnumero_pv: TIntegerField
+      FieldName = 'numero_pv'
+    end
+    object tbitenscancelado: TStringField
+      FieldName = 'cancelado'
+      Size = 1
+    end
+    object tbitenstaxa_desconto: TFloatField
+      FieldName = 'taxa_desconto'
+      DisplayFormat = '##0.00 %'
+    end
+    object tbitensvalor_desconto: TCurrencyField
+      FieldName = 'valor_desconto'
+    end
+    object tbitensTaxa_acrescimo: TFloatField
+      FieldName = 'Taxa_acrescimo'
+    end
+    object tbitensValor_acrescimo: TCurrencyField
+      FieldName = 'Valor_acrescimo'
+    end
+    object tbitenscst: TStringField
+      FieldName = 'cst'
+      Size = 3
+    end
+  end
+  object ACBrEnterTab1: TACBrEnterTab
+    EnterAsTab = True
+    Left = 432
+    Top = 312
+  end
+end

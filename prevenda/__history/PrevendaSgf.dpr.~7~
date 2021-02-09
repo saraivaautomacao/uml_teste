@@ -1,0 +1,58 @@
+program PrevendaSgf;
+
+
+
+uses
+  windows,
+  Forms,
+  prevenda1 in 'prevenda1.pas' {frPrevenda1},
+  IntDatas in 'IntDatas.pas' {formIntDatas},
+  dados1 in 'dados1.pas' {dmMod1: TDataModule},
+  dados2 in 'dados2.pas' {dmMod2: TDataModule},
+  lkClientes in 'lkClientes.pas' {formLkClientes},
+  lkProdutos in 'lkProdutos.pas' {FormlkProd},
+  dados3 in 'dados3.pas' {dmMod3: TDataModule},
+  configuracaovo in 'prevo\configuracaovo.pas',
+  produtovo in 'prevo\produtovo.pas',
+  ProdutoController in 'Controller\ProdutoController.pas',
+  Rotinas in 'Rotinas.pas',
+  formapgtoVO in 'prevo\formapgtoVO.pas',
+  ClienteVo in 'prevo\ClienteVo.pas',
+  ClienteController in 'Controller\ClienteController.pas',
+  senhavendedor in 'senhavendedor.pas' {frSenhaVendedor},
+  vendedorvo in 'prevo\vendedorvo.pas',
+  vendedorcontroller in 'Controller\vendedorcontroller.pas',
+  senha in 'senha.pas' {FormSenha},
+  usuarioVO in 'prevo\usuarioVO.pas',
+  acesso in 'acesso.pas' {FormAcesso},
+  limitecredito in 'limitecredito.pas' {FormLimCredito},
+  ufrconsultapreco in 'ufrconsultapreco.pas' {frConsultaPreco},
+  conhistcli in 'conhistcli.pas' {frHistoricoCli},
+  ufrconprevenda in 'ufrconprevenda.pas' {frconPrevenda},
+  tipoCli in 'tipoCli.pas' {FormTipoCli},
+  vias in 'vias.pas' {FormVias},
+  Dados in 'Dados.pas' {dmMod: TDataModule};
+
+{$R *.res}
+var
+  Instancia: THandle;
+
+begin
+  Instancia:= CreateMutex(nil, false, 'PV_SGE_PAF');
+  if WaitForSingleObject(Instancia, 0) = wait_Timeout then
+  begin
+    Application.MessageBox('Você não pode executar outra cópia do aplicativo.', 'Informação do Sistema', MB_OK + MB_ICONINFORMATION);
+    exit;
+  end
+  else
+  begin
+      Application.Initialize;
+      Application.CreateForm(TdmMod, dmMod);
+  Application.CreateForm(TdmMod1, dmMod1);
+  Application.CreateForm(TdmMod2, dmMod2);
+  Application.CreateForm(TdmMod3, dmMod3);
+  Application.CreateForm(TfrPrevenda1, frPrevenda1);
+  Application.CreateForm(TformIntDatas, formIntDatas);
+  Application.Run;
+  end;
+end.

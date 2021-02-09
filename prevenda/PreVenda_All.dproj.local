@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2017/06/22 10:46:49.000.045,C:\FontesDXE7\prevenda_Sgf_projeto\PV_SGE_Paf.dproj=C:\FontesDXE7\prevenda_Sgf_projeto\PrevendaSgf.dproj</Transaction>
+    <Transaction>2017/06/22 10:49:19.000.671,C:\FontesDXE7\prevenda_Sgf_projeto\ufrorcamento.pas=</Transaction>
+    <Transaction>2017/06/22 11:44:40.000.051,C:\FontesDXE7\prevenda_Sgf_projeto\ufrformapgto.pas=</Transaction>
+    <Transaction>2017/06/22 12:01:13.000.945,C:\FontesDXE7\prevenda_Sgf_projeto\manprod.pas=</Transaction>
+    <Transaction>2017/06/22 12:09:12.000.497,C:\FontesDXE7\prevenda_Sgf_projeto\ufrconexao.pas=</Transaction>
+    <Transaction>2017/06/22 12:12:56.000.467,C:\FontesDXE7\prevenda_Sgf_projeto\ufrpgtoprazo.pas=</Transaction>
+    <Transaction>2017/06/22 12:12:56.000.675,C:\FontesDXE7\prevenda_Sgf_projeto\ufrprevenda.pas=</Transaction>
+    <Transaction>2017/06/22 14:10:20.000.078,C:\FontesDXE7\prevenda_Sgf_projeto\relorcamento.pas=</Transaction>
+    <Transaction>2017/06/22 14:39:59.000.139,C:\FontesDXE7\prevenda_Sgf_projeto\Clientes.pas=</Transaction>
+    <Transaction>2017/06/22 14:43:10.000.201,C:\FontesDXE7\prevenda_Sgf_projeto\lkReceita.pas=</Transaction>
+    <Transaction>2017/06/24 22:52:56.000.500,=C:\FontesDXE7\prevenda_Sgf_projeto\Unit1.pas</Transaction>
+    <Transaction>2017/06/24 22:53:37.000.360,C:\FontesDXE7\prevenda_Sgf_projeto\ufrConfImp.dfm=C:\FontesDXE7\prevenda_Sgf_projeto\Unit1.dfm</Transaction>
+    <Transaction>2017/06/24 22:53:37.000.360,C:\FontesDXE7\prevenda_Sgf_projeto\ufrConfImp.pas=C:\FontesDXE7\prevenda_Sgf_projeto\Unit1.pas</Transaction>
+    <Transaction>2017/06/25 20:52:05.000.963,C:\FontesDXE7\prevenda_Sgf_projeto\ufrConfImp.pas=C:\FontesDXE7\prevenda_Sgf_projeto\ufrConfiguracao.pas</Transaction>
+    <Transaction>2017/06/25 20:52:05.000.963,C:\FontesDXE7\prevenda_Sgf_projeto\ufrConfImp.dfm=C:\FontesDXE7\prevenda_Sgf_projeto\ufrConfiguracao.dfm</Transaction>
+    <Transaction>2018/10/02 20:55:02.000.154,C:\FontesXe10\prevenda\PreVenda_All.dproj=C:\FontesXe10\prevenda\PrevendaSgf.dproj</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="Controller"/>
+    <File Path="Controller\ClienteController.pas"/>
+    <File Path="Controller\ProdutoController.pas"/>
+    <File Path="Controller\vendedorcontroller.pas"/>
+    <File Path="prevo"/>
+    <File Path="prevo\ClienteVo.pas"/>
+    <File Path="prevo\configuracaovo.pas"/>
+    <File Path="prevo\formapgtoVO.pas"/>
+    <File Path="prevo\produtovo.pas"/>
+    <File Path="prevo\usuarioVO.pas"/>
+    <File Path="prevo\vendedorvo.pas"/>
+    <File Path="acesso.pas"/>
+    <File Path="acesso.dfm"/>
+    <File Path="conhistcli.pas"/>
+    <File Path="conhistcli.dfm"/>
+    <File Path="Dados.pas"/>
+    <File Path="Dados.dfm"/>
+    <File Path="dados1.pas"/>
+    <File Path="dados1.dfm"/>
+    <File Path="dados2.pas"/>
+    <File Path="dados2.dfm"/>
+    <File Path="dados3.pas"/>
+    <File Path="dados3.dfm"/>
+    <File Path="IntDatas.pas"/>
+    <File Path="IntDatas.dfm"/>
+    <File Path="limitecredito.pas"/>
+    <File Path="limitecredito.dfm"/>
+    <File Path="lkClientes.pas"/>
+    <File Path="lkClientes.dfm"/>
+    <File Path="lkProdutos.pas"/>
+    <File Path="lkProdutos.dfm"/>
+    <File Path="prevenda1.pas"/>
+    <File Path="prevenda1.dfm"/>
+    <File Path="Rotinas.pas"/>
+    <File Path="senha.pas"/>
+    <File Path="senha.dfm"/>
+    <File Path="senhavendedor.pas"/>
+    <File Path="senhavendedor.dfm"/>
+    <File Path="tipoCli.pas"/>
+    <File Path="tipoCli.dfm"/>
+    <File Path="ufrconprevenda.pas"/>
+    <File Path="ufrconprevenda.dfm"/>
+    <File Path="ufrconsultapreco.pas"/>
+    <File Path="ufrconsultapreco.dfm"/>
+    <File Path="vias.pas"/>
+    <File Path="vias.dfm"/>
+    <File Path="ufrConfiguracao.pas"/>
+    <File Path="ufrConfiguracao.dfm"/>
+  </ProjectSortOrder>
+</BorlandProject>

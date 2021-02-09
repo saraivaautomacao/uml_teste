@@ -1,0 +1,64 @@
+-  Solucao: Resover problema de duplicidade. (teste)
+
+1 - Limpar as tabelas de receita/receita1 (Verificar junto ao cliente para finalizar as prevendas)
+2 - na tabela receita modificar o campo orcamento (auto incremento) conforme script abaixo. (usar ibexpert)
+3-  atualizar os executaveis prevenda_all
+-------------------------------------------------------------------------------------
+
+CREATE GENERATOR GEN_RECEITA_ID;
+
+CREATE TABLE RECEITA (
+    ORCAMENTO   INTEGER NOT NULL,
+    NOME        VARCHAR(40),
+    ENDERECO    VARCHAR(40),
+    OBSERVACAO  VARCHAR(40),
+    TOTAL       NUMERIC(15,4),
+    FORMAPAGTO  VARCHAR(20),
+    HAVER       NUMERIC(15,4),
+    SELECAO     CHAR(1),
+    LKVEND      INTEGER,
+    DOCUMENTO   VARCHAR(30),
+    DESCONTO    NUMERICO DEFAULT 0 /* NUMERICO = NUMERIC(12,4) DEFAULT 0 */,
+    DATA        DATE,
+    HORA        TIME,
+    LKCLIENTE   VARCHAR(8)
+);
+
+
+
+
+/******************************************************************************/
+/****                             Primary keys                             ****/
+/******************************************************************************/
+
+ALTER TABLE RECEITA ADD CONSTRAINT RECEITA_PRIMARY PRIMARY KEY (ORCAMENTO);
+
+
+/******************************************************************************/
+/****                               Triggers                               ****/
+/******************************************************************************/
+
+
+
+SET TERM ^ ;
+
+
+
+/******************************************************************************/
+/****                         Triggers for tables                          ****/
+/******************************************************************************/
+
+
+
+/* Trigger: RECEITA_BI */
+CREATE OR ALTER TRIGGER RECEITA_BI FOR RECEITA
+ACTIVE BEFORE INSERT POSITION 0
+as
+begin
+  if (new.orcamento is null) then
+    new.orcamento = gen_id(gen_receita_id,1);
+end
+^
+
+SET TERM ; ^
+

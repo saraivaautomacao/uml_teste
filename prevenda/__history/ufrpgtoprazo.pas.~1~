@@ -1,0 +1,52 @@
+unit ufrpgtoprazo;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ToolEdit, RXSpin, Mask, CurrEdit, ACBrBase,
+  ACBrEnterTab;
+
+type
+  TfrPgtoPrazo = class(TForm)
+    Label1: TLabel;
+    edValorParcela: TCurrencyEdit;
+    edNumParcelas: TRxSpinEdit;
+    Label2: TLabel;
+    edVencimento: TDateEdit;
+    Label3: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    ACBrEnterTab1: TACBrEnterTab;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frPgtoPrazo: TfrPgtoPrazo;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrPgtoPrazo.FormShow(Sender: TObject);
+Var
+  Ano,mes,dia:Word;
+begin
+
+   Decodedate(date,ano,mes,dia);
+   inc(mes);
+   If Mes=13 Then
+   begin
+      inc(ano);
+      Mes:=1;
+   end;
+   edNumParcelas.value:=1;
+   edNumParcelas.setfocus;
+   edVencimento.Date:=Encodedate(ano,mes,dia);
+end;
+
+end.

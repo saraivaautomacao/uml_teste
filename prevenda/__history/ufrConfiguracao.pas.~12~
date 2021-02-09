@@ -1,0 +1,206 @@
+unit ufrConfiguracao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,inifiles, Vcl.StdCtrls, Vcl.ExtCtrls, LabeledCtrls,rdprint,
+  Vcl.Buttons, Vcl.Mask, JvExMask, JvToolEdit, JvExStdCtrls, JvButton, JvCtrls, JvExButtons,
+  JvBitBtn, Vcl.Imaging.jpeg, ACBrBase, ACBrEnterTab, JvBaseEdits,ACBrPosPrinter;
+
+type
+  TfrmConfiguracao = class(TForm)
+    GroupBox1: TGroupBox;
+    editPrinter: TLabeledMaskEdit;
+    cbxModelo: TLabeledComboBox;
+    botaoConfirma: TJvBitBtn;
+    botaoCancela: TJvImgBtn;
+    GroupBox2: TGroupBox;
+    Label5: TLabel;
+    editNomeIpServidor: TEdit;
+    Label4: TLabel;
+    editBaseDados: TJvFilenameEdit;
+    botaoTestarBalcao: TSpeedButton;
+    editPorta: TEdit;
+    Label1: TLabel;
+    btDaruma: TBitBtn;
+    imgFireBirdBalcao: TImage;
+    ACBrEnterTab1: TACBrEnterTab;
+    GroupBox3: TGroupBox;
+    editHorizontal: TLabeledCalcEdit;
+    editVertical: TLabeledCalcEdit;
+    Button1: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure botaoTestarBalcaoClick(Sender: TObject);
+    procedure btDarumaClick(Sender: TObject);
+    procedure botaoConfirmaClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    procedure GravarConfiguracao;
+    procedure LerConfiguracao;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfiguracao: TfrmConfiguracao;
+
+implementation
+
+{$R *.dfm}
+
+uses Dados,rotinas;
+
+
+
+procedure TfrmConfiguracao.botaoConfirmaClick(Sender: TObject);
+begin
+    gravarconfiguracao;
+    modalresult:=mrok;
+end;
+
+procedure TfrmConfiguracao.botaoTestarBalcaoClick(Sender: TObject);
+begin
+      dmMod.fdConPrinc.Connected := False;
+     try
+       dmMod.fdConPrinc.Params.DriverID:='FB';
+       dmMod.fdConPrinc.params.database:=editBaseDados.text;
+       dmMod.fdConPrinc.params.Add('server='+ editNomeIpServidor.text);
+       dmMod.fdConPrinc.params.Add('port='+editPorta.text);
+       dmMod.fdConPrinc.params.Add('user_name=SYSDBA');
+       dmMod.fdConPrinc.params.Add('password=masterkey');
+       botaoConfirma.Enabled := True;
+     except
+        on E: Exception do
+        Begin
+          MessageDlg('Erro ao conectar!'#13'Erro: ' + E.Message, mtError, [mbOK],  0);
+          botaoConfirma.Enabled := False;
+          exit;
+        End;
+     end;
+     Application.MessageBox('Conexão realizada com sucesso!', 'Informação do Sistema', MB_OK + MB_ICONINFORMATION);
+     gravarconfiguracao;
+end;
+
+procedure TfrmConfiguracao.btDarumaClick(Sender: TObject);
+
+var
+    Memo:TStringList;
+begin
+
+  with dmmod do
+  begin
+     try
+        Memo:=TStringList.Create;
+
+        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo( 1 );
+
+        ACBrPosPrinter1.Porta:= editPrinter.text;
+        If   AvancoLinha>0 then
+          ACBrPosPrinter1.CortaPapel := false
+       Else
+           ACBrPosPrinter1.CortaPapel := true;
+
+       memo.Clear;
+      // Memo.Add('<e>');
+       Memo.Add('');
+       memo.add('    TESTE DE IMPRESSAO');
+
+       // Desliga Expandido... ESC dc4
+
+       memo.add('--------------------------------------------');
+       memo.add('            SARAIVA AUTOMACAO               ');
+       memo.add('           Vr. Jose Veras, 1341             ');
+       memo.add('                Crateus-Ceara               ');
+       memo.add('---------------------------------------------');
+       memo.add('Cod  Produto      Quant    Unitário    Total');
+       memo.add('---------------------------------------------');
+       memo.add('001  PRODUTO UM      1,0      17,50     17,50');
+       memo.add('002  PRODUTO DOIS   1,0 CX    5,60      5,60');
+       memo.add('003  PRODUTO TREIS   2,0 CX    5,00     10,00');
+       memo.add('---------------------------------------------');
+       // Liga Negrito... ESC F
+
+       memo.add('     TOTAL                   R$        33,10');
+       // Desliga Negrito... ESC H
+
+       memo.add('     Dinheiro                R$        50,00');
+       memo.add('                             ---------------');
+       memo.add('     Troco                   R$        16,90');
+       Memo.Add('');
+       Memo.Add('');
+       Memo.Add('');
+       //Memo.Add('</fn>');
+       Memo.Add('</corte_total>');
+       ACBrPosPrinter1.ativar;
+       ACBrPosPrinter1.Imprimir(memo.Text);
+       ACBrPosPrinter1.Desativar;
+     finally
+       FreeAndNil(memo);
+     end;
+  end;
+end;
+
+
+
+
+
+
+
+
+procedure TfrmConfiguracao.Button1Click(Sender: TObject);
+begin
+   GravarConfiguracao;
+   Application.MessageBox('Necessário iniciar o sistema!', 'Informação do Sistema', MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure TfrmConfiguracao.FormShow(Sender: TObject);
+begin
+  lerConfiguracao;
+end;
+
+procedure TfrmConfiguracao.GravarConfiguracao;
+Var
+   Ini     : TIniFile ;
+   StreamMemo : TMemoryStream;
+begin
+  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+ 'prevenda.ini');
+  try
+      Ini.WriteString( 'impressora','modelo' , cbxModelo.text) ;
+      Ini.WriteString( 'impressora','printername' ,editPrinter.text) ;
+
+      Ini.WriteString( 'conexao','hostname' ,editNomeIpServidor.text) ;
+      Ini.WriteString( 'conexao','port' ,editPorta.text) ;
+      Ini.WriteString( 'conexao','database' ,editBaseDados.text) ;
+      Ini.WriteInteger('Resolucao','horizontal' ,Trunc(editHorizontal.value)) ;
+      Ini.WriteInteger('Resolucao','vertical' ,Trunc(editVertical.value)) ;
+      //ShowMessage('Configurado com sucesso');
+  finally
+     Ini.Free ;
+  end;
+
+end;
+
+procedure TfrmConfiguracao.LerConfiguracao;
+Var
+    Ini     : TIniFile ;
+begin
+  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+ 'prevenda.ini');
+
+  try
+      cbxModelo.ItemIndex:=cbxModelo.items.indexof(Ini.ReadString( 'impressora','Modelo' ,'')) ;
+      editPrinter.text  := Ini.ReadString( 'impressora','printername' ,'') ;
+
+      editNomeIpServidor.text:=Ini.ReadString( 'conexao','hostname' ,'') ;
+      editPorta.text:=Ini.ReadString('conexao','port','');
+      editBaseDados.text:=Ini.ReadString('conexao','database','');
+      editHorizontal.value:=Ini.ReadInteger('resolucao','horizontal',1366);
+      editVertical.value:=Ini.ReadInteger('resolucao','vertical',768);
+  finally
+     Ini.Free ;
+  end;
+end;
+
+
+end.

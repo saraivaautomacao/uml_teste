@@ -1,0 +1,1774 @@
+unit rotinas;
+
+interface
+
+Uses
+ bde,db,dbtables, Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,qrctrls,
+  ExtCtrls, Menus, Buttons, ComCtrls,stdctrls,jpeg,
+  dados2,extdlgs,Typinfo,printers,winspool,configuracaoVo,usuariovo;
+
+function Alltrim(const Search: string): string;
+Procedure ModoEdicao(Banco:TDataSet);
+Function Confirma(Mensagem:Pchar):Integer;
+Procedure Mensagem(Mensagem:Pchar);
+Function Estado(Banco:TDataSet):Boolean;
+Function Moedas(Valor:Currency;unid:String):Integer;
+Function Extenso(nN: Real): ShortString;
+Function StrZero(Valor:Real;Digitos:Integer):String;
+Procedure ATualiza(Banco:TDataSet;Tipo:Integer);
+Procedure Inicializa(b1,b2,b3,b4,b5:TSpeedButton);
+Function Soma(Banco:TDataSet;Campo:String):String;
+Procedure Verifica(dsTemp:TDataSource);
+Procedure CommitTab(Banco:TDataSet);
+Function Cgc(xCGC:String):Boolean;
+Function Cpf(xCpf:String):Boolean;
+Function ReverseStr(S:ShortString):ShortString;
+Function RightStr(StrX:String;IntX:ShortInt):String;
+Function ValidCartao(Const s:String):Boolean;
+Procedure FechaIndice(Banco:TDataSet);
+Function TotalReg(Banco:TDataSet):Integer;
+Procedure CloseAll(modulo:TdataModule;Indice,Filtro:Boolean);
+Procedure SaidaForm(Banco:TDataset);
+procedure Excecao(Sender: TObject; E: Exception);
+Function TipoString(Texto:String):Boolean;
+Function AbreviaNomes(Nome:String):String;
+Function AutoIncrementoManual(Const pAlias:String; pTabela:String; pCampo:String):Integer;
+Function Soma1(Banco:TDataSet;Campo:String):Variant;
+Function UltimodoMes(Mes,Ano:Word):TDateTime;
+Function PrinterOnLine : Boolean;
+Procedure Imprime(Linha:String;Avanco:Boolean;Destino:String);
+Function TamStr(Texto:String;N:SmallInt;Direcao:Char):String;
+Procedure  Daruma_Erro(I:Integer);
+
+Function TiraPonto(Valor:String):String;
+function SysComputerName: string;
+Procedure GeraEt(Banco:TDataset;Campo1:String;Campo2:String;Campo3:String;Quant:Integer);
+
+function FullFill(Str:String;FLen:byte;symb:char):string;
+function NumeroSerie(Unidade:PChar):String;
+Function GeraCod(Valor:String;N:SmallInt):String;
+function ReplChar(const Ch: Char; const Len: integer): string;
+function PadL(const S: string; const Len: integer; const Ch: Char): string;
+function PadR(const S: string; const Len: integer; const Ch: Char): string;
+function GetBiosInfoAsText: string;
+function PasswordInputBox(const ACaption, APrompt:string): string;
+procedure EnDecryptFile(INFName, OutFName : String; Chave : Word);
+Function SerialNum(FDrive:String) :String;
+Function Codifica1(Senha: String): String;
+function EliminarFormatacao(sTexto:String):String;
+Procedure FiltraPeriodo(Banco:TDataSet;Data1:TDateTime;Data2:TDateTime;Mens:TLabel);
+Function OnLine(Porta:Word):Boolean;
+function GetBuildInfo:string;
+function MesExtenso( Mes:Word ) : string; const meses : array[0..11] of PChar = ('Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro', 'Novembro', 'Dezembro');
+Procedure Le_Imagem_JPEG(Campo:TBlobField; Foto:TImage);
+Function GeraCodigo(campo:String):Integer;
+Function ImpFIscalModelo(Banco:TDataset):Char;
+Procedure Grava_Imagem_JPEG(Tabela:TTable; Campo:TBlobField;
+Foto:TImage; Dialog:TOpenPictureDialog);
+Procedure Le_Imagem_JPEG_Rel(Campo:TBlobField; Foto:TQrImage);
+Procedure GeraEt1(Banco:TDataset;Campo1:String;Campo11:String;Campo2:String;Campo3:String;Quant:Integer);
+function RemoveChar(Const Texto:String):String;
+procedure AtribuiProp(Comp: TComponent; Const PropName: string; Val: string);
+function AchaComponente(Nome: string; F: TForm): TComponent;
+function LeProp(Comp: TComponent; Const PropName: string): string;
+Procedure PesquisaAvancada(Tabela:TdataSet;Campo,Valor:String);
+function VerImpressoraONLINE: Cardinal;
+Procedure Log(mensagem:String);
+Function MenorDataValida (Ano, Mes, Dia : Word) : TDateTime;
+Function PegaSysDir: string;
+Function FCnfSenha(senha:string):string;
+function RetZero(ZEROS:string;QUANT:integer):String;
+
+
+Const
+   Incluir = 1;
+   Gravar  = 2;
+   Excluir = 3;
+   Cancelar= 4;
+   cJustif = #27#97#51;
+   cEject = #12;
+   { Tamanho da fonte }
+   c10cpi = #18;
+   c12cpi = #27#77;
+   c17cpi = #15;
+   cIExpandido = #14;
+   cFExpandido = #20;
+  { Formatação da fonte }
+  cINegrito = #27#71;
+  cFNegrito = #27#72;
+  cIItalico = #27#52;
+  cFItalico = #27#53;
+
+
+Var
+  
+  Botoes: Array[1..5] Of tSpeedButton;
+  //Usada para controles gerais
+  Geral:VAriant;
+  Cabecalho,SitCaixa:boolean;
+  //tipo de impressora
+  Rota,Modelo:String;
+  PosRegistro:String;  //informa ultima posicao do registro busca rapida
+  configuracao:TConfiguracaoVo;
+  usuario:TusuarioVo;
+implementation
+
+Uses Dados1,dados3;
+
+
+function RetZero(ZEROS:string;QUANT:integer):String;
+var
+I,Tamanho:integer;
+aux: string;
+begin
+  aux:=zeros;
+  Tamanho:=length(ZEROS);
+  ZEROS:='';
+  If Tamanho>=Quant Then
+  Begin
+    RetZero:=aux;
+    Exit;
+  End;
+  for I:=1 to quant-tamanho do
+  ZEROS:=ZEROS+'0';
+  aux:=aux+zeros;
+  RetZero:=aux;
+end;
+
+function IIf(Expressao: Variant; ParteTRUE, ParteFALSE: Variant): Variant;
+begin
+  if Expressao then
+   Result := ParteTRUE
+  else
+   Result := ParteFALSE;
+end;
+
+
+Function FCnfSenha(senha:string):string;
+var
+
+ i,p,ntam:Longint;
+ cLet,cStr,cnum,cRes:string;
+
+begin
+
+   cnum:= '92547816781692586965';
+   cstr:= '1ABC2DEF3GHI4JKL5MN6PQR7STU8WXY9Z';
+   ntam:= Length(senha);
+   cRes:= '';
+
+   For i:= 1 To ntam do
+    begin
+     clet:= Copy(senha, i, 1);
+     p:= Pos(clet, cstr) + Strtoint(Copy(cnum, i, 1));
+     p:= IIf(p > ntam, p - ntam, p);
+     cRes:= cRes + Copy(cstr, p, 1);
+    end;
+   Result:=cRes;
+
+end;
+
+Function PegaSysDir: string;
+var
+ MeuBuffer: Array [1..128] of Char;
+ retorno: Integer;
+Begin
+ retorno:=GetSystemDirectory(@MeuBuffer,128);
+ if (retorno>128) OR (retorno=0) then
+  PegaSysDir:=''
+ else
+  PegaSysDir:=StrPas(@MeuBuffer);
+End;
+
+
+Function MenorDataValida (Ano, Mes, Dia : Word) : TDateTime;
+Var
+Continua : Boolean;
+DataAux : TDateTime;
+begin
+Continua := True;
+DataAux := date;
+while Continua do
+Try
+DataAux := EncodeDate (Ano, Mes, Dia);
+Continua := False;
+Except
+Dec (Dia);
+End;
+MenorDataValida := DataAux;
+end;
+
+
+Procedure Log(mensagem:String);
+var
+  arquivo:string;
+  arq: TextFile;
+begin
+   Arquivo:='\sge\log'+EliminarFormatacao(DateToStr(date))+'.txt';
+   AssignFile ( arq, Arquivo );
+   If fileExists(arquivo) Then
+   Begin
+       Reset ( arq );
+       Append(Arq);
+   End
+   Else
+      Rewrite ( arq );
+  writeln(arq,tamStr(dateToStr(date),11,'E')+tamStr(mensagem,80,'e')+' '+tamstr(timetostr(time),10,'e'));
+  CloseFile(arq);
+
+end;
+
+
+function GetCurrentPrinterHandle: THandle;
+var
+  Device, Driver, Port : array[0..255] of char;
+   hDeviceMode: THandle;
+begin
+   Printer.GetPrinter(Device, Driver, Port, hDeviceMode);
+   if not OpenPrinter(@Device, Result, nil) then RaiseLastWin32Error;
+end;
+
+function VerImpressoraONLINE: Cardinal;
+Begin
+Result:=1;
+End;
+{var
+  hPrinter  : THandle;
+  pInfo:  PPrinterInfo2;
+  bytesNeeded: DWORD;
+begin
+  hprinter := GetCurrentPrinterHandle;
+  try
+    Winspool.GetPrinter( hPrinter, 2, Nil, 0, @bytesNeeded );
+    pInfo := AllocMem( bytesNeeded );
+    try
+      Winspool.GetPrinter( hPrinter, 2, pInfo, bytesNeeded, @bytesNeeded );
+       Result := pInfo^.Status;
+       ShowmEssage(IntToStr(Result));
+    finally
+      FreeMem( pInfo );
+    end;
+  finally
+    ClosePrinter( hPrinter );
+  end;}
+
+
+Procedure PesquisaAvancada(Tabela:TdataSet;Campo,Valor:String);
+var
+PrStr : String; // Vai obter o texto de Edit1.Text
+PrTam : Integer; // Tamanho do texto em Edit1.Text
+DbStr : String; // Vai obter o texto no registro da Tabela
+DbTam : Integer; // Tamanho do texto no registro da Tabela
+
+LocalStr : Integer; // Variável de Localização na String
+Continua : String; // Variável de Controle no Loop
+begin
+Tabela.First;
+Tabela.DisableControls;
+
+PrStr:=TrimRight(Valor);
+PrTam:=Length(PrStr);
+
+While not Tabela.Eof Do
+Begin
+    DbStr:=TrimRight(Tabela.FieldByname('Produto').AsString);
+    DbTam:=Length(DbStr);
+    LocalStr:=1;
+    continua:='S';
+    While Continua='S' Do
+    Begin
+       If PrStr=Copy(DbStr,LocalStr,PrTam) Then
+         Continua:='N'
+       else
+       Begin
+          LocalStr:=LocalStr+1;
+          Continua:='S';
+          If (LocalStr+PrTam)>(DbTam+1) Then
+               Break;
+       end;
+    end;
+    If Continua='N' Then
+    Begin
+      Break;
+    End;
+    Tabela.Next;
+
+end;
+If tabela.Eof Then
+   Mensagem('referência não encontrada');
+Tabela.EnableControls;
+end;
+
+
+ function AchaComponente(Nome: string; F: TForm): TComponent;
+var
+i: integer;
+C: TComponent;
+begin
+Result := nil;
+// Converte nome para maiúscula
+Nome := UpperCase(Nome);
+// Varre o formulário à procura do componente
+for i := 0 to F.ComponentCount - 1 do
+begin
+C := F.Components[i];
+// O nome está correto?
+if UpperCase(C.Name) = Nome then
+begin
+// Retorna o componente
+Result := C;
+// Sai do loop
+exit;
+end;
+end;
+end;
+
+// Atibui propriedade ao componente, dado seu valor como string
+procedure AtribuiProp(Comp: TComponent; Const PropName: string; Val: string);
+var
+PInfo: PPropInfo;
+begin
+// Pega informações de tipo da propriedade
+PInfo := GetPropInfo(Comp.ClassInfo, PropName);
+// Achou?
+if PInfo <> nil then
+begin
+// Trata conforme o tipo
+case PInfo^.Proptype^.Kind of
+tkInteger: SetOrdProp(Comp, PInfo, StrToInt(Val));
+tkChar, tkWChar: SetOrdProp(Comp, PInfo, ord(Val[1]));
+tkEnumeration: SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType^, Val));
+tkFloat: SetFloatProp(Comp, PInfo, StrToFloat(Val));
+tkString, tkLString, tkWString: SetStrProp(Comp, PInfo, Val);
+tkVariant: SetVariantProp(Comp, PInfo, Val);
+tkInt64: SetInt64Prop(Comp, PInfo, StrToInt64(Val));
+else
+ShowMessage('Este tipo não é suportado por este programa');
+end;
+end
+else
+ShowMessage('Propriedade não achada');
+end;
+
+// Lê valor da propriedade do componente
+function LeProp(Comp: TComponent; Const PropName: string): string;
+var
+PInfo: PPropInfo;
+begin
+Result := '';
+// Pega informações de tipo da propriedade
+PInfo := GetPropInfo(Comp.ClassInfo, PropName);
+// Achou?
+if PInfo <> nil then
+begin
+// Trata conforme o tipo
+case PInfo^.Proptype^.Kind of
+tkInteger: Result := IntToStr(GetOrdProp(Comp, PInfo));
+tkChar, tkWChar: Result := char(GetOrdProp(Comp, PInfo));
+tkEnumeration: Result := GetEnumName(PInfo^.PropType^, GetOrdProp(Comp, PInfo));
+tkFloat: Result := FloatToStr(GetFloatProp(Comp, PInfo));
+tkString, tkLString, tkWString: Result := GetStrProp(Comp, PInfo);
+tkVariant: GetVariantProp(Comp, PInfo);
+tkInt64: Result := IntToStr(GetInt64Prop(Comp, PInfo));
+else
+ShowMessage('Este tipo não é suportado por este programa');
+end;
+end
+else
+ShowMessage('Propriedade não achada');
+end;
+
+function RemoveChar(Const Texto:String):String;
+//
+// Remove caracteres de uma string deixando apenas numeros
+//
+var
+I: integer;
+S: string;
+begin
+S := '';
+for I := 1 To Length(Texto) Do
+begin
+if (Texto[I] in ['0'..'9']) then
+begin
+S := S + Copy(Texto, I, 1);
+end;
+end;
+result := S;
+end;
+
+Procedure GeraEt1(Banco:TDataset;Campo1:String;Campo11:String;Campo2:String;Campo3:String;Quant:Integer);
+Var
+  Cont:Integer;
+Begin
+  For Cont:=1 To Quant Do
+  Begin
+     Banco.Append;
+     Banco.FieldByName('Descricao1').AsString:=copy(Campo1,1,32);
+     Banco.FieldByName('Descricao2').AsString:=Copy(Campo2,1,32);
+     Banco.FieldByName('Descricao3').AsString:=Copy(Campo3,1,32);
+     Banco.FieldByName('Descricao4').AsString:=Copy(campo11,1,32);
+     Banco.Post;
+  End;
+End;
+
+Procedure Grava_Imagem_JPEG(Tabela:TTable; Campo:TBlobField;
+Foto:TImage; Dialog:TOpenPictureDialog);
+var BS:TBlobStream;
+MinhaImagem:TJPEGImage;
+Begin
+Dialog.InitialDir := 'c:\sge';
+Dialog.Execute;
+if Dialog.FileName <> '' Then
+Begin
+if not (Tabela.State in [dsEdit, dsInsert]) Then
+Tabela.Edit;
+BS := TBlobStream.Create((Campo as TBlobField), BMWRITE);
+MinhaImagem := TJPEGImage.Create;
+MinhaImagem.LoadFromFile(Dialog.FileName);
+MinhaImagem.SaveToStream(BS);
+Foto.Picture.Assign(MinhaImagem);
+BS.Free;
+MinhaImagem.Free;
+//Tabela.Post;
+//DBISaveChanges(Tabela.Handle);
+End;
+End;
+
+
+Function ImpFIscalModelo(Banco:TDataset):Char;
+Begin
+   If Not Banco.Active    Then
+     Banco.Open;
+   If Banco.FieldByName('modelo').AsString='Daruma Sigtron 345' Then
+      Result:='0'
+   Else If  Banco.FieldByName('modelo').AsString='Bematech' Then
+      Result:='1'
+   Else If Banco.FieldByName('modelo').AsString='Zanthus' Then
+      Result:='2';
+End;
+
+function MesExtenso( Mes:Word ) : string; const meses : array[0..11] of PChar = ('Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro','Outubro', 'Novembro', 'Dezembro');
+begin
+result := meses[mes-1];
+End;
+
+Function GeraCodigo(campo:String):Integer;
+Begin
+    Result:=dmMod2.tbCodigo.FieldByname(campo).ASInteger;
+    dmMod2.tbCodigo.Edit;
+
+    dmMod2.tbCodigo.FieldByname(campo).ASInteger:=dmMod2.tbCodigo.FieldByname(campo).ASInteger
+    +1;
+    dmMod2.tbCodigo.Post;
+    DBISaveChanges(dmMod2.tbCodigo.Handle);
+    dmMod2.tbCodigo.FlushBuffers;
+    dmMod2.tbCodigo.Refresh;
+End;
+
+
+Procedure Le_Imagem_JPEG_Rel(Campo:TBlobField; Foto:TQrImage);
+var BS:TBlobStream;
+MinhaImagem:TJPEGImage;
+Begin
+if Campo.AsString <> '' Then
+Begin
+BS := TBlobStream.Create((Campo as TBlobField), BMREAD);
+MinhaImagem := TJPEGImage.Create;
+MinhaImagem.LoadFromStream(BS);
+Foto.Picture.Assign(MinhaImagem);
+BS.Free;
+MinhaImagem.Free;
+End
+Else Foto.Picture.LoadFromFile('');
+End;
+Procedure Le_Imagem_JPEG(Campo:TBlobField; Foto:TImage);
+var BS:TBlobStream;
+MinhaImagem:TJPEGImage;
+Begin
+if Campo.AsString <> '' Then
+Begin
+BS := TBlobStream.Create((Campo as TBlobField), BMREAD);
+MinhaImagem := TJPEGImage.Create;
+MinhaImagem.LoadFromStream(BS);
+Foto.Picture.Assign(MinhaImagem);
+BS.Free;
+MinhaImagem.Free;
+End
+Else Foto.Picture.LoadFromFile('');
+End;
+
+function GetBuildInfo:string;
+var
+VerInfoSize: DWORD;
+VerInfo: Pointer;
+VerValueSize: DWORD;
+VerValue: PVSFixedFileInfo;
+Dummy: DWORD;
+V1, V2, V3, V4: Word;
+Prog : string;
+begin
+Prog := Application.Exename;
+VerInfoSize := GetFileVersionInfoSize(PChar(prog), Dummy);
+GetMem(VerInfo, VerInfoSize);
+GetFileVersionInfo(PChar(prog), 0, VerInfoSize, VerInfo);
+VerQueryValue(VerInfo, '\', Pointer(VerValue), VerValueSize);
+with VerValue^ do
+  begin
+  V1 := dwFileVersionMS shr 16;
+  V2 := dwFileVersionMS and $FFFF;
+  V3 := dwFileVersionLS shr 16;
+  V4 := dwFileVersionLS and $FFFF;
+  end;
+FreeMem(VerInfo, VerInfoSize);
+result := Copy (IntToStr (100 + v1), 3, 2) + '.' + 
+  Copy (IntToStr (100 + v2), 3, 2) + '.' + 
+  Copy (IntToStr (100 + v3), 3, 2) + '.' + 
+  Copy (IntToStr (100 + v4), 3, 2);
+end;
+Function OnLine(Porta:Word):Boolean;
+bEGIN
+{Const
+Portas :Byte = $02;
+Var
+Res :Byte;
+Begin
+Try
+
+Asm
+mov ah,Portas;
+mov dx,Porta;
+Int $17;
+mov Res,ah;
+end;
+Except
+   Result:=true;
+
+END;}
+//Result := (Res and $80) = $80; {Testa o valor de saída}
+  Result:=true;
+End;
+
+
+Procedure FiltraPeriodo(Banco:TDataSet;Data1:TDateTime;Data2:TDateTime;Mens:TLabel);
+Begin
+  (Banco).Close;
+  (Banco AS TQuery).Params[0].ASDateTime:=Data1;
+  (Banco AS TQuery).Params[1].ASDateTime:=Data2;
+  BAnco.Open;
+  Mens.CAption:='De '+DateToStr(data1)+' até '+DateToStr(data2);
+
+End;
+function EliminarFormatacao(sTexto:String):String;
+var
+iPos : Integer;
+iTamanho : Integer;
+sTextoSemFormato : String;
+sCaractere : String;
+sCaracMascaras : String;
+begin
+Result := sTexto;
+if sTexto = ''  then
+begin
+Exit;
+end;
+sTextoSemFormato := '';
+sCaracMascaras := './><_+=[]{}()-$&@*';
+iTamanho := Length(sTexto);
+for iPos := 1 to iTamanho do
+begin
+sCaractere := Copy(sTexto,iPos,1);
+if Pos(sCaractere,sCaracMascaras) = 0 then
+begin
+sTextoSemFormato := sTextoSemFormato + sCaractere;
+end; end;
+Result := sTextoSemFormato;
+end;
+
+Function Codifica1(Senha: String): String;
+Var
+  nX: Integer;
+  cCod: String[9];
+  cLetra:Char;
+Begin
+  If Length(Senha)<9 Then
+    For nX:=Length(Senha)+1 To 9 Do
+        Senha:=Senha+' ';
+  cCod:=Senha;
+  Senha:='';
+  For nX:=9 DownTo 1 Do
+     Senha:=Senha+Copy(cCod,nX,1);
+  Senha:=Copy(Senha,4,3)+Copy(Senha,1,3)+Copy(Senha,7,3);
+  cCod:='';
+  For nX:=1 To 9 Do
+  Begin
+    If nX/2=Int(nX/2) Then
+    Begin
+        IF Ord(Senha[nX])=255 Then
+          cCod:=cCod+Chr(0)
+       Else
+          cCod:=cCod+Chr(Ord(Senha[nX])+1);
+    End
+    Else
+    Begin
+       If Ord(Senha[Nx])=0 Then
+          cCod:=cCod+CHR(255)
+       Else
+          cCod:=cCod+Chr(Ord(Senha[nX])-1)
+    End;
+  End;
+  Codifica1:=cCod;
+End;
+
+procedure EnDecryptFile(INFName, OutFName : String; Chave : Word);
+var
+InMS, OutMS : TMemoryStream;
+I : Integer;
+C : byte;
+begin
+InMS := TMemoryStream.Create;
+OutMS := TMemoryStream.Create;
+try
+InMS.LoadFromFile(INFName);
+InMS.Position := 0;
+for I := 0 to InMS.Size - 1 do
+begin
+InMS.Read(C, 1);
+C := (C xor not(ord(chave shr I)));
+OutMS.Write(C,1);
+end;
+OutMS.SaveToFile(OutFName);
+finally
+InMS.Free;
+OutMS.Free;
+end;
+end;
+
+Function SerialNum(FDrive:String) :String;
+Var
+Serial:DWord;
+DirLen,Flags: DWord;
+DLabel : Array[0..11] of Char;
+begin
+Try GetVolumeInformation(PChar(FDrive+':\'),dLabel,12,@Serial,DirLen,Flags,nil,0);
+Result := IntToHex(Serial,8);
+Except Result :='';
+end;
+end;
+
+
+function PasswordInputBox(const ACaption, APrompt:string): string;
+var
+  Form: TForm;
+  Prompt: TLabel;
+  Edit: TEdit;
+  DialogUnits: TPoint;
+  ButtonTop, ButtonWidth, ButtonHeight: Integer;
+  Value: string;
+  I: Integer;
+  Buffer: array[0..51] of Char;
+begin
+  Result := '';
+  Form := TForm.Create(Application);
+  with Form do
+  try
+    Canvas.Font := Font;
+    for I := 0 to 25 do Buffer[I] := Chr(I + Ord('A'));
+    for I := 0 to 25 do Buffer[I + 26] := Chr(I + Ord('a'));
+    GetTextExtentPoint(Canvas.Handle, Buffer, 52, TSize(DialogUnits));
+    DialogUnits.X := DialogUnits.X div 52;
+    BorderStyle := bsDialog;
+    Caption := ACaption;
+    ClientWidth := MulDiv(180, DialogUnits.X, 4);
+    ClientHeight := MulDiv(63, DialogUnits.Y, 8);
+    Position := poScreenCenter;
+    Prompt := TLabel.Create(Form);
+    with Prompt do
+    begin
+      Parent := Form;
+      AutoSize := True;
+      Left := MulDiv(8, DialogUnits.X, 4);
+      Top := MulDiv(8, DialogUnits.Y, 8);
+      Caption := APrompt;
+    end;
+    Edit := TEdit.Create(Form);
+    with Edit do
+    begin
+      Parent := Form;
+      Left := Prompt.Left;
+      Top := MulDiv(19, DialogUnits.Y, 8);
+      Width := MulDiv(164, DialogUnits.X, 4);
+      MaxLength := 255;
+      PasswordChar := '*';
+      SelectAll;
+    end;
+    ButtonTop := MulDiv(41, DialogUnits.Y, 8);
+    ButtonWidth := MulDiv(50, DialogUnits.X, 4);
+    ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
+    with TButton.Create(Form) do
+    begin
+      Parent := Form;
+      Caption := 'OK';
+      ModalResult := mrOk;
+      Default := True;
+      SetBounds(MulDiv(38, DialogUnits.X, 4),ButtonTop, ButtonWidth,ButtonHeight);
+    end;
+    with TButton.Create(Form) do
+    begin
+      Parent := Form;
+      Caption := 'Cancel';
+      ModalResult := mrCancel;
+      Cancel := True;
+      SetBounds(MulDiv(92, DialogUnits.X, 4),ButtonTop, ButtonWidth,ButtonHeight);
+    end;
+    if ShowModal = mrOk then
+    begin
+      Value := Edit.Text;
+      Result := Value;
+    end
+    Else
+      Result:='';
+  finally
+    Form.Free;
+    Form:=nil;
+  end;
+end;
+
+function GetBiosInfoAsText: string;
+  var
+  p, q: pchar;
+  begin
+  q := nil;
+  p := PChar(Ptr($FE000));
+  repeat
+  if q <> nil then begin
+  if not (p^ in [#10, #13, ' '..'~' , '©' , '¸' ]) then begin
+  if (p^ = #0) and (p - q >= 8) then begin
+  Result := Result + TrimRight(String(q)) + #13#10;
+  end;
+  q := nil;
+  end;
+  end else
+  if p^ in ['!'..'~' , '©' , '¸' ] then
+  q := p;
+  inc(p);
+  until p > PChar(Ptr($FFFFF));
+  Result := TrimRight(Result);
+  end;
+
+function ReplChar(const Ch: Char; const Len: integer): string;
+var
+  I: integer;
+begin
+  SetLength(Result, Len);
+  for I := 1 to Len do
+  Result[I] := Ch;
+end;
+
+function PadL(const S: string; const Len: integer; const Ch: Char): string;
+var
+  LenS: integer;
+begin
+  LenS := Length(S);
+  if LenS < Len then
+  Result := ReplChar(Ch, Len - LenS) + S
+  else if LenS > Len then
+  Result := Copy(S, LenS-Len+1, Len)
+  else
+  Result := S;
+end;
+
+function PadR(const S: string; const Len: integer; const Ch: Char): string;
+var
+  LenS: integer;
+begin
+  LenS := Length(S);
+  if LenS < Len then
+  Result := S + ReplChar(Ch, Len - LenS)
+  else if LenS > Len then
+  Result := Copy(S, 1, Len)
+  else
+  Result := S;
+end;
+
+
+
+Function GeraCod(Valor:String;N:SmallInt):String;
+Begin
+  Result:=Valor;
+  If (length(Alltrim(Valor))=0) or (Length(Alltrim(Valor))>n)  Then
+       Exit;
+
+
+  If  TipoString(Valor)  Then
+      If Length(Valor)<=n Then
+        Result:=StrZero((StrToFloat(Valor)),n);
+End;
+
+
+function NumeroSerie(Unidade:PChar):String;
+{Retorna o Número serial da unidade especificada}
+var
+VolName,SysName : AnsiString;
+SerialNo,MaxCLength,FileFlags : DWord;
+begin
+try
+  SetLength(VolName,255);
+  SetLength(SysName,255);
+  GetVolumeInformation(Unidade,PChar(VolName),255,@SerialNo,
+  MaxCLength,FileFlags,PChar(SysName),255);
+  result := IntToHex(SerialNo,8);
+except
+  result := ' ';
+end;
+end;
+
+function FullFill(Str:String;FLen:byte;symb:char):string;
+// Preenche o restante da string com um caractere especificado
+var
+ S:String;
+ i:byte;
+begin
+s:=Str;
+if Length(s) >= FLen then
+  begin
+  Result := s;
+  Exit;
+  end;
+for i := Length(s) to FLen do
+  begin
+  S := S + symb;
+  end;
+Result := s;
+end;
+ 
+
+Procedure GeraEt(Banco:TDataset;Campo1:String;Campo2:String;Campo3:String;Quant:Integer);
+Var
+  Cont:Integer;
+Begin
+  For Cont:=1 To Quant Do
+  Begin
+     Banco.Append;
+     Banco.FieldByName('Descricao1').AsString:=Campo1;
+     Banco.FieldByName('Descricao2').AsString:=Campo2;
+     Banco.FieldByName('Descricao3').AsString:=Campo3;
+     Banco.Post;
+  End;
+End;
+Function TamStr(Texto:String;N:SmallInt;Direcao:Char):String;
+Var
+  Cont:Integer;
+  Str:String;
+Begin
+   Result:=Alltrim(Texto);
+   Texto:=Alltrim(texto);
+   Str:='';
+   If Length(Texto)<N Then
+   Begin
+       For Cont:=1 To Abs(Length(Texto)-n) Do
+          Str:=Str+' ';
+       If UpperCase(Direcao)='D' Then
+          Texto:=str+Texto
+       Else If UpperCase(Direcao)='E' Then
+          Texto:=Texto+Str;
+       Result:=Texto;
+   End;
+End;
+
+
+
+//Verifica se impressora ON-Line
+Function PrinterOnLine : Boolean;
+Const
+  PrnStInt : Byte = $17;
+  StRq : Byte = $02;
+  PrnNum : Word = 0; { 0 para LPT1, 1 para LPT2, etc. }
+Var
+  nResult : byte;
+Begin (* PrinterOnLine*)
+  Asm
+  mov ah,StRq;
+  mov dx,PrnNum;
+  Int $17;
+  mov nResult,ah;
+end;
+  PrinterOnLine := (nResult and $80) = $80;
+End;
+
+//impressão direta para impressora
+Procedure Imprime(Linha:String;Avanco:Boolean;Destino:String);
+var
+  F : TextFile;
+begin
+//  While not PrinterOnline() do
+//       Mensagem('Verifique a Impressora!');
+  AssignFile(F,destino);
+  Rewrite(F);
+  If Avanco Then
+    Write(F,Linha,#10#13)
+  Else
+    Write(F,Linha,#13);
+  CloseFile(F);
+end;
+
+
+Function UltimoDoMes(Mes,Ano:Word):TDateTime;
+Begin
+   Inc(Mes);
+   If Mes>12 Then
+   Begin
+      Mes:=1;
+      Inc(Ano);
+   End;
+   Result:=EncodeDate(Ano,Mes,1)-1;
+End;
+
+
+Function AutoIncrementoManual(Const pAlias:String; pTabela:String; pCampo:String):Integer;
+var
+vQry : tQuery;
+int : integer;
+  begin
+  vQry := tQuery.Create(Application);
+  with vQry do begin
+  DatabaseName := pAlias;
+  SQL.Add('Select Max(' + pCampo +') as Proximo');
+  SQL.Add('From '+ pTabela);
+  Open;
+  If FieldByName('Proximo').AsString='' Then
+    Int:=1
+  Else
+    int:= FieldByName('Proximo').asInteger + 1;
+  Result := int;
+  free;
+  end; {with vQry}
+  end;
+ 
+
+Function AbreviaNomes(Nome:String):String;
+Var
+   Nomes:Array[1..20] Of String;
+   i,TotalNomes:Integer;
+Begin
+   Nome:=Trim(Nome);
+   Result:=Nome;
+   //Insere um espaço para garanatir que todas as letras sejam testadas
+   Nome:=Nome+#32;
+   //pega  posição do primeiro espaço
+   i:=Pos(#32,Nome);
+   If i>0 Then
+   Begin
+      TotalNomes:=0;
+      While i>0 Do
+      Begin
+         Inc(TotalNomes);
+         Nomes[TotalNomes]:=Copy(Nome,1,i-1);
+         Delete(Nome,1,i);
+         i:=Pos(#32,Nome);
+      End;
+      If TotalNomes>1 Then
+      Begin
+         //abreviar a partir do segundo nome, exceto o ultimo
+         For i:=1 to TotalNomes Do
+         Begin
+            //contem mais de 3 letras
+            If Length(Nomes[i])>3 Then
+               Nomes[i]:=Nomes[i][1]
+            Else
+               Nomes[i]:='';
+         End;
+         Result:='';
+         For i:=1 To TotalNomes Do
+            Result:=Result+Trim(Nomes[i]);
+         Result:=Trim(Result);
+      End;
+   End;
+End;
+
+
+Function TipoString(Texto:String):Boolean;
+Var
+   Cont:SmallInt;
+begin
+  Result:=False;
+  If Alltrim(Texto)<>'' Then
+  Begin
+    Texto:=Alltrim(Texto);
+    For Cont:=1 To Length(Texto) Do
+    Begin
+       If Not (Texto[Cont] In ['0'..'9']) Then
+       Begin
+          Result:=false;
+          Exit;
+       End;
+    End;
+    Result:=true;
+  End;
+End;
+
+//Usada no fechamento de formalarios p/ tables modificadas
+Procedure SaidaForm(Banco:TDataset);
+Begin
+   If not Banco.Active Then
+      Exit;
+   If Estado(Banco) Then
+     If Confirma('Deseja Salvar Modificações')=idYes Then
+        Banco.Post
+     Else
+        Banco.Cancel;
+End;
+
+
+// Fecha tabelas,Indices e Filtros de todas as tabelas
+// do datamodule
+Procedure CloseAll(modulo:TdataModule;Indice,Filtro:boolean);
+Var
+  I:integer;
+begin
+  for I := 0 to Modulo.ComponentCount - 1 do
+  Begin
+    if (Modulo.Components[I] is TDataSet) then
+    Begin
+      If not ((Modulo.Components[I] As TDataSet).Active) Then
+         Continue;
+    End
+    Else
+       Continue;
+    If (Modulo.Components[I]) Is TTable then
+    Begin
+      //fecha indice caso seja uma tabela
+      If Indice Then
+        (Modulo.Components[I] As TTable).IndexName:='';
+    End;
+    If Filtro Then
+    Begin
+       (Modulo.Components[I] As TDataSet).Filter:='';
+       (Modulo.Components[I] As TDataSet).Filtered:=false;
+    End;
+    //Fecha Table ou Query
+    (Modulo.Components[I] As TDataSet).Active:=false;
+  end;
+end;
+
+Function TotalReg(Banco:TDataSet):Integer;
+Var
+  Total:Integer;
+Begin
+   Total:=0;
+   Check(DBIGetRecordCount((Banco As TTable).Handle,Total));
+   ToTalReg:=Total;
+End;
+
+Procedure FechaIndice(Banco:TDataSet);
+Begin
+   (Banco As TTable).IndexName:='';
+End;
+
+//Valida cartao de credito
+Function ValidCartao(Const s:String):Boolean;
+Var
+   Valor,Soma,Multiplicador,Tamanho,i:Integer;
+Begin
+   Result:=false;
+   Multiplicador:=2;
+   Soma:=0;
+   Tamanho:=Length(Alltrim(S));
+   For I:=1 To Tamanho-1 Do
+   Begin
+     Try
+       Valor:=StrToInt(Copy(S,i,1))*Multiplicador;
+     Except
+       Valor:=0;
+     End;
+     Soma:=Soma+(Valor Div 10)+ (Valor Mod 10);
+     If MultiPlicador=1 Then
+        Multiplicador:=2
+     Else
+        Multiplicador:=1;
+   End;
+   If IntToStr((10-(Soma mod 10)) Mod 10)=Copy(S,Tamanho,1) Then
+      Result:=True;
+End;
+//Inverte uma string
+Function ReverseStr(S:ShortString):ShortString;
+Var
+  I:Integer;
+Begin
+   Result:='';
+   For I:=Length(S) DownTo 1 Do
+      Result:=Result+S[I];
+End;
+
+//Retira caracteres à partir da direita
+Function RightStr(StrX:String;IntX:ShortInt):String;
+Begin
+   RightStr:=ReverseStr(Copy(ReverseStr(StrX),1,IntX));
+End;
+
+//Valida cpf
+Function Cpf(xCpf:String):Boolean;
+Var
+  d1,d4,xx,nCount,resto,digito1,digito2:Integer;
+  Check:String;
+Begin
+   d1:=0;d4:=0;xx:=1;
+   For nCount:=1 To length(xCpf)-2 Do
+   Begin
+     Try
+       If Pos(Copy(xCpf,nCount,1),'/-.')=0 Then
+       Begin
+         d1:=d1+(11-xx)*StrToInt(Copy(xCpf,NCount,1));
+         d4:=d4+(12-xx)*StrToInt(Copy(xCpf,nCount,1));
+         xx:=xx+1;
+       End;
+      Except
+         Exit;
+      End;
+   End;
+   Resto:=(D1 Mod 11);
+   If Resto<2 Then
+      Digito1:=0
+   Else
+      digito1:=11-Resto;
+   D4:=d4+2*Digito1;
+   Resto:= (d4 Mod 11);
+   If Resto<2 Then
+      Digito2:=0
+   Else
+      Digito2:=11-Resto;
+   Check:=IntToStr(Digito1)+IntToStr(Digito2);
+   If Check <> RightStr(xCpf,2) Then
+      Result:=False
+   Else
+      Result:=True;
+End;
+
+//Valida CGC
+Function Cgc(xCgc:String):Boolean;
+Var
+  d1,d4,xx,nCount,Fator,resto,digito1,digito2:Integer;
+  Check:String;
+Begin
+   d1:=0;d4:=0;xx:=1;
+   For nCount:=1 to length(xCgc)-2 Do
+   Begin
+    Try
+      If Pos(Copy(xCgc,nCount,1),'/-.')=0 Then
+      Begin
+         If xx<5 Then
+            Fator:=6-xx
+         Else
+            Fator:=14-xx;
+         d1:=d1+StrToInt(Copy(xCgc,nCount,1))*FAtor;
+         If xx<6 Then
+            FAtor:=7-xx
+         Else
+            Fator:=15-xx;
+         d4:=d4+StrToint(Copy(xCgc,nCount,1))*FAtor;
+         xx:=xx+1;
+       End;
+      Except
+         Exit;
+      End;    
+    End;
+    Resto:=(d1 Mod 11);
+    If Resto<2 Then
+       Digito1:=0
+    Else
+       Digito1:=11-Resto;
+    d4:=d4+2*Digito1;
+    Resto:=(d4 Mod 11);
+    If Resto<2 Then
+       Digito2:=0
+    Else
+       Digito2:=11-Resto;
+    Check:=IntToStr(Digito1)+IntToStr(Digito2);
+    If Check<>RightStr(xCgc,2) Then
+       Result:=False
+    Else
+       Result:=True;
+End;
+
+
+//Atualiza fisicamente o banco de dados
+Procedure CommitTab(Banco:TDataSet);
+Begin
+  DbiSaveChanges((Banco As TTable).Handle);
+
+End;
+
+
+//Verifica estado dos botoes Habilitando/Desabilitando
+Procedure Verifica(dsTemp:TDataSource);
+Begin
+    If (DsTemp.Dataset).Active Then
+    Begin
+       If ((DsTemp.Dataset).ISEmpty) and ((dsTemp.dataset).State In [dsBrowse]) Then
+       Begin
+           Botoes[1].Enabled:=true;
+           Botoes[2].Enabled:=False;
+           Botoes[3].Enabled:=False;
+           Botoes[4].Enabled:=False;
+           Botoes[5].Enabled:=false;
+           dsTemp.AutoEdit:=false;
+           Exit;
+       End;
+    End;
+    If not dsTemp.AutoEdit Then
+       dsTemp.Autoedit:=true;
+    Botoes[2].Enabled:=dsTemp.State In [dsInsert,dsEdit];
+    Botoes[1].Enabled:=Not Botoes[2].Enabled;
+    Botoes[5].Enabled:=Botoes[1].Enabled;
+    Botoes[4].Enabled:=Botoes[2].Enabled;
+    Botoes[3].Enabled:= not (dsTemp.State In [dsInsert,dsEdit]);
+End;
+
+//Inicializa botoes do formulario corrente
+Procedure Inicializa(b1,b2,b3,b4,b5:TSpeedButton);
+Begin
+  Botoes[1]:=b1;
+  Botoes[2]:=b2;
+  Botoes[3]:=b3;
+  Botoes[4]:=b4;
+  Botoes[5]:=b5;
+  Botoes[1].Enabled:=False;
+  Botoes[2].Enabled:=False;
+  Botoes[3].Enabled:=False;
+  Botoes[4].Enabled:=False;
+  Botoes[5].Enabled:=False;
+ End;
+
+//Atauliza o banco de dados conforme operação desejada
+// Incluir, alterar, excluir, cancelar
+Procedure ATualiza(Banco:TDataSet;Tipo:Integer);
+Begin
+    If Tipo=Incluir Then
+       Banco.append
+    Else If Tipo=Gravar Then
+    Begin
+        IF Estado(Banco) Then
+           Banco.Post
+    End
+    Else If Tipo=Excluir Then
+    Begin
+        If (Banco.Eof) and (banco.bof) Then
+             Mensagem('Banco de dados está vazio')
+         Else
+         Begin
+          If Confirma('Confirma Exclusão')=IdYes Then
+             Banco.Delete;
+         End;
+    End
+    Else If Tipo=Cancelar Then
+       banco.Cancel;
+End;
+
+//Efetua soma para um campo monetário
+Function Soma1(Banco:TDataSet;Campo:String):Variant;
+Var
+   Posicao:TBookMark;
+   Soma:Currency;
+Begin
+   Posicao:=Banco.GetBookMark;
+   Banco.DisableControls;
+   Banco.First;
+   Soma:=0;
+   While not Banco.Eof Do
+   Begin
+      Soma:=Soma+Banco.FieldByName(Campo).AsCurrency;
+       Banco.Next;
+   End;
+   Banco.EnableControls;
+   Banco.GotoBookMark(posicao);
+   Banco.FreeBookMark(Posicao);
+   Result:=FloatToStr(Soma); //,ffCurrency,12,2);
+End;
+
+//Efetua soma para um campo monetário
+Function Soma(Banco:TDataSet;Campo:String):String;
+Var
+   Posicao:TBookMark;
+   Soma:Currency;
+Begin
+   Posicao:=Banco.GetBookMark;
+   Banco.DisableControls;
+   Banco.First;
+   Soma:=0;
+   While not Banco.Eof Do
+   Begin
+      Soma:=Soma+Banco.FieldByName(Campo).AsCurrency;
+       Banco.Next;
+   End;
+   Banco.EnableControls;
+   Banco.GotoBookMark(posicao);
+   Banco.FreeBookMark(Posicao);
+   Result:=FloatToStrf(Soma,ffCurrency,12,2);
+End;
+
+//Coloca zeros à esquerda de um número
+Function StrZero(Valor:Real;Digitos:Integer):String;
+Var
+ Cont:Integer;
+Begin
+  Result:=Alltrim(FloatToStr(Valor));
+  If Length(IntToStr(Trunc(Valor)))<Digitos Then
+  Begin
+     For Cont:=1 To Digitos-Length(IntToStr(Trunc(Valor))) Do
+         Result:='0'+Result;
+  End;
+End;
+
+
+
+//Retorna o estado de uma tabela
+Function Estado(Banco:TDataSet):Boolean;
+Begin
+    Result:=(Banco.State IN [dsEdit,dsInsert]);
+End;
+
+// Coloca um a tabela em modo de edição
+Procedure ModoEdicao(Banco:TDataSet);
+Begin
+  If not (Banco.State IN [dsEdit,dsInsert]) Then
+     Banco.Edit;
+End;
+
+//Confirmaçao para uma determinada mensagem
+Function Confirma(Mensagem:PChar):Integer;
+Begin
+    Result:=Application.MessageBox(Mensagem,'Confirmação',
+    mb_YESNO+mb_IconQuestion+mb_DefButton1);
+End;
+
+// Mensagem informativa
+Procedure Mensagem(Mensagem:PChar);
+Begin
+    Application.MessageBox(Mensagem,'Informação',
+    mb_OK+mb_IconInformation);
+End;
+
+//Retira espaços em branco
+Function Rat(cString: ShortString; cSub:ShortString):Integer;
+Var
+  Cont: Integer;
+  Pal,Espacos: String;
+Begin
+  Pal:='';
+  Espacos:='';
+  For Cont:=Length(cString) Downto 1 Do
+  Begin
+     IF cSub=cString[Cont] Then
+     Begin
+        Pal:=cSub;
+        Break;
+     End;
+     If cString[Cont]<>' ' Then
+     Begin
+        Pal:=cString[Cont]+Pal;
+        IF cSub=Copy(Pal,1,Length(csub)) Then
+        Begin
+           Pal:=Copy(Pal,1,Length(csub));
+           Break;
+       End;
+     End
+     Else
+     Begin
+        Espacos:=Espacos+' ';
+        If Espacos=cSub Then
+        Begin
+           Pal:=Espacos;
+           Break;
+        End;
+        Pal:='';
+     End;
+  End;
+  IF cSub=Pal Then
+     Result:=(Length(cString)-Cont)+1
+  Else
+     Result:=0;
+End;
+
+
+function Alltrim(const Search: string): string;
+{Remove os espaços em branco de ambos os lados da string}
+const
+BlackSpace = [#33..#126];
+var
+Index: byte;
+begin
+Index:=1;
+while (Index <= Length(Search)) and not (Search[Index] in BlackSpace) do
+  begin
+  Index:=Index + 1;
+  end;
+Result:=Copy(Search, Index, 255);
+Index := Length(Result);
+while (Index > 0) and not (Result[Index] in BlackSpace) do
+  begin
+  Index:=Index - 1;
+  end;
+Result := Copy(Result, 1, Index);
+end;
+
+//Usado pela função Extenso
+Function Moedas(Valor:Currency;unid:String):Integer;
+Var
+  Decimal:Integer;
+  Valor1:String;
+Begin
+   Result:=0;
+   Valor1:='0000000'+FloatToStrf(VAlor,ffNumber,10,2);
+   //Conta Centavos
+   IF (unid='0.05') or (Unid='0.01') Then
+      Decimal:=StrToInt(Copy(Valor1,Length(Valor1),1))
+   Else If (Unid='0.10') or (Unid='0.50') Then
+      Decimal:=StrToInt(Copy(Valor1,Length(Valor1)-1,1))
+   Else If (Unid='1') or (Unid='5') Then
+      Decimal:=StrToInt(Copy(Valor1,Length(Valor1)-3,1))
+   Else If (Unid='10') or (Unid='50') Then
+       Decimal:=StrToInt(Copy(Valor1,Length(Valor1)-4,1))
+   Else If (Unid='100') Then
+   Begin
+       Decimal:=StrToInt(Copy(Valor1,Length(Valor1)-5,1));
+       Decimal:=Decimal+10*(StrToInt(Copy(Valor1,Length(Valor1)-7,1)));
+       Decimal:=Decimal+10*(StrToInt(Copy(Valor1,Length(Valor1)-8,1)));
+       Decimal:=Decimal+10*(StrToInt(Copy(Valor1,Length(Valor1)-9,1)));
+   End;
+   IF Decimal=0 Then
+   Begin
+      Result:=0;
+      Exit;
+   End;
+   IF (Unid='0.01' ) OR (Unid='0.10') OR (Unid='1')  OR (Unid='10') Then
+   Begin
+     IF Decimal<5 Then
+        Result:=Decimal
+     ELSE IF Decimal>5 Then
+        Result:=Decimal-5;
+   End
+   ELSE IF ((Unid='0.05') OR (Unid='0.50') OR (Unid='5') OR (unid='50')) Then
+   Begin
+      IF Decimal>=5 Then
+        Result:=1;
+   End
+   ELSE IF Unid='100' Then
+      Result:=Decimal
+End;
+
+//Retorna o extenso para determinado valor
+Function Extenso(nN: Real): ShortString;
+Var
+   cDezUnid,cDigUnid,cDigDez,cDigCen,cSing,cPlur,cExt: String;
+   cCn: String;
+   _Proc: Real;
+   nConv, nConty,nVar1,nTam,code: Integer;
+   lVary: Boolean;
+   cProc,nAux: String;
+Begin
+   cDezUnid:='DEZ      ONZE     DOZE     TREZE    QUATORZE QUINZE'+
+             '   DEZESSEISDEZESSETEDEZOITO  DEZENOVE ';
+   cDigUnid:='UM    DOIS  TRES  QUATROCINCO SEIS  SETE  OITO  NOVE  ';
+   cDigDez:='VINTE    TRINTA   QUARENTA CINQUENTASESSENTA SETENTA'+
+            '  OITENTA  NOVENTA  ';
+   cDigCen:='CENTO       DUZENTOS    TREZENTOS   QUATROCENTOSQUINHENTOS'+
+            '  SEISCENTOS  SETECENTOS  OITOCENTOS  NOVECENTOS  ';
+   cSing:='CENTAVO REAL    MIL     MILHAO  BILHAO  TRILHAO ';
+   cPlur:='CENTAVOS REAIS    MIL      MILHOES  BILHOES  TRILHOES ';
+   Str(nN:19:2,cCn);
+   For nConty:= 1 TO Length(cCn) Do
+     If cCn[nConty]<>' ' Then
+         Break;
+   Delete(cCn,1,nConty-1);
+   nVar1:=Length(cCn)-3*Trunc(Length(cCn)/3);
+   IF nVar1<>0 Then
+      For nConty:=1 To 3-nVar1 Do
+         cCn:='0'+cCn;
+   nTam:=Trunc(Length(cCn)/3);
+   nVar1:=nTam;
+   cCn:=Copy(cCn,1,nVar1 * 3 - 3) + '0' + Copy(cCn,nVar1 * 3 - 1,
+        Length(cCn));
+   cExt:='';
+   nConty:=0;
+   lVary:=True;
+   While nVar1>0 Do
+   Begin
+      cProc:=Copy(cCn,nVar1*3-2,3);
+      Val(cProc,_Proc,code);
+     If _Proc<>0 Then
+      Begin
+         If _Proc=1 Then
+            nAux:=Trim(Copy(cSing,(nTam-nVar1)*8+1,8))
+         Else
+            nAux:=Trim(Copy(cPlur,(nTam-nVar1)*9+1,9));
+         IF (Copy(cCn,nTam*3-5,3)='000') And (lVary) And (nVar1<nTam) Then
+         Begin
+             If nTam-nVar1>2 Then
+                nAux:=nAux+' DE REAIS'
+             Else
+                nAux:=nAux+' REAIS';
+             lVary:=False;
+         End;
+         If ''=cExt Then
+            cExt:=nAux+cExt
+         Else
+         Begin
+            If nConty=1 Then
+               cExt:=nAux+' '+cExt
+            Else
+               cExt:=nAux+', '+cExt
+         End;
+         Val(Copy(cProc,3,10),nConv,Code);
+         If Copy(cProc,2,1)='1' Then
+            cExt:=Trim(Copy(cDezUnid,nConv*9+1,9))+' '+cExt
+         Else
+         Begin
+            IF Copy(cProc,3,10)<>'0' Then
+               cExt:=Trim(Copy(cDigUnid,nConv*6-5,6))+
+               ' '+cExt;
+            If Copy(cProc,2,1)<>'0' Then
+            Begin
+               Val(Copy(cProc,2,1),nConv,Code);
+               If Copy(cProc,3,10)='0' Then
+                  cExt:=Trim(Copy(cDigDez,nConv*9-17,9))+' '+cExt
+               Else
+                  cExt:=Trim(Copy(cDigDez,nConv*9-17,9))+
+                  ' E '+cExt
+            End;
+         End;
+         If _Proc>100 Then
+         Begin
+            If Copy(cProc,2,2)='00' Then
+               nAux:=Trim(Copy(cDigCen,Trunc(_Proc/100)*12-11,12))+' '
+            Else
+               nAux:=Trim(Copy(cDigCen,Trunc(_Proc/100)*12-11,12))+' E ';
+         End
+         Else
+            nAux:='';
+         If _Proc=100 Then
+            cExt:='CEM '+cExt
+         Else
+            cExt:=nAux+cExt;
+         nConty:=nConty+1;
+      End;
+      nVar1:=nVar1-1;
+   End;
+   Result:=cExt;
+End;
+
+//é necessario o componente AppEventos e a rotina abaixo
+// abaixo atribuida ao evento OnException do Componente
+procedure Excecao(Sender: TObject; E: Exception);
+var Posicao, Posicao2, Posicao3:Integer;
+    Campo, Campo2, Campo3, Campo4:String;
+begin
+  if e.message='Key violation' then
+    MessageDlg('Não foi possível inserir este Registro. Violação de Chave!!', mtInformation,[mbOk], 0)
+  else
+
+  if e.message='Master has detail records. Cannot delete or modify.' then
+    MessageDlg('Não é possivel deletar este registro.'+chr(13)+'Está sendo utilizado em outro(s) cadastro(s).'+chr(13)+chr(13)+'Verifique e tente novamente...', mtInformation,[mbOk], 0)
+  else
+
+  if Pos('a valid date',e.message)>0 then
+    MessageDlg('Data inválida, favor redigitá-la.', mtInformation,[mbOk], 0)
+  else
+  if Pos('must have a value',e.message)>0 then
+   begin
+     Posicao:=Pos('must have a value',e.message);
+     Campo:=copy(e.message,7,(Posicao-8));
+     MessageDlg('O Campo '+Campo+' deve ser preenchido!!', mtInformation,[mbOk], 0)
+   end
+  else
+
+  if Pos('Record locked by another user',e.message)>0 then
+   begin
+     Posicao:=Pos('User:',e.message);
+     Campo:=copy(e.message,(Posicao+5),15);
+     MessageDlg('Acesso ao registro foi negado.'+chr(13)+chr(13)+'O mesmo esta em uso por outro usuário.'+chr(13)+chr(13)+'Verifique, ou tente mais tarde.', mtInformation,[mbOk], 0)
+   end
+  else
+
+  if e.message='Record/Key deleted' then
+    MessageDlg('Este registro foi excluído por outro usuário!!', mtInformation,[mbOk], 0)
+  else
+
+  if Pos('Field value required',e.message)>0 then
+   begin
+     Posicao:=Pos('Field:',e.message);
+     Campo:=copy(e.message,(Posicao+7),(Posicao+27));
+     MessageDlg('O Campo '+Campo+' deve ser preenchido!!', mtInformation,[mbOk], 0)
+   end
+  else
+
+  if e.message='Cannot perform this operation on a closed dataset' then
+     MessageDlg('Um Arquivo utilizado por esta janela não está Aberto!!',
+               mtInformation,[mbOk], 0)
+  else
+  if Pos('There is no default printer currently selected',e.message)>0 then
+     MessageDlg('ATENÇÃO! Não exite impressora instala ou definida como padrão.',
+               mtInformation,[mbOk], 0)
+  else
+  if Pos('Table does not exist',e.message)>0 then
+    begin
+     Posicao:=Pos('File:',e.message);
+     Campo:=copy(e.message,(Posicao+6),(length(E.message)-(Posicao+5)));
+     MessageDlg('O Arquivo não existe. -> '+Campo, mtInformation,[mbOk], 0)
+    end
+  else
+    if Pos('Dataset not in edit or insert mode',e.message)>0 then
+     MessageDlg('O Arquivo não está em modo edição ou inserção!!',
+               mtInformation,[mbOk], 0)
+  else
+    if Pos('Cannot focus a disable',e.message)>0 then
+     MessageDlg('Não é possível focar uma janela invisível ou inexistente!!',
+               mtInformation,[mbOk], 0)
+  else
+    if Pos('empty dataset',e.message)>0 then
+     MessageDlg('Operação inválida em uma tabela vazia!!',
+               mtInformation,[mbOk], 0)
+  else
+    if Pos('Circular datalinks are not',e.message)>0 then
+     MessageDlg('Ocorreu um Circular Datalink!!',
+               mtInformation,[mbOk], 0)
+  else
+    if Pos('is not a valid floating point',e.message)>0 then
+     MessageDlg('Número inválido favor redigitá-lo!', mtInformation,[mbOk], 0)
+  else
+    if Pos('Invalid input value.',e.message)>0 then
+     MessageDlg('Conteúdo do campo informado Inválido!! Após [Ok], Pressione [Esc] para retornar o conteúdo anterior', mtInformation,[mbOk], 0)
+  else
+  if Pos('is not a valid value for field',e.message)>0 then
+   begin
+     Posicao:=Pos('is not a valid value for field',e.message);
+     Posicao2:=Pos('The allowed range is',e.message);
+     Posicao3:=Pos('to',e.message);
+     Campo:=copy(e.message,1,(Posicao-1));
+     Campo2:=copy(e.message,Posicao+32,(Posicao2-(Posicao+35)));
+     Campo3:=copy(e.message,Posicao2+20,(Posicao3-(Posicao2+20)));
+     Campo4:=copy(e.message,Posicao3+2,(Length(E.Message)-Posicao3+2));
+     if Campo2='PercConsumo' then Campo2:='Percentual de Consumo' else if Campo2='PercPerda' then Campo2:='Percentual da Perda';
+     MessageDlg('O Valor Informado de: <'+Trim(Campo)+'%> é Inválido!!  O Valor do Campo  <'+Trim(Campo2)+'>  deve estar entre  <'+Trim(Campo3)+'>  e  <'+Trim(Campo4)+'%>', mtInformation,[mbOk], 0)
+   end
+  else
+    if e.message<>''then
+     MessageDlg(e.message, mtInformation,[mbOk], 0);
+
+End;
+
+Procedure Daruma_Erro(I:Integer);
+Var
+  Codigo:Integer;
+Begin
+    Codigo:=Abs(i-536870912);
+    Case Codigo Of
+      1: Mensagem('String de configuração de porta inválido');
+      2: Mensagem('Tentativa de envio sem abertura da porta serial');
+      3: Mensagem('Fila de entrada cheia:as resposta do ECF não foram lidas'+#13+
+         ' e os buffers estão cheios');
+      4: Mensagem('Não houve resposta do ECF');
+      16:Mensagem('Problema no parâmetro DA(desconto/Acréscimo) Deve ser 0/1');
+      17:Mensagem('Situação tributária inválida');
+      18:Mensagem('Dígito inválido numa string(provalvelmente um caracter'+#13+
+                  ' alfa não é aceito)');
+      19:Mensagem('Caracter alfanumérico inválido, provalvelmente tem um '+#13+
+                  'caracter de controle onde não é aceito');
+      20:Mensagem('Erro de formato no campo percentual,provalvelmente caracter '+#13+
+         'não numérico na string');
+      21:Mensagem('Erro de formato no campo preço. Este campo deve conter '+#13+
+                  'dígitos. A vírgula é implícito');
+      22:Mensagem('Erro no campo de quantidade, provavelmente caracter alfa'+#13+
+                  'na string, difrenete de vígula');
+      23:Mensagem('Erro no campo descrição (provavelmente um caracter de controle'+#13+
+                   'no campo');
+      24: Mensagem('Erro no campo Unidade(provavelmente um caracter de controle'+#13+
+                   'no campo');
+      25: Mensagem('Erro no campo Código(provavelmente um caracter de controle'+#13+
+                   'no campo');
+      26: Mensagem('Erro no campo Código(provavelmente um caracter de controle'+#13+
+                   'no campo');
+      27: Mensagem('Tipo de desconto inválido: deve ser "0"(48 ou $30) a'+#13+
+                   '"53 ou $35');
+      28: Mensagem('Erro de tipo: Em DAR_PersonalMens tipo deve ser "0" ou "P".'+#13+
+                   'Em DAR_CriaCNF tipo deve ser "V","+" ou "-".Em DAR_Cria CNF'+#13+
+                   'e DAR_DescFomPag,tipo deve ser "A" a "P".');
+      29: Mensagem('Erro no campo de texto(provavelmente um caracter de controle'+#13+
+                   'no campo');
+      30: Mensagem('Erro de alíquiota(deve ser "A" a "P"');
+      31: Mensagem('Erro de COO (provavelmente contém um caracter de controle no campo');
+      32: Mensagem('Erro de opção de leitura de MF (deve ser "0" a "7"');
+      33: Mensagem('Data inválida');
+      34: Mensagem('Erro de formato(não usado');
+      35: Mensagem('Em DAR_REtrans, erro de número de mensagem (deve ser "0" a "9"'+#13+
+                   '-48 a 57');
+      36: Mensagem('Erro de alíquiota em DAR_CargaAliquiota(deve obedecer ás regras'+#13+
+                   'de valores percentuais');
+      37: Mensagem('Em DAR_PersonaMens, erro no campo CNT que deve ser alfanumérico');
+      38: Mensagem('Erro no tipo de imposto em DAR_CargaAliquiota(deve ser "S" ou "I"');
+      39: Mensagem('Erro num dos parâmetros de zeramento na DAR_Intervenção'+#13+
+                   '(deve ser caracter alfa)');
+      40: Mensagem('Número de ECF inválido em DAR_Intervenção(provavelmente contém'+#13+
+                   'caracteres alfa');
+      41: Mensagem('Erro de canal em DAR_ChqCanal(deve ser "0" ou "1"');
+      42: Mensagem('Erro no comando ao mecanismo em DAR_ConfigOki - os comandos '+#13+
+                   'válidos são "L", "M","T" e "C"');
+      43: Mensagem('Erro de parâmetros em comando ao mecanismo em DAR_ConfigOki');
+      44: Mensagem('Erro de identificação de bloco em DAR_LeBlocoMF - '+#13+
+                    'os digitos devem ser hexadeciamais (0-9, A-F)');
+      45: Mensagem('Na função DAR_LeInfUser, erro na string númerica que identifica' +#13+
+                   'o usuário(deve ser "0" a "50")');
+      46: Mensagem('Erro de sigla do estado na carga de aliquotas na FS420 - '+#13+
+                   'pode conter espaços ou caracteres de controle');
+      47: Mensagem('Erro no campo Natureza do transporte(FS420): deve ser "RODOVIÁRIO",'+#13+
+                   '"FERROVIARIO" OU "AQUAVIARIO"');
+      48: Mensagem('Erro na abertura do Arquivo texto(FS420)');
+      49: Mensagem('Erro na abertura do Arquivo binário(FS420)');
+      50: Mensagem('Erro na alocação de espaço na memória do PC para tratamento'+#13+
+                   'do arquivo (FS420)');
+      51: Mensagem('Resposta inválida durante a carga da flash da FS420');
+      52: Mensagem('Erro de escrita na flash(FS420)');
+      53: Mensagem('Erro desconhecido inválida durante a carga da flash da FS420');
+      54: Mensagem('Erro de estouro de tentativas inválida durante a carga da '+#13+
+                   'flash da FS420');
+      55: Mensagem('Erro de leitura do arquivo(FS420)');
+      56: Mensagem('Erro de escrita no arquivo(FS420)');
+
+
+
+
+
+    End;
+End;
+
+
+Function TiraPonto(Valor:String):String;
+Var
+  Teste:String;
+  Cont:Integer;
+Begin
+   Valor:=FloattoStr(StrtoFloat(Valor)*100);
+   Teste:='';
+
+   For Cont:=1 to Length(Valor) Do
+   Begin
+      If  Valor[Cont]<>',' Then
+        Teste:=Teste+Valor[Cont];
+   End;
+   Result:=Teste;
+End;
+
+function SysComputerName: string;
+var
+  I: DWord;
+begin
+  I := MAX_COMPUTERNAME_LENGTH + 1;
+  SetLength(Result, I);
+  Windows.GetComputerName(PChar(Result), I);
+  Result := string(PChar(Result));
+end;
+
+
+
+
+end.
+

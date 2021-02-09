@@ -1,0 +1,77 @@
+object dmMod2: TdmMod2
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 104
+  Width = 464
+  object tbCodigo: TZTable
+    TableName = 'CODIGOINC'
+    WhereMode = wmWhereAll
+    Left = 16
+    Top = 8
+    object tbCodigoPRODUTO: TIntegerField
+      FieldName = 'PRODUTO'
+    end
+    object tbCodigoCLIENTE: TIntegerField
+      FieldName = 'CLIENTE'
+    end
+    object tbCodigoFORNECEDOR: TIntegerField
+      FieldName = 'FORNECEDOR'
+    end
+    object tbCodigoVENDEDOR: TIntegerField
+      FieldName = 'VENDEDOR'
+    end
+    object tbCodigoGRUPO: TIntegerField
+      FieldName = 'GRUPO'
+    end
+    object tbCodigoFABRICANTE: TIntegerField
+      FieldName = 'FABRICANTE'
+    end
+    object tbCodigoPAGAR: TIntegerField
+      FieldName = 'PAGAR'
+    end
+    object tbCodigoCAMPO1: TIntegerField
+      FieldName = 'CAMPO1'
+    end
+    object tbCodigoCAMPO2: TIntegerField
+      FieldName = 'CAMPO2'
+    end
+    object tbCodigoCAMPO3: TIntegerField
+      FieldName = 'CAMPO3'
+    end
+    object tbCodigoDAV: TIntegerField
+      FieldName = 'DAV'
+    end
+    object tbCodigoPREVENDA: TIntegerField
+      FieldName = 'PREVENDA'
+    end
+    object tbCodigoPRODCODIGOINTERNO: TIntegerField
+      FieldName = 'PRODCODIGOINTERNO'
+    end
+  end
+  object tbMPag: TZTable
+    TableName = 'TABMPAG'
+    WhereMode = wmWhereAll
+    Left = 72
+    Top = 16
+    object tbMPagDESCRICAO: TWideStringField
+      FieldName = 'DESCRICAO'
+      Size = 30
+    end
+    object tbMPagSEQ: TWideStringField
+      FieldName = 'SEQ'
+      Size = 1
+    end
+    object tbMPagECF: TWideStringField
+      FieldName = 'ECF'
+      Size = 3
+    end
+    object tbMPagSGE: TWideStringField
+      FieldName = 'SGE'
+      Size = 2
+    end
+    object tbMPagIDCAIXA: TWideStringField
+      FieldName = 'IDCAIXA'
+      Size = 1
+    end
+  end
+end

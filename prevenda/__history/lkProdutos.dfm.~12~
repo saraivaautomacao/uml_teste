@@ -1,0 +1,357 @@
+object FormlkProd: TFormlkProd
+  Left = 353
+  Top = 259
+  ActiveControl = Edit1
+  BorderStyle = bsDialog
+  Caption = 'Consulta de Produtos'
+  ClientHeight = 510
+  ClientWidth = 809
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 47
+    Width = 809
+    Height = 125
+    ActivePage = TabSheet1
+    Align = alTop
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    OnChange = PageControl1Change
+    ExplicitTop = 45
+    object TabSheet1: TTabSheet
+      Caption = '&Descri'#231#227'o'
+      ExplicitWidth = 700
+      object Panel4: TPanel
+        Left = 400
+        Top = 3
+        Width = 297
+        Height = 53
+        BevelOuter = bvNone
+        Caption = ' '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -25
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+      end
+      object rgTipo: TRadioGroup
+        Left = 5
+        Top = 1
+        Width = 260
+        Height = 37
+        Caption = 'Tipo Pesquisa'
+        Columns = 3
+        ItemIndex = 0
+        Items.Strings = (
+          '&Inicio'
+          '&Meio'
+          '&Fim')
+        TabOrder = 1
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = '&C'#243'digo'
+      ImageIndex = 1
+      ExplicitWidth = 700
+    end
+  end
+  object Panel2: TPanel
+    Left = 8
+    Top = 114
+    Width = 275
+    Height = 41
+    BevelInner = bvLowered
+    BevelOuter = bvNone
+    Caption = 'Panel2'
+    Color = clMenu
+    ParentBackground = False
+    TabOrder = 1
+    object Edit1: TEdit
+      Left = 8
+      Top = 11
+      Width = 241
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 0
+      Text = 'EDIT1'
+      OnExit = Edit1Exit
+      OnKeyUp = Edit1KeyUp
+    end
+  end
+  object dbGrid1: TRxDBGrid
+    Left = 0
+    Top = 172
+    Width = 809
+    Height = 297
+    Align = alClient
+    BorderStyle = bsNone
+    Ctl3D = False
+    DataSource = DataSource1
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    ParentCtl3D = False
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnKeyDown = dbGrid1KeyDown
+    RowColor2 = 16776176
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Title.Alignment = taCenter
+        Title.Caption = 'C'#243'digo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Produto'
+        Width = 262
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Unid.'
+        Width = 32
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SETOR'
+        Title.Alignment = taCenter
+        Title.Caption = 'Grupo'
+        Width = 105
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LABORATORIO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Laborat'#243'rio'
+        Width = 111
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QUANT'
+        Title.Alignment = taCenter
+        Title.Caption = 'Quant.'
+        Width = 58
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOVENDA'
+        Title.Alignment = taCenter
+        Title.Caption = 'P. Venda'
+        Width = 77
+        Visible = True
+      end>
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 469
+    Width = 809
+    Height = 41
+    Align = alBottom
+    TabOrder = 3
+    ExplicitWidth = 708
+    object Label2: TLabel
+      Left = 5
+      Top = 22
+      Width = 37
+      Height = 13
+      Caption = 'Label2'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Button1: TButton
+      Left = 295
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = '&OK'
+      ModalResult = 1
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 391
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = '&Cancelar'
+      ModalResult = 2
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+    object chkRevenda: TCheckBox
+      Left = 624
+      Top = 16
+      Width = 97
+      Height = 17
+      Caption = '&Revenda'
+      TabOrder = 2
+      OnClick = chkRevendaClick
+    end
+    object Button3: TButton
+      Left = 512
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Detal&hes'
+      TabOrder = 3
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 809
+    Height = 47
+    Align = alTop
+    TabOrder = 4
+    ExplicitWidth = 708
+    object Image1: TImage
+      Left = 8
+      Top = 6
+      Width = 34
+      Height = 33
+      Picture.Data = {
+        07544269746D617076020000424D760200000000000076000000280000002000
+        0000200000000100040000000000000200000000000000000000100000000000
+        000000000000000080000080000000808000800000008000800080800000C0C0
+        C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF
+        FF00777777777777777777777777777777777777777777777777777777777777
+        7777777777777777737777777777777777777777777777773033777377777777
+        77777777777777730B003333377777777777777777777730BBBB003033777777
+        777777777777730BB778800B0337777777777777777730B778800BBBB0337777
+        7777777777730778800BBBBBBB00337777777777773078800BBBBBBBBBB00033
+        777777777308800BBBBBBBBBBBBB070033777777308007777777773777777077
+        003377730007777777773778777777077B0077300FFFFFFFFF3FF3FF3FFFFFF0
+        7703700FFFFFFFFF3FF3FF3FF3FFFFFF0033770FFFFFFF3FF3FF8FF8FF3FFFFF
+        F0337770FFFFFFF3FF3FF3FF7FF7FFFFFF0777770FFFFFFF8FF8FF3FFFFFFFFF
+        FFF0777770FFFFFFF3FF7FF7FFFFFFFFF0077777770FFFFFFF3FFFFFFFFFFFF0
+        077777777770FFFFFFF7FFFFFFFFF0077777777777770FFFFFFFFFFFFFF00777
+        77777777777770FFFFFFFFFFF0077777777777777777770FFFFFFFF007777777
+        7777777777777770FFFFF0007777777777777777777777770FF0077777777777
+        7777777777777777700777777777777777777777777777777777777777777777
+        7777777777777777777777777777777777777777777777777777777777777777
+        7777777777777777777777777777777777777777777777777777777777777777
+        7777}
+      Stretch = True
+    end
+    object Label1: TLabel
+      Left = 48
+      Top = 16
+      Width = 148
+      Height = 13
+      Caption = 'Localiza'#231#227'o r'#225'pida de produtos'
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = query1
+    OnDataChange = DataSource1DataChange
+    Left = 248
+    Top = 240
+  end
+  object query1: TZQuery
+    Connection = dmMod.zConPrinc
+    OnFilterRecord = Query1FilterRecord
+    Filtered = True
+    SQL.Strings = (
+      
+        'Select p.codigo,p.produto,p.unidade,p.precovenda,p.quant,p.estfi' +
+        'scal,p.cts,p.lklab,p.codigoauxliar,p.lksetor, p.naosaitabela,'
+      'gr.setor,lab.laboratorio from tabEst1  p'
+      'left join tabest8 gr'
+      'on p.lksetor=gr.controle'
+      'left join tablab  lab'
+      'on p.lklab=lab.controle'
+      'Where'
+      'p.naosaitabela='#39'N'#39' and p.codigo<>'#39'99999'#39'  and p.codigo<>'#39'99998'#39)
+    Params = <>
+    Left = 208
+    Top = 312
+    object query1CODIGO: TWideStringField
+      FieldName = 'CODIGO'
+      Required = True
+      Size = 15
+    end
+    object query1PRODUTO: TWideStringField
+      FieldName = 'PRODUTO'
+      Size = 50
+    end
+    object query1UNIDADE: TWideStringField
+      FieldName = 'UNIDADE'
+      Size = 2
+    end
+    object query1PRECOVENDA: TFloatField
+      FieldName = 'PRECOVENDA'
+      currency = True
+    end
+    object query1QUANT: TFloatField
+      FieldName = 'QUANT'
+    end
+    object query1LKLAB: TIntegerField
+      FieldName = 'LKLAB'
+    end
+    object query1LKSETOR: TIntegerField
+      FieldName = 'LKSETOR'
+    end
+    object query1NAOSAITABELA: TWideStringField
+      FieldName = 'NAOSAITABELA'
+      Size = 1
+    end
+    object query1ESTFISCAL: TFloatField
+      FieldName = 'ESTFISCAL'
+    end
+    object query1CTS: TWideStringField
+      FieldName = 'CTS'
+      Size = 2
+    end
+    object query1CODIGOAUXLIAR: TWideStringField
+      FieldName = 'CODIGOAUXLIAR'
+      Size = 15
+    end
+    object query1SETOR: TWideStringField
+      FieldName = 'SETOR'
+      Size = 30
+    end
+    object query1LABORATORIO: TWideStringField
+      FieldName = 'LABORATORIO'
+      Size = 30
+    end
+  end
+  object ACBrEnterTab1: TACBrEnterTab
+    EnterAsTab = True
+    Left = 312
+    Top = 288
+  end
+end

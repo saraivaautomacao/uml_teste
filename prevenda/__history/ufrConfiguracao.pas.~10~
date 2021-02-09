@@ -1,0 +1,218 @@
+unit ufrConfiguracao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,inifiles, Vcl.StdCtrls, Vcl.ExtCtrls, LabeledCtrls,rdprint,
+  Vcl.Buttons, Vcl.Mask, JvExMask, JvToolEdit, JvExStdCtrls, JvButton, JvCtrls, JvExButtons,
+  JvBitBtn, Vcl.Imaging.jpeg, ACBrBase, ACBrEnterTab, JvBaseEdits;
+
+type
+  TfrmConfiguracao = class(TForm)
+    GroupBox1: TGroupBox;
+    editPrinter: TLabeledMaskEdit;
+    cbxModelo: TLabeledComboBox;
+    botaoConfirma: TJvBitBtn;
+    botaoCancela: TJvImgBtn;
+    GroupBox2: TGroupBox;
+    Label5: TLabel;
+    editNomeIpServidor: TEdit;
+    Label4: TLabel;
+    editBaseDados: TJvFilenameEdit;
+    botaoTestarBalcao: TSpeedButton;
+    editPorta: TEdit;
+    Label1: TLabel;
+    btDaruma: TBitBtn;
+    imgFireBirdBalcao: TImage;
+    ACBrEnterTab1: TACBrEnterTab;
+    GroupBox3: TGroupBox;
+    editHorizontal: TLabeledCalcEdit;
+    editVertical: TLabeledCalcEdit;
+    Button1: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure botaoTestarBalcaoClick(Sender: TObject);
+    procedure btDarumaClick(Sender: TObject);
+    procedure botaoConfirmaClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    procedure GravarConfiguracao;
+    procedure LerConfiguracao;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfiguracao: TfrmConfiguracao;
+
+implementation
+
+{$R *.dfm}
+
+uses Dados,rotinas;
+
+
+
+procedure TfrmConfiguracao.botaoConfirmaClick(Sender: TObject);
+begin
+    gravarconfiguracao;
+    modalresult:=mrok;
+end;
+
+procedure TfrmConfiguracao.botaoTestarBalcaoClick(Sender: TObject);
+begin
+     dmMod.fdConPrinc.Connected := False;
+
+
+     try
+      dmMod.fdConPrinc.Connected := True;
+      dmMod.fdConPrinc.Params.DriverID:='FB';
+      dmMod.fdConPrinc.params.database:=editBaseDados.text;
+      dmMod.fdConPrinc.params.Add('Protocol='+ editNomeIpServidor.text);
+      dmMod.fdConPrinc.params.Add('port='+editPorta.text);
+
+      botaoConfirma.Enabled := True;
+     except
+        on E: Exception do
+        Begin
+          MessageDlg('Erro ao conectar!'#13'Erro: ' + E.Message, mtError, [mbOK],  0);
+          botaoConfirma.Enabled := False;
+          exit;
+        End;
+     end;
+     Application.MessageBox('Conexão realizada com sucesso!', 'Informação do Sistema', MB_OK + MB_ICONINFORMATION);
+     gravarconfiguracao;
+end;
+
+procedure TfrmConfiguracao.btDarumaClick(Sender: TObject);
+
+var
+  Lin:byte;
+begin
+   if not dmMod.rdprint1.setprinterbyname(editPrinter.text) Then
+   begin
+      ShowMessage('impressora não encontrada');
+      exit;
+   end;
+   with dmMod do
+   begin
+     Lin := 3; // O limite será 999 linhas no cupom;
+     configuraImpressora(cbxModelo.text);
+     RDprint1.Abrir;
+     RDprint1.Impressora       := BOBINA;  // Depois do Abrir para FORÇAR o modelo BOBINA (sem comando)
+     RDprint1.TamanhoQteLinhas := 1;   // Evita o salto indesejado no final
+     RDprint1.Acentuacao       := SemAcento;
+     RDprint1.MostrarProgresso := false;
+     // Inicio da Impressão...
+    // RESET DARUMA para possicionar a cabeça de impressão
+     RDprint1.ImpASCII(01,01,'27 64');
+
+     RDprint1.Imp(Lin,01,'-------------------------------------------');
+     inc(Lin);
+     // Liga Expandido... ESC ¤
+     RDprint1.Imp(Lin,01,cIExpandido);
+     RDprint1.Imp(Lin,01,'    CUPOM NÃO FISCAL');
+     inc(Lin);
+     // Desliga Expandido... ESC dc4
+     RDprint1.Imp(Lin,01,cFExpandido);
+     RDprint1.Imp(Lin,01,'--------------------------------------------');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'            SARAIVA AUTOMACAO               ');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'           Vr. Jose Veras, 1341             ');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'                Crateus-Ceara               ');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'---------------------------------------------');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'Cod  Produto      Quant    Unitário    Total');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'---------------------------------------------');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'001  PRODUTO UM      1,0      17,50     17,50');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'002  PRODUTO DOIS   1,0 CX    5,60      5,60');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'003  PRODUTO TREIS   2,0 CX    5,00     10,00');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'---------------------------------------------');
+     inc(Lin);
+     // Liga Negrito... ESC F
+     RDprint1.Imp(Lin,01, cINegrito );
+     RDprint1.Imp(Lin,01,'     TOTAL                   R$        33,10');
+     inc(Lin);
+     // Desliga Negrito... ESC H
+     RDprint1.Imp(Lin,01, cFNegrito );
+     RDprint1.Imp(Lin,01,'     Dinheiro                R$        50,00');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'                             ---------------');
+     inc(Lin);
+     RDprint1.Imp(Lin,01,'     Troco                   R$        16,90');
+     Lin:=Lin+3;
+     If  AvancoLinha>0 Then
+         dmMod.rdprint1.imp((Lin)+avancolinha,3,'  ')
+     Else
+         dmMod.rdprint1.Imp(lin,01,guilhotina);
+
+     RDprint1.Fechar;
+   end;
+   GravarConfiguracao;
+   impname:=editPrinter.text;
+end;
+
+procedure TfrmConfiguracao.Button1Click(Sender: TObject);
+begin
+   GravarConfiguracao;
+   Application.MessageBox('Necessário iniciar o sistema!', 'Informação do Sistema', MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure TfrmConfiguracao.FormShow(Sender: TObject);
+begin
+  lerConfiguracao;
+end;
+
+procedure TfrmConfiguracao.GravarConfiguracao;
+Var
+   Ini     : TIniFile ;
+   StreamMemo : TMemoryStream;
+begin
+  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+ 'prevenda.ini');
+  try
+      Ini.WriteString( 'impressora','modelo' , cbxModelo.text) ;
+      Ini.WriteString( 'impressora','printername' ,editPrinter.text) ;
+
+      Ini.WriteString( 'conexao','hostname' ,editNomeIpServidor.text) ;
+      Ini.WriteString( 'conexao','port' ,editPorta.text) ;
+      Ini.WriteString( 'conexao','database' ,editBaseDados.text) ;
+      Ini.WriteInteger('Resolucao','horizontal' ,Trunc(editHorizontal.value)) ;
+      Ini.WriteInteger('Resolucao','vertical' ,Trunc(editVertical.value)) ;
+      //ShowMessage('Configurado com sucesso');
+  finally
+     Ini.Free ;
+  end;
+
+end;
+
+procedure TfrmConfiguracao.LerConfiguracao;
+Var
+    Ini     : TIniFile ;
+begin
+  Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+ 'prevenda.ini');
+
+  try
+      cbxModelo.ItemIndex:=cbxModelo.items.indexof(Ini.ReadString( 'impressora','Modelo' ,'')) ;
+      editPrinter.text  := Ini.ReadString( 'impressora','printername' ,'') ;
+
+      editNomeIpServidor.text:=Ini.ReadString( 'conexao','hostname' ,'') ;
+      editPorta.text:=Ini.ReadString('conexao','port','');
+      editBaseDados.text:=Ini.ReadString('conexao','database','');
+      editHorizontal.value:=Ini.ReadInteger('resolucao','horizontal',1366);
+      editVertical.value:=Ini.ReadInteger('resolucao','vertical',768);
+  finally
+     Ini.Free ;
+  end;
+end;
+
+
+end.

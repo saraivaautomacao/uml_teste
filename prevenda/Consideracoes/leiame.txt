@@ -1,0 +1,24 @@
+Instalacao da Prevenda
+
+1- Gerenciador Firebird 2.5
+2- Criar pasta nome prevenda (unidade C)
+obs: o nome da pasta é obrigatória conforme acima, pois
+a base de dados orcamento.fdb aponta para a mesma
+3- abrir o arquivo prevenda.ini e obserevar:
+-------------------------------------------------------
+[conexao_zeos]
+hostname:=localhost
+port=3050
+database=C:\sge\bd\sgebd.fdb //indica base SGE(retagurda) que pode ser Remote/Local
+protocol=firebirdd-2.5
+
+[EXPORTA]
+REMOTEAPP=c:\ECFSOFT\CARGA     //local onde se encontra o frente caixa (local/remoto)
+[DIVERSOS]
+COMPUTADOR=CAIXA1       //nome da maquina
+GERARARQUIVO=N        //INFORMA SE SERA GERADO O ARQUIVO DE PREVENDA PARA O FRENTE DE CAIXA DO PAF
+porta=                 //caminho da mini impressora para impressao (NAO FISCAL)
+AVANCOLINHA=0         // DEIXE ZERO PARA CORTE AUTOMATICO PICOTE
+
+---------------------------------------
+

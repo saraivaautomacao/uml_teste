@@ -1,0 +1,138 @@
+unit dados3;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db, DBTables, RxQuery;
+
+type
+  TdmMod3 = class(TDataModule)
+    tbUsuario: TTable;
+    tbUsuarioUsuario: TStringField;
+    tbUsuarioCadastro: TDateField;
+    tbUsuarioUltimoAcesso: TDateField;
+    tbUsuarioSenha: TStringField;
+    tbUsuarioNivel: TStringField;
+    tbUsuarioA1: TBooleanField;
+    tbUsuarioA2: TBooleanField;
+    tbUsuarioA3: TBooleanField;
+    tbUsuarioA4: TBooleanField;
+    tbUsuarioA5: TBooleanField;
+    tbUsuarioA6: TBooleanField;
+    tbUsuarioA7: TBooleanField;
+    tbUsuarioA8: TBooleanField;
+    tbUsuarioA9: TBooleanField;
+    tbUsuarioA10: TBooleanField;
+    tbUsuarioA11: TBooleanField;
+    tbUsuarioA12: TBooleanField;
+    tbUsuarioA13: TBooleanField;
+    tbUsuarioA14: TBooleanField;
+    tbUsuarioA15: TBooleanField;
+    tbUsuarioA16: TBooleanField;
+    tbUsuarioA17: TBooleanField;
+    tbUsuarioA18: TBooleanField;
+    tbUsuarioA19: TBooleanField;
+    tbUsuarioA20: TBooleanField;
+    tbUsuarioB1: TBooleanField;
+    tbUsuarioB2: TBooleanField;
+    tbUsuarioB3: TBooleanField;
+    tbUsuarioB4: TBooleanField;
+    tbUsuarioB5: TBooleanField;
+    tbUsuarioC1: TBooleanField;
+    tbUsuarioC2: TBooleanField;
+    tbUsuarioC3: TBooleanField;
+    tbUsuarioC4: TBooleanField;
+    tbUsuarioC5: TBooleanField;
+    tbUsuarioD1: TBooleanField;
+    tbUsuarioD2: TBooleanField;
+    tbUsuarioE1: TBooleanField;
+    tbUsuarioE2: TBooleanField;
+    tbUsuarioE3: TBooleanField;
+    tbUsuarioE4: TBooleanField;
+    tbUsuarioE5: TBooleanField;
+    tbUsuarioF1: TBooleanField;
+    tbUsuarioF2: TBooleanField;
+    tbUsuarioF3: TBooleanField;
+    tbUsuarioG1: TBooleanField;
+    tbUsuarioH1: TBooleanField;
+    tbUsuarioH2: TBooleanField;
+    tbUsuarioH3: TBooleanField;
+    tbUsuarioH4: TBooleanField;
+    tbUsuarioH5: TBooleanField;
+    tbUsuarioH6: TBooleanField;
+    tbUsuarioH7: TBooleanField;
+    tbUsuarioH8: TBooleanField;
+    tbUsuarioH9: TBooleanField;
+    tbUsuarioH10: TBooleanField;
+    tbUsuarioH11: TBooleanField;
+    tbUsuarioH12: TBooleanField;
+    tbUsuarioH13: TBooleanField;
+    tbUsuarioH14: TBooleanField;
+    tbUsuarioH15: TBooleanField;
+    tbUsuarioH16: TBooleanField;
+    tbUsuarioH17: TBooleanField;
+    tbUsuarioH18: TBooleanField;
+    tbUsuarioH19: TBooleanField;
+    tbUsuarioH20: TBooleanField;
+    tbUsuarioH21: TBooleanField;
+    tbUsuarioH22: TBooleanField;
+    tbUsuarioH23: TBooleanField;
+    tbUsuarioH24: TBooleanField;
+    tbUsuarioH25: TBooleanField;
+    tbUsuarioH26: TBooleanField;
+    tbUsuarioH27: TBooleanField;
+    tbUsuarioH28: TBooleanField;
+    tbUsuarioI1: TBooleanField;
+    tbUsuarioI2: TBooleanField;
+    tbUsuarioI3: TBooleanField;
+    tbUsuarioI4: TBooleanField;
+    tbUsuarioI5: TBooleanField;
+    tbUsuarioI6: TBooleanField;
+    tbUsuarioI7: TBooleanField;
+    tbUsuarioI8: TBooleanField;
+    tbUsuarioI9: TBooleanField;
+    tbUsuarioI10: TBooleanField;
+    tbUsuarioI11: TBooleanField;
+    tbUsuarioI12: TBooleanField;
+    tbUsuarioI13: TBooleanField;
+    tbUsuarioI14: TBooleanField;
+    tbUsuarioI15: TBooleanField;
+    tbUsuarioI16: TBooleanField;
+    tbUsuarioH29: TBooleanField;
+    tbUsuarioH30: TBooleanField;
+    tbUsuarioH31: TBooleanField;
+    tbUsuarioH32: TBooleanField;
+    tbUsuarioH33: TBooleanField;
+    tbUsuarioPrecoCusto: TBooleanField;
+    tbUsuarioDescontopdv: TBooleanField;
+    tbUsuarioAlterarpvenda: TBooleanField;
+    tbUsuarioDescontoBaixaConta: TBooleanField;
+    tbUsuarioPermitirExcluir: TBooleanField;
+    qryErro: TRxQuery;
+    tbUsuarioSenha1: TStringField;
+    qryGeral: TRxQuery;
+    tbUsuarioP1: TBooleanField;
+    tbUsuarioP2: TBooleanField;
+    tbUsuarioP3: TBooleanField;
+    tbUsuarioP4: TBooleanField;
+    tbUsuarioP5: TBooleanField;
+    tbUsuarioP6: TBooleanField;
+    tbUsuarioP7: TBooleanField;
+    tbUsuarioP8: TBooleanField;
+    tbUsuarioP9: TBooleanField;
+    tbUsuarioP10: TBooleanField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmMod3: TdmMod3;
+
+implementation
+
+{$R *.DFM}
+
+end.

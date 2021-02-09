@@ -1,0 +1,599 @@
+unit Dados;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db, DBTables,DBIProcs, RxQuery;
+
+type
+  TdmMod = class(TDataModule)
+    tblClientes: TTable;
+    dsClientes: TDataSource;
+    tblVend: TTable;
+    dsVend: TDataSource;
+    tblClit: TTable;
+    dsClit: TDataSource;
+    tblClientesCodigo: TStringField;
+    tblClientesNome: TStringField;
+    tblClientesEndereco: TStringField;
+    tblClientesBairro: TStringField;
+    tblClientesCidade: TStringField;
+    tblClientesEstado: TStringField;
+    tblClientesCep: TStringField;
+    tblClientesTelefone: TStringField;
+    tblClientesData: TDateField;
+    tblClientesLkTipo: TIntegerField;
+    tblClientesLkVend: TIntegerField;
+    tblClientesObs: TMemoField;
+    tblClientesEmail: TStringField;
+    tblClientesCNPJ: TStringField;
+    tblClientesLimiteCred: TCurrencyField;
+    tblClientesContato: TStringField;
+    tblClientesInsc: TStringField;
+    tblClientesAtividade: TStringField;
+    tblClientesFax: TStringField;
+    tblClientesTagFisica: TBooleanField;
+    tblClientesRefCom: TStringField;
+    tblClientesRg: TStringField;
+    tblClientesCpf: TStringField;
+    tblClientesDataNasc: TDateField;
+    tblClientesFiliacao: TStringField;
+    tblClientesProfissao: TStringField;
+    tblClientesFoto: TGraphicField;
+    tblClitCodTipo: TAutoIncField;
+    tblClitTipo: TStringField;
+    tblClientesNumCartao: TStringField;
+    tblClientesValidade: TStringField;
+    tblClientesNomeImp: TStringField;
+    tblClientesLkCartao: TIntegerField;
+    tblVendCodVend: TAutoIncField;
+    tblVendNome: TStringField;
+    tblVendCogNome: TStringField;
+    dsCartao: TDataSource;
+    tblForn: TTable;
+    dsForn: TDataSource;
+    tblFornEmpresa: TStringField;
+    tblFornContato: TStringField;
+    tblFornEndereco: TStringField;
+    tblFornBairro: TStringField;
+    tblFornCidade: TStringField;
+    tblFornEstado: TStringField;
+    tblFornCep: TStringField;
+    tblFornTelefone: TStringField;
+    tblFornFax: TStringField;
+    tblFornRefBan: TStringField;
+    tblFornCnpj: TStringField;
+    tblFornInsc: TStringField;
+    tblFornData: TDateField;
+    tblFornObs: TMemoField;
+    tblFornEmail: TStringField;
+    tblFornCodigo: TStringField;
+    tblFun1: TTable;
+    dsFun1: TDataSource;
+    tblFun1Controle: TAutoIncField;
+    tblFun1Codigo: TStringField;
+    tblFun1Nome: TStringField;
+    tblFun1Endereco: TStringField;
+    tblFun1Bairro: TStringField;
+    tblFun1Cidade: TStringField;
+    tblFun1Estado: TStringField;
+    tblFun1Cep: TStringField;
+    tblFun1Telefone: TStringField;
+    tblFun1Rg: TStringField;
+    tblFun1Cpf: TStringField;
+    tblFun1DataNasc: TDateField;
+    tblFun1Cargo: TStringField;
+    tblFun1Salario: TCurrencyField;
+    tblFun1Admissao: TDateField;
+    tblFun1DiaPag: TSmallintField;
+    tblFun1Obs: TMemoField;
+    tblFun1Foto: TGraphicField;
+    tblFun1Comissao: TFloatField;
+    tblSetor: TTable;
+    dsSetor: TDataSource;
+    tblSetorControle: TAutoIncField;
+    tblSetorSetor: TStringField;
+    tblProd: TTable;
+    dsProd: TDataSource;
+    tblProdProduto: TStringField;
+    tblProdLkSetor: TIntegerField;
+    tblProdFabricante: TStringField;
+    tblProdPrecoCusto: TCurrencyField;
+    tblProdCustoMedio: TCurrencyField;
+    tblProdPrecoVenda: TCurrencyField;
+    tblProdQuant: TFloatField;
+    tblProdEstMinimo: TFloatField;
+    tblProdUnidade: TStringField;
+    tblProdLucro: TFloatField;
+    tblProdMoeda: TStringField;
+    tblProdUltReaj: TDateField;
+    tblProdFoto: TGraphicField;
+    tblProdObs: TMemoField;
+    tblProdNaoSaiTabela: TBooleanField;
+    tblProdInativo: TBooleanField;
+    tblProdCodigoIpi: TStringField;
+    tblProdIPI: TFloatField;
+    tblProdCts: TStringField;
+    tblProdIcms: TFloatField;
+    tblProdBasecalculo: TFloatField;
+    tblProdDesconto: TFloatField;
+    tblTipoSaida: TTable;
+    dsTipoSaida: TDataSource;
+    tblTipoSaidaControle: TAutoIncField;
+    tblTipoSaidaTipo: TStringField;
+    tblTipoSaidaFixo: TBooleanField;
+    tblTipoRec: TTable;
+    dsTipoRec: TDataSource;
+    tblTipoRecControle: TAutoIncField;
+    tblTipoRecRecebimento: TStringField;
+    tblTipoRecFixo: TBooleanField;
+    tblTransp: TTable;
+    dsTransp: TDataSource;
+    tblTranspControle: TAutoIncField;
+    tblTranspTransportadora: TStringField;
+    tblTranspEndereco: TStringField;
+    tblTranspBairro: TStringField;
+    tblTranspCidade: TStringField;
+    tblTranspEstado: TStringField;
+    tblTranspCep: TStringField;
+    tblTranspTelefone: TStringField;
+    tblTranspFax: TStringField;
+    tblTranspCnpj: TStringField;
+    tblTranspIe: TStringField;
+    tblTranspObs: TMemoField;
+    tblTranspContato: TStringField;
+    tblClientesAbrevia: TStringField;
+    tblContas: TTable;
+    tblContasControle: TAutoIncField;
+    tblContasDescricao: TStringField;
+    tblContasOperacao: TStringField;
+    tblCaixas: TTable;
+    tblCaixasControle: TAutoIncField;
+    tblCaixasDescricao: TStringField;
+    tblCaixasLkOperador: TIntegerField;
+    tblCaixasSaldo: TCurrencyField;
+    tblMovCx: TTable;
+    tblMovCxControle: TAutoIncField;
+    tblMovCxDATA: TDateField;
+    tblMovCxHISTORICO: TStringField;
+    tblMovCxNUMDOC: TStringField;
+    tblMovCxVALOR: TCurrencyField;
+    tblMovCxOperacao: TStringField;
+    tblMovCxLkConta: TIntegerField;
+    tblMovCxLkCaixa: TIntegerField;
+    tblMovCxLkUser: TIntegerField;
+    tblMovCxLkEst3A: TIntegerField;
+    dsContas: TDataSource;
+    dsCAixas: TDataSource;
+    tblRotas: TTable;
+    dsRotas: TDataSource;
+    tblRotasControle: TAutoIncField;
+    tblRotasRota: TStringField;
+    tblEmpresa: TTable;
+    dsEmpresa: TDataSource;
+    tblEmpresaRazaoSocial: TStringField;
+    tblEmpresaFantasia: TStringField;
+    tblEmpresaEndereco: TStringField;
+    tblEmpresaCidade: TStringField;
+    tblEmpresaEstado: TStringField;
+    tblEmpresaCep: TStringField;
+    tblEmpresaFone1: TStringField;
+    tblEmpresaFone2: TStringField;
+    tblEmpresaCgc: TStringField;
+    tblEmpresaCgf: TStringField;
+    tblClientesLkCidade: TIntegerField;
+    tblClientesLkSetor: TIntegerField;
+    tblClientesLkRota: TIntegerField;
+    tblCartao: TTable;
+    tblCartaoControle: TAutoIncField;
+    tblCartaoCARTAO: TStringField;
+    tblCartaoDIAS: TIntegerField;
+    tblCartaoCOMISSAO: TFloatField;
+    tblEmpresaReferecia: TStringField;
+    tblSetorOrdem: TSmallintField;
+    tblProdCodigoAuxliar: TStringField;
+    tblProdCodigo: TStringField;
+    tblProdLkFornec: TStringField;
+    tblProdLocal: TStringField;
+    tblProdPeso: TFloatField;
+    tblCodigo: TTable;
+    tblBancos: TTable;
+    dsBancos: TDataSource;
+    tblBancosControle: TAutoIncField;
+    tblBancosBanco: TStringField;
+    tblAgencia: TTable;
+    dsAgencia: TDataSource;
+    tblAgenciaControle: TAutoIncField;
+    tblAgenciaLkBanco: TIntegerField;
+    tblAgenciaCodigo: TStringField;
+    tblAgenciaAgencia: TStringField;
+    tblParam: TTable;
+    tblParamTaxaJuros: TFloatField;
+    tblParamComissao: TFloatField;
+    sqlReceber: TRxQuery;
+    sqlReceberDataCompra: TDateField;
+    sqlReceberLkVend: TIntegerField;
+    sqlReceberLkCliente: TStringField;
+    sqlReceberOrdem: TIntegerField;
+    sqlReceberVenc: TDateField;
+    sqlReceberJuro: TFloatField;
+    sqlReceberValor: TCurrencyField;
+    sqlReceberLkBanco: TIntegerField;
+    sqlReceberLkAgencia: TStringField;
+    sqlReceberNumero: TStringField;
+    sqlReceberConta: TStringField;
+    sqlReceberTipo: TStringField;
+    sqlReceberDataPag: TDateField;
+    sqlReceberVrPago: TCurrencyField;
+    sqlReceberBaixa: TStringField;
+    tblPagar: TTable;
+    tblPagarLkFornec: TStringField;
+    tblPagarTipoDoc: TStringField;
+    tblPagarDocumento: TStringField;
+    tblPagarNotaFiscal: TStringField;
+    tblPagarValor: TCurrencyField;
+    tblPagarVencimento: TDateField;
+    tblPagarHistorico: TStringField;
+    tblPagarDataPag: TDateField;
+    tblPagarValorPago: TCurrencyField;
+    tblPagarBaixa: TStringField;
+    tblPagarFornecedor: TStringField;
+    tblSangria: TTable;
+    tblSangriaTipo: TStringField;
+    tblSangriaDescricao: TStringField;
+    tblSangriaValor: TCurrencyField;
+    tblReforcoCx: TTable;
+    tblReforcoCxData: TDateField;
+    tblReforcoCxDescricao: TStringField;
+    tblReforcoCxHora: TTimeField;
+    tblReforcoCxValor: TCurrencyField;
+    tblSangriaData: TDateField;
+    tblLab: TTable;
+    tblLabControle: TAutoIncField;
+    tblLabLaboratorio: TStringField;
+    dsLab: TDataSource;
+    tblProdPedido: TFloatField;
+    tblProdVencimento: TDateField;
+    tblProdLkLab: TIntegerField;
+    tblParamDesconto: TFloatField;
+    dsParam: TDataSource;
+    tblParamPrazo: TIntegerField;
+    tblParamLiimiteCredito: TCurrencyField;
+    tblVendComissao: TFloatField;
+    tblProdEstFiscal: TFloatField;
+    tblProdLaboratorio: TStringField;
+    tblParamFEntrada: TStringField;
+    tblParamFSaida: TStringField;
+    tblParamFAviso: TStringField;
+    tblParamFAniv: TStringField;
+    tblParamFImporEstoque: TStringField;
+    tblParamFEstNegativo: TStringField;
+    tblParamFAvisoBac: TStringField;
+    tblParamSenha: TStringField;
+    sqlEstoque: TQuery;
+    sqlEstoqueData: TDateField;
+    sqlEstoqueLkProd: TStringField;
+    sqlEstoqueEstoque: TFloatField;
+    sqlEstoquePvenda: TCurrencyField;
+    sqlEstoquePCusto: TCurrencyField;
+    tblProdSituacao: TBooleanField;
+    tblClientesCogNome: TStringField;
+    tblPagarLivroCaixa: TBooleanField;
+    tblPagarDesconto: TCurrencyField;
+    tblPagarIcms: TCurrencyField;
+    tblParamVersao: TStringField;
+    tblParamImpboleto: TStringField;
+    tblPlanoContas: TTable;
+    tblPlanoContasConta: TStringField;
+    tblPlanoContasDescricao: TStringField;
+    tblPlanoContasMovimento: TStringField;
+    tblEmpresaLogo: TGraphicField;
+    tblParamAtualizaPdv: TBooleanField;
+    tblParamNfInicial: TStringField;
+    tblParamDiasUteis: TSmallintField;
+    tblCodigoCodigo: TIntegerField;
+    tblProdEtiquetas: TSmallintField;
+    tblProdMargemRevenda: TFloatField;
+    tblProdPrecoRevenda: TCurrencyField;
+    tblProdEnqfoto: TBooleanField;
+    tblParamAvancoLinha: TSmallintField;
+    tblResumo: TTable;
+    tblResumoData: TDateField;
+    tblResumoNresumo: TStringField;
+    tblResumoValor: TCurrencyField;
+    tblResumoDatapgto: TDateField;
+    tblResumoLkCartao: TSmallintField;
+    tblParamSequencial: TSmallintField;
+    tblAliquotas: TTable;
+    tblAliquotasCts: TStringField;
+    tblAliquotasTributacao: TStringField;
+    tblAliquotasVALOR: TFloatField;
+    sqlReceberVale: TStringField;
+    tblSangriaLkcaixa: TSmallintField;
+    tblReforcoCxLkcaixa: TSmallintField;
+    tblPagarLkcaixa: TSmallintField;
+    tblPagarControle: TIntegerField;
+    tblDevolucao: TTable;
+    tblDevolucaoData: TDateField;
+    tblDevolucaoOrdem: TIntegerField;
+    tblDevolucaoLkVend: TIntegerField;
+    tblDevolucaoQuant: TFloatField;
+    tblDevolucaoLkProd: TStringField;
+    tblDevolucaoVrUnit: TCurrencyField;
+    tblDevolucaoLkCliente: TStringField;
+    tblDevolucaoBaixa: TStringField;
+    tblDevolucaoSelecionar: TStringField;
+    tblDevolucaoDesconto: TFloatField;
+    tblDevolucaoLkSetor: TSmallintField;
+    tblDevolucaoFISCAL: TBooleanField;
+    tblDevolucaoFlagestacao: TStringField;
+    tblDevolucaoLivroCaixa: TBooleanField;
+    tblDevolucaoencarregado: TStringField;
+    tblDevolucaoFormapgto: TStringField;
+    tblDevolucaoEstorno: TFloatField;
+    tblDevolucaoVale: TStringField;
+    tblDevolucaoLkcartao: TSmallintField;
+    tblDevolucaoOBS: TStringField;
+    tblDevolucaoLKCAIXA: TSmallintField;
+    tblDevolucaoDatahora: TDateTimeField;
+    tblParamOutros: TStringField;
+    tblParamCont: TSmallintField;
+    tblParamDataref: TDateField;
+    tblProdPfiscalcusto: TCurrencyField;
+    tblParamBloqueiocliente: TSmallintField;
+    tblInventario: TTable;
+    tblInventarioData: TDateField;
+    tblInventarioEncerrado: TStringField;
+    tblMovInv: TTable;
+    tblMovInvData: TDateField;
+    tblMovInvLkprod: TStringField;
+    tblMovInvInventario: TFloatField;
+    tblMovInvEntrada: TFloatField;
+    tblMovInvSaida: TFloatField;
+    tblContasDesp: TTable;
+    tblContasDespConta: TStringField;
+    tblContasDespDescricao: TStringField;
+    tblContasDespMovimento: TStringField;
+    tblSangriaConta: TStringField;
+    tblParamSaldocaixa: TCurrencyField;
+    tblParamBaixaestgeral: TBooleanField;
+    tblParamBaixaestfiscal: TBooleanField;
+    tblProdInventario: TFloatField;
+    tblProdFracao: TStringField;
+    tblProdMovestoque: TStringField;
+    tblClientesControle: TIntegerField;
+    tblClientesEnqfoto: TBooleanField;
+    tblClientesEtiqueta: TStringField;
+    tblClientesUltimacompra: TDateField;
+    tblClientesValor: TCurrencyField;
+    tblVendSenha: TStringField;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure tblFornBeforeInsert(DataSet: TDataSet);
+    procedure tblProdAfterPost(DataSet: TDataSet);
+    procedure tblCodigoAfterPost(DataSet: TDataSet);
+    procedure tblSangriaNewRecord(DataSet: TDataSet);
+    procedure tblReforcoCxNewRecord(DataSet: TDataSet);
+    procedure tblClientesNewRecord(DataSet: TDataSet);
+    procedure tblPagarNewRecord(DataSet: TDataSet);
+    procedure tblProdPostError(DataSet: TDataSet; E: EDatabaseError;
+      var Action: TDataAction);
+    procedure tblProdFilterRecord(DataSet: TDataSet; var Accept: Boolean);
+    procedure tblProdBeforeDelete(DataSet: TDataSet);
+    procedure tblClientesBeforeDelete(DataSet: TDataSet);
+    procedure tblFornBeforeDelete(DataSet: TDataSet);
+    procedure tblSetorBeforeDelete(DataSet: TDataSet);
+    procedure tblLabBeforeDelete(DataSet: TDataSet);
+    procedure tblClientesAfterPost(DataSet: TDataSet);
+    procedure tblProdNewRecord(DataSet: TDataSet);
+  private
+    { Private declarations }
+    procedure AppException( E: Exception);
+  public
+    { Public declarations }
+
+     Codigo:String;
+     Usuario:Char;
+     lFiltro:Boolean;
+     Function ProximoCod(Banco:TDataSet;Campo:String;Tamanho:ShortInt):String;
+  end;
+
+var
+  dmMod: TdmMod;
+
+implementation
+{$R *.DFM}
+
+
+Uses Rotinas, dados1, IntDatas, dados2;
+
+procedure TdmMod.AppException(E: Exception);
+var j: Integer;
+Msg: String;
+begin
+//Warning1.Hide;
+if E is EDBEngineError then
+begin
+with EDBEngineError(E), Errors[0] do
+
+if ErrorCode = 9734 then // Has Details
+ShowMessage('Este registro não pode ser removido, outros arquivos precisam dele.')
+else
+if ErrorCode = 9729 then //11756 then // Key Violation (o nro do codigo está errado)
+ ShowMessage('Atenção!!! Tentativa de gravar item com mesmo código')
+//ShowMessage(Format('Ocorreu um erro no banco de dados: código %d.', [ErrorCode]))
+else
+if ErrorCode = 11270 then // another .NET file
+ShowMessage('Diretório controlado por outro arquivo .NET, verifique configuração do Banco de Dados.')
+else
+if ErrorCode = 9733 then // Master record missing
+ShowMessage('Registro Master não encontrado.')
+else
+if ErrorCode = 9734 then // Master has details
+ShowMessage('Este registro não pode ser removido, ele está sendo usado pelo Fireman.')
+else
+if ErrorCode = 8708 then // Record/Key deleted
+ShowMessage('Este registro foi removido por outro Operador.')
+else
+if ErrorCode = 10241 then // alredy in use - // Copy usado para pegar o nome do usuário
+with Errors[2] do
+ShowMessage(Format('Este registro está sendo usado pelo Operador: ''%s''.', [Copy(Message, 7, 20)]))
+else // Outros
+begin
+for j := 0 to ErrorCount -1 do // Loop para pegar todas as linhas das msg de erro
+with Errors[j] do
+Msg := Msg + Message + #13;
+ShowMessage(Format('EDBEngineError %d: %s', [ErrorCode, Msg]))
+end
+end
+else 
+if E is EConvertError then
+begin 
+with EConvertError(E) do 
+if Pos('date and time', Message) > 0 then 
+ShowMessage('Informe uma data e hora válida.') 
+else
+if Pos('is not a valid time', Message) > 0 then 
+ShowMessage('Informe uma hora válida.') 
+else 
+if Pos('is not a valid date', Message) > 0 then 
+ShowMessage('Informe uma data válida.')
+else 
+Application.ShowException(E);
+end
+else
+Application.ShowException(E);
+end; // AppException
+
+Function TdmMod.ProximoCod(Banco:TDataSet;Campo:String;Tamanho:ShortInt):String;
+Var
+  Indice:String;
+Begin
+    Indice:=(Banco AS TTable).IndexName;
+    (Banco As TTable).IndexName:='';
+    Banco.Last;
+    Result:=StrZero(Banco.FieldByName(campo).AsInteger+1,Tamanho);
+   (Banco As TTable).IndexName:=Indice;
+End;
+
+
+procedure TdmMod.DataModuleCreate(Sender: TObject);
+begin
+
+   Codigo:='';
+   PosRegistro:='';
+   lFiltro:=False;
+   session.AddPassWord('147852369');
+
+end;
+
+procedure TdmMod.tblFornBeforeInsert(DataSet: TDataSet);
+begin
+//   Codigo:=ProximoCod(Dataset,'Controle',4);
+end;
+
+procedure TdmMod.tblProdAfterPost(DataSet: TDataSet);
+begin
+   DBISaveChanges(tblProd.Handle);
+   tblprod.FlushBuffers;
+   tblprod.Refresh;
+
+end;
+
+procedure TdmMod.tblCodigoAfterPost(DataSet: TDataSet);
+begin
+   DbiSaveChanges((Dataset As TTable).Handle);
+end;
+
+procedure TdmMod.tblSangriaNewRecord(DataSet: TDataSet);
+begin
+    dmMod.tblSAngriaData.Value:=dmMod1.tblFinanDataAbertura.Value;
+    dmMod.tblSangrialkCaixa.Value:=dmMod1.tblFinanCodVend.Value;
+end;
+
+procedure TdmMod.tblReforcoCxNewRecord(DataSet: TDataSet);
+begin
+    dmMod.tblReforcoCxData.Value:=dmMod1.tblFinanDataAbertura.Value;
+    dmMod.tblReforcoCxlkCaixa.Value:=dmMod1.tblFinanCodVend.Value;
+end;
+
+procedure TdmMod.tblClientesNewRecord(DataSet: TDataSet);
+begin
+   With DataSet Do
+   Begin
+      FieldByname('Cidade').AsString:=dmMod.tblEmpresaCidade.Value;
+      FieldByName('Estado').AsString:='CE';
+      FieldByname('Cep').AsString:=dmMod.tbLEmpresaCep.Value;
+      FieldByname('LimiteCred').AsCurrency:=tblParamLiimiteCredito.Value;
+    
+   End;
+end;
+
+procedure TdmMod.tblPagarNewRecord(DataSet: TDataSet);
+begin
+  dmMod.tblPagarBaixa.value:='N';
+  
+end;
+
+
+
+
+
+procedure TdmMod.tblProdPostError(DataSet: TDataSet; E: EDatabaseError;
+  var Action: TDataAction);
+Var
+ErroMens :String ;
+begin
+AppException(e);
+ErroMens := E.Message;
+if ErroMens = 'Key violation.' then
+   action := daAbort;
+
+end;
+procedure TdmMod.tblProdFilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+begin
+Accept:=((dataset.FieldByName('codigo').ASString <>'00002') and
+               (dataset.FieldByName('codigo').ASString <>'99998') and
+               (dataset.FieldByName('codigo').ASString <>'99999'));
+end;
+
+procedure TdmMod.tblProdBeforeDelete(DataSet: TDataSet);
+begin
+ Log('Excluido '+dmMod.tblProdCodigo.Value+'-'+dmMod.tblprodProduto.value);
+end;
+
+procedure TdmMod.tblClientesBeforeDelete(DataSet: TDataSet);
+begin
+   log('cliente excluido '+dataset.fieldByName('nome').AsString);
+end;
+
+procedure TdmMod.tblFornBeforeDelete(DataSet: TDataSet);
+begin
+   log('fornecedor excluido '+dataset.fieldByName('empresa').AsString);
+end;
+
+procedure TdmMod.tblSetorBeforeDelete(DataSet: TDataSet);
+begin
+log('grupo excluido '+dataset.fieldByName('setor').AsString);
+end;
+
+procedure TdmMod.tblLabBeforeDelete(DataSet: TDataSet);
+begin
+    log('fabricante excluido '+dataset.fieldByName('laboratorio').AsString);
+end;
+
+procedure TdmMod.tblClientesAfterPost(DataSet: TDataSet);
+begin
+   DBISaveChanges(tblclientes.Handle);
+end;
+
+procedure TdmMod.tblProdNewRecord(DataSet: TDataSet);
+begin
+  tblProdFracao.Value:='N';
+  tblProdmovEstoque.Value:='S';
+  tblProdQuant.value:=0;
+  tblProdEstfiscal.value:=0;
+end;
+
+end.

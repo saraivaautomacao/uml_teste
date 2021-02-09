@@ -1,0 +1,912 @@
+object frHistoricoCli: TfrHistoricoCli
+  Left = 616
+  Top = 506
+  BorderStyle = bsDialog
+  Caption = 'Consulta Hist'#243'rico Compra Clientes'
+  ClientHeight = 591
+  ClientWidth = 830
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 14
+  object Label3: TLabel
+    Left = 334
+    Top = 267
+    Width = 160
+    Height = 22
+    Caption = 'ARQUIVO MORTO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -18
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 319
+    Top = 42
+    Width = 184
+    Height = 22
+    Caption = 'CONTAS EM ABERTO'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -18
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lblPeriodo: TLabel
+    Left = 0
+    Top = 564
+    Width = 830
+    Height = 27
+    Align = alBottom
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'lblPeriodo'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    ExplicitTop = 517
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 830
+    Height = 44
+    Align = alTop
+    BevelInner = bvLowered
+    BevelOuter = bvNone
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 9
+      Top = 2
+      Width = 37
+      Height = 14
+      Caption = 'C'#243'digo'
+    end
+    object Label2: TLabel
+      Left = 482
+      Top = 4
+      Width = 53
+      Height = 14
+      Caption = 'N'#170' Venda'
+    end
+    object fldCodigo: TComboEdit
+      Left = 6
+      Top = 22
+      Width = 113
+      Height = 22
+      ClickKey = 113
+      GlyphKind = gkEllipsis
+      ButtonWidth = 23
+      NumGlyphs = 1
+      TabOrder = 0
+      Text = 'FLDCODIGO'
+      OnButtonClick = fldCodigoButtonClick
+      OnExit = fldCodigoExit
+      OnKeyPress = fldCodigoKeyPress
+    end
+    object fldNome: TStaticText
+      Left = 125
+      Top = 17
+      Width = 341
+      Height = 23
+      AutoSize = False
+      BorderStyle = sbsSunken
+      Caption = 'fldNome'
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -18
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 1
+    end
+    object Button7: TButton
+      Left = 663
+      Top = 9
+      Width = 81
+      Height = 27
+      Caption = 'Periodo'
+      TabOrder = 2
+      OnClick = Button7Click
+    end
+    object edVenda: TEdit
+      Left = 481
+      Top = 18
+      Width = 131
+      Height = 22
+      TabOrder = 3
+      Text = 'edVenda'
+      OnExit = edVendaExit
+    end
+  end
+  object RxDBGrid2: TRxDBGrid
+    Left = 8
+    Top = 295
+    Width = 627
+    Height = 122
+    DataSource = DataSource3
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    MultiSelect = True
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ORDEM'
+        Title.Caption = 'N'#186' Venda'
+        Width = 68
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATACOMPRA'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data Compra'
+        Width = 81
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VENC'
+        Title.Alignment = taCenter
+        Title.Caption = 'Vencimento'
+        Width = 87
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'JURO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Juro'
+        Width = 66
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'HAVER'
+        Title.Alignment = taCenter
+        Title.Caption = 'Entrada'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Title.Alignment = taCenter
+        Title.Caption = 'Valor'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAPAG'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data Pag.'
+        Width = 82
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VRPAGO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Vr. Pago'
+        Width = 72
+        Visible = True
+      end>
+  end
+  object RxDBGrid3: TRxDBGrid
+    Left = 0
+    Top = 425
+    Width = 830
+    Height = 139
+    Hint = 'Use [CTRL]+[DELETE] - Excluir itens'
+    Align = alBottom
+    DataSource = DataSource2
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    MultiSelect = True
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ORDEM'
+        Title.Caption = 'N'#186' Venda'
+        Width = 70
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'DATA'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data'
+        Width = 69
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Produto'
+        Title.Alignment = taCenter
+        Width = 252
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'Unidade'
+        Title.Alignment = taCenter
+        Title.Caption = 'Unid'
+        Width = 51
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VRUNIT'
+        Title.Alignment = taCenter
+        Title.Caption = 'P. Unit.'
+        Width = 79
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Desc'
+        Title.Alignment = taCenter
+        Title.Caption = 'Desc/Acresc'
+        Width = 85
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QUANT'
+        Title.Alignment = taCenter
+        Title.Caption = 'Quant'
+        Width = 73
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Total'
+        Title.Alignment = taCenter
+        Visible = True
+      end>
+  end
+  object DBGrid1: TDBGrid
+    Left = 8
+    Top = 65
+    Width = 733
+    Height = 91
+    DataSource = DataSource1
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ORDEM'
+        Title.Alignment = taCenter
+        Title.Caption = 'N'#176' Venda'
+        Width = 57
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATACOMPRA'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data Compra'
+        Width = 101
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VENC'
+        Title.Alignment = taCenter
+        Title.Caption = 'Vencimento'
+        Width = 98
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'JURO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Juro'
+        Width = 55
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'HAVER'
+        Title.Alignment = taCenter
+        Title.Caption = 'Haver'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COMPRAS'
+        Title.Alignment = taCenter
+        Title.Caption = 'Compras'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RESTANTE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Restante'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTORNO1'
+        Title.Alignment = taCenter
+        Title.Caption = 'Cancela'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VALOR'
+        Title.Alignment = taCenter
+        Title.Caption = 'Valor'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAPAG'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data Pag.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'VRPAGO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Vr. Pago'
+        Visible = True
+      end>
+  end
+  object DBGrid2: TDBGrid
+    Left = 0
+    Top = 162
+    Width = 811
+    Height = 104
+    DataSource = DataSource4
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ORDEM'
+        Title.Alignment = taCenter
+        Title.Caption = 'N'#186' Venda'
+        Width = 56
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'data'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'lkprod'
+        Title.Alignment = taCenter
+        Title.Caption = 'C'#243'digo'
+        Width = 85
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'produto'
+        Title.Alignment = taCenter
+        Title.Caption = 'Produto'
+        Width = 239
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'unidade'
+        Title.Alignment = taCenter
+        Title.Caption = 'Un'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'quant'
+        Title.Alignment = taCenter
+        Title.Caption = 'Quant.'
+        Width = 53
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'vrunit'
+        Title.Alignment = taCenter
+        Title.Caption = 'P. Unit'
+        Width = 68
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'desconto'
+        Title.Alignment = taCenter
+        Title.Caption = 'Desc %'
+        Width = 55
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'total'
+        Title.Alignment = taCenter
+        Title.Caption = 'Total'
+        Visible = True
+      end>
+  end
+  object DataSource1: TDataSource
+    DataSet = RxQuery1
+    Left = 448
+    Top = 88
+  end
+  object DataSource2: TDataSource
+    DataSet = RxQuery2
+    Left = 176
+    Top = 456
+  end
+  object DataSource3: TDataSource
+    DataSet = RxQuery3
+    Left = 184
+    Top = 352
+  end
+  object DataSource4: TDataSource
+    DataSet = RxQuery1
+    Left = 344
+    Top = 192
+  end
+  object RxQuery1: TZReadOnlyQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      
+        'Select lkcliente,datacompra,venc,juro,haver,valor,datapag,vrpago' +
+        ',baixa,ordem,estorno1,'
+      'compras,restante'
+      'from tabreceber'
+      'Where lkCliente=:Codigo '
+      'and'
+      'datacompra  between  :data1 and :data2'
+      'and'
+      'ordem Like  :p03')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'Codigo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data2'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'p03'
+        ParamType = ptUnknown
+      end>
+    Left = 256
+    Top = 96
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'Codigo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data2'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'p03'
+        ParamType = ptUnknown
+      end>
+    object RxQuery1LKCLIENTE: TWideStringField
+      FieldName = 'LKCLIENTE'
+      Size = 8
+    end
+    object RxQuery1DATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      EditMask = '!99/99/00;1;_'
+    end
+    object RxQuery1VENC: TDateField
+      FieldName = 'VENC'
+      EditMask = '!99/99/00;1;_'
+    end
+    object RxQuery1JURO: TFloatField
+      FieldName = 'JURO'
+    end
+    object RxQuery1HAVER: TFloatField
+      FieldName = 'HAVER'
+      currency = True
+    end
+    object RxQuery1VALOR: TFloatField
+      FieldName = 'VALOR'
+      currency = True
+    end
+    object RxQuery1DATAPAG: TDateField
+      FieldName = 'DATAPAG'
+      EditMask = '!99/99/00;1;_'
+    end
+    object RxQuery1VRPAGO: TFloatField
+      FieldName = 'VRPAGO'
+      currency = True
+    end
+    object RxQuery1BAIXA: TWideStringField
+      FieldName = 'BAIXA'
+      Size = 1
+    end
+    object RxQuery1ORDEM: TIntegerField
+      FieldName = 'ORDEM'
+    end
+    object RxQuery1ESTORNO1: TFloatField
+      FieldName = 'ESTORNO1'
+    end
+    object RxQuery1COMPRAS: TFloatField
+      FieldName = 'COMPRAS'
+      currency = True
+    end
+    object RxQuery1RESTANTE: TFloatField
+      FieldName = 'RESTANTE'
+      currency = True
+    end
+  end
+  object RxQuery4: TZReadOnlyQuery
+    Connection = dmMod.zConPrinc
+    OnCalcFields = RxQuery4CalcFields
+    SQL.Strings = (
+      'select data,lkprod,ordem,lkvend,quant,desconto,vrunit,lkcliente'
+      'from tabsaida1'
+      'where lkcliente=:lkcliente')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'lkcliente'
+        ParamType = ptUnknown
+      end>
+    DataSource = DataSource1
+    Left = 264
+    Top = 168
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'lkcliente'
+        ParamType = ptUnknown
+      end>
+    object RxQuery4DATA: TDateField
+      FieldName = 'DATA'
+      DisplayFormat = 'dd/mm/yy'
+    end
+    object RxQuery4LKPROD: TWideStringField
+      FieldName = 'LKPROD'
+      Size = 15
+    end
+    object RxQuery4ORDEM: TIntegerField
+      FieldName = 'ORDEM'
+    end
+    object RxQuery4LKVEND: TIntegerField
+      FieldName = 'LKVEND'
+    end
+    object RxQuery4QUANT: TFloatField
+      FieldName = 'QUANT'
+    end
+    object RxQuery4DESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object RxQuery4VRUNIT: TFloatField
+      FieldName = 'VRUNIT'
+      currency = True
+    end
+    object RxQuery4LKCLIENTE: TWideStringField
+      FieldName = 'LKCLIENTE'
+      Size = 8
+    end
+    object RxQuery4Produto: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Produto'
+      LookupDataSet = dmMod.tblProd
+      LookupKeyFields = 'CODIGO'
+      LookupResultField = 'PRODUTO'
+      KeyFields = 'LKPROD'
+      Size = 40
+      Lookup = True
+    end
+    object RxQuery4Unidade: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Unidade'
+      LookupDataSet = dmMod.tblProd
+      LookupKeyFields = 'CODIGO'
+      LookupResultField = 'UNIDADE'
+      KeyFields = 'LKPROD'
+      Size = 2
+      Lookup = True
+    end
+    object RxQuery4Total: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'Total'
+      Calculated = True
+    end
+  end
+  object RxQuery3: TZReadOnlyQuery
+    Connection = dmMod.zConPrinc
+    SQL.Strings = (
+      
+        'Select lkcliente,datacompra,venc,juro,haver,valor,datapag,vrpago' +
+        ',baixa,ordem'
+      'from tabMorto1'
+      'Where lkCliente=:Codigo'
+      'and'
+      'datacompra between :data1 and :data2'
+      'and'
+      'ordem Like :p03')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'Codigo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data2'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'p03'
+        ParamType = ptUnknown
+      end>
+    Left = 272
+    Top = 368
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'Codigo'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'data2'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'p03'
+        ParamType = ptUnknown
+      end>
+    object RxQuery3LKCLIENTE: TWideStringField
+      FieldName = 'LKCLIENTE'
+      Size = 8
+    end
+    object RxQuery3DATACOMPRA: TDateField
+      FieldName = 'DATACOMPRA'
+      DisplayFormat = 'dd/mm/yy'
+    end
+    object RxQuery3VENC: TDateField
+      FieldName = 'VENC'
+      DisplayFormat = 'dd/mm/yy'
+    end
+    object RxQuery3JURO: TFloatField
+      FieldName = 'JURO'
+    end
+    object RxQuery3HAVER: TFloatField
+      FieldName = 'HAVER'
+      currency = True
+    end
+    object RxQuery3VALOR: TFloatField
+      FieldName = 'VALOR'
+      currency = True
+    end
+    object RxQuery3DATAPAG: TDateField
+      FieldName = 'DATAPAG'
+      DisplayFormat = 'dd/mm/yy'
+    end
+    object RxQuery3VRPAGO: TFloatField
+      FieldName = 'VRPAGO'
+      currency = True
+    end
+    object RxQuery3BAIXA: TWideStringField
+      FieldName = 'BAIXA'
+      Size = 1
+    end
+    object RxQuery3ORDEM: TIntegerField
+      FieldName = 'ORDEM'
+    end
+  end
+  object RxQuery2: TZReadOnlyQuery
+    Connection = dmMod.zConPrinc
+    OnCalcFields = RxQuery2CalcFields
+    SQL.Strings = (
+      'Select * from TabMorto'
+      'Where lkcliente=:lkcliente')
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'lkcliente'
+        ParamType = ptUnknown
+      end>
+    DataSource = DataSource3
+    Left = 272
+    Top = 456
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'lkcliente'
+        ParamType = ptUnknown
+      end>
+    object RxQuery2DATA: TDateField
+      FieldName = 'DATA'
+    end
+    object RxQuery2ORDEM: TIntegerField
+      FieldName = 'ORDEM'
+    end
+    object RxQuery2LKVEND: TIntegerField
+      FieldName = 'LKVEND'
+    end
+    object RxQuery2QUANT: TFloatField
+      FieldName = 'QUANT'
+    end
+    object RxQuery2LKPROD: TWideStringField
+      FieldName = 'LKPROD'
+      Size = 15
+    end
+    object RxQuery2VRUNIT: TFloatField
+      FieldName = 'VRUNIT'
+    end
+    object RxQuery2LKCLIENTE: TWideStringField
+      FieldName = 'LKCLIENTE'
+      Size = 8
+    end
+    object RxQuery2BAIXA: TWideStringField
+      FieldName = 'BAIXA'
+      Size = 1
+    end
+    object RxQuery2SELECIONAR: TWideStringField
+      FieldName = 'SELECIONAR'
+      Size = 1
+    end
+    object RxQuery2DESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object RxQuery2LKSETOR: TSmallintField
+      FieldName = 'LKSETOR'
+    end
+    object RxQuery2FISCAL: TWideStringField
+      FieldName = 'FISCAL'
+      Size = 1
+    end
+    object RxQuery2FLAGESTACAO: TWideStringField
+      FieldName = 'FLAGESTACAO'
+      Size = 1
+    end
+    object RxQuery2LIVROCAIXA: TWideStringField
+      FieldName = 'LIVROCAIXA'
+      Size = 1
+    end
+    object RxQuery2ENCARREGADO: TWideStringField
+      FieldName = 'ENCARREGADO'
+    end
+    object RxQuery2ESTORNO: TFloatField
+      FieldName = 'ESTORNO'
+    end
+    object RxQuery2FORMAPGTO: TWideStringField
+      FieldName = 'FORMAPGTO'
+      Size = 1
+    end
+    object RxQuery2VALE: TWideStringField
+      FieldName = 'VALE'
+      Size = 1
+    end
+    object RxQuery2LKCARTAO: TSmallintField
+      FieldName = 'LKCARTAO'
+    end
+    object RxQuery2OBS: TWideStringField
+      FieldName = 'OBS'
+      Size = 10
+    end
+    object RxQuery2LKCAIXA: TSmallintField
+      FieldName = 'LKCAIXA'
+    end
+    object RxQuery2LKVENDCOMISSAO: TSmallintField
+      FieldName = 'LKVENDCOMISSAO'
+    end
+    object RxQuery2Produto: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Produto'
+      LookupDataSet = dmMod.tblProd
+      LookupKeyFields = 'CODIGO'
+      LookupResultField = 'PRODUTO'
+      KeyFields = 'LKPROD'
+      Size = 40
+      Lookup = True
+    end
+    object RxQuery2Unidade: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Unidade'
+      LookupDataSet = dmMod.tblProd
+      LookupKeyFields = 'CODIGO'
+      LookupResultField = 'UNIDADE'
+      KeyFields = 'LKPROD'
+      Size = 2
+      Lookup = True
+    end
+    object RxQuery2Cliente: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Cliente'
+      LookupDataSet = dmMod.tblClientes
+      LookupKeyFields = 'CODIGO'
+      LookupResultField = 'NOME'
+      KeyFields = 'LKCLIENTE'
+      Size = 40
+      Lookup = True
+    end
+    object RxQuery2TipoVenda: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'TipoVenda'
+      Size = 40
+      Calculated = True
+    end
+    object RxQuery2Total: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'Total'
+      Calculated = True
+    end
+  end
+end

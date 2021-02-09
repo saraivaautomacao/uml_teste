@@ -1,0 +1,760 @@
+unit manprod;
+
+interface
+
+uses
+  Windows, Messages,dbiprocs, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  RxLookup, StdCtrls, DBCtrls, Grids, DBGrids, RXDBCtrl, ComCtrls, ExtCtrls,db,
+  Mylabel, Enter, Menus, DBTables, ImpMat, MemTable;
+
+type
+  TfrManProd = class(TForm)
+    Panel1: TPanel;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Edit1: TEdit;
+    RxDBGrid1: TRxDBGrid;
+    fldSetor: TRxDBLookupCombo;
+    Panel2: TPanel;
+    fldTotal1: TmyLabel3d;
+    rgOrdem: TRadioGroup;
+    Button1: TButton;
+    Menu: TPopupMenu;
+    AlteraoEstoqueGeral1: TMenuItem;
+    AlteraoEstoqueFiscal1: TMenuItem;
+    N1: TMenuItem;
+    DataSource1: TDataSource;
+    Table1: TTable;
+    Table1Controle: TAutoIncField;
+    Table1CodigoAuxliar: TStringField;
+    Table1CodigoInterno: TStringField;
+    Table1Produto: TStringField;
+    Table1LkSetor: TIntegerField;
+    Table1Fabricante: TStringField;
+    Table1LkFornec: TStringField;
+    Table1PrecoCusto: TCurrencyField;
+    Table1CustoMedio: TCurrencyField;
+    Table1PrecoVenda: TCurrencyField;
+    Table1Quant: TFloatField;
+    Table1EstMinimo: TFloatField;
+    Table1Unidade: TStringField;
+    Table1Lucro: TFloatField;
+    Table1Moeda: TStringField;
+    Table1UltReaj: TDateField;
+    Table1Obs: TMemoField;
+    Table1NaoSaiTabela: TBooleanField;
+    Table1Inativo: TBooleanField;
+    Table1CodigoIpi: TStringField;
+    Table1IPI: TFloatField;
+    Table1Cts: TStringField;
+    Table1Icms: TFloatField;
+    Table1Basecalculo: TFloatField;
+    Table1Desconto: TFloatField;
+    Table1Local: TStringField;
+    Table1Peso: TFloatField;
+    Table1Pedido: TFloatField;
+    Table1Vencimento: TDateField;
+    Table1LkLab: TIntegerField;
+    Table1EstFiscal: TFloatField;
+    Table1Situacao: TBooleanField;
+    Button2: TButton;
+    Table1Codigo: TStringField;
+    Table1Laboratorio: TStringField;
+    Button3: TButton;
+    GerarNotaEntrada1: TMenuItem;
+    Direta1: TMenuItem;
+    Table2: TTable;
+    Table3: TTable;
+    Table2Controle: TAutoIncField;
+    Table2Codigo: TStringField;
+    Table2Data: TDateField;
+    Table2Total: TCurrencyField;
+    Table3Data: TDateField;
+    Table3LkEst2: TStringField;
+    Table3LkProduto: TStringField;
+    Table3Quant: TFloatField;
+    Table3PrecoCusto: TCurrencyField;
+    Table3PrecoVenda: TCurrencyField;
+    Table3Situacao: TBooleanField;
+    fldFab: TRxDBLookupCombo;
+    Table1Etiquetas: TSmallintField;
+    Etiquetas1: TMenuItem;
+    Habilitar1: TMenuItem;
+    Filtrar1: TMenuItem;
+    Imprimir1: TMenuItem;
+    Zerar1: TMenuItem;
+    ImpMat1: TImpMat;
+    Table1MargemRevenda: TFloatField;
+    Table1PrecoRevenda: TCurrencyField;
+    Table1setor: TStringField;
+    Table1Fornecedor: TStringField;
+    DataSource2: TDataSource;
+    ckbDestaque: TCheckBox;
+    tblMem: TMemoryTable;
+    tblMemDescricao1: TStringField;
+    tblMemDescricao2: TStringField;
+    tblMemDescricao3: TStringField;
+    tblMemdescricao4: TStringField;
+    Table1Foto: TGraphicField;
+    Table1Pfiscalcusto: TCurrencyField;
+    AcompdePreos1: TMenuItem;
+    Table1Fracao: TStringField;
+    Table1Movestoque: TStringField;
+    ZerarPosicaodeEstoque1: TMenuItem;
+    EstoqueGeral1: TMenuItem;
+    EstoqueExtra1: TMenuItem;
+    TabSheet3: TTabSheet;
+    Label1: TLabel;
+    QAjsute1: TMenuItem;
+    procedure FormShow(Sender: TObject);
+    procedure Edit1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure PageControl1Change(Sender: TObject);
+    procedure fldSetorClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button1Click(Sender: TObject);
+    procedure AlteraoEstoqueGeral1Click(Sender: TObject);
+    procedure AlteraoEstoqueFiscal1Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure RxDBGrid1ColExit(Sender: TObject);
+    procedure Table1BeforePost(DataSet: TDataSet);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Direta1Click(Sender: TObject);
+    procedure fldFabClick(Sender: TObject);
+    procedure Habilitar1Click(Sender: TObject);
+    procedure Filtrar1Click(Sender: TObject);
+    procedure Imprimir1Click(Sender: TObject);
+    procedure Zerar1Click(Sender: TObject);
+    procedure RxDBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Table1FilterRecord(DataSet: TDataSet; var Accept: Boolean);
+    procedure RxDBGrid1GetCellParams(Sender: TObject; Field: TField;
+      AFont: TFont; var Background: TColor; Highlight: Boolean);
+    procedure ckbDestaqueClick(Sender: TObject);
+    procedure Edit1Exit(Sender: TObject);
+    procedure Table1NaoSaiTabelaGetText(Sender: TField; var Text: String;
+      DisplayText: Boolean);
+    procedure Table1NaoSaiTabelaSetText(Sender: TField;
+      const Text: String);
+    procedure Table1AfterPost(DataSet: TDataSet);
+  private
+    { Private declarations }
+    nlin,nCont:Integer;
+    Flag:Boolean;
+    Primeira:Boolean;
+    procedure Filtra;
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frManProd: TfrManProd;
+
+implementation
+
+uses Dados,rotinas, acesso, dados1, dados3   ;
+
+{$R *.DFM}
+
+procedure TfrManProd.Filtra;
+Begin
+   table1.Filter:='';
+   If (fldSetor.value<>'') And (fldFab.Value<>'') Then
+      Table1.Filter:='lkSetor='+fldSetor.Value+ ' and '+
+                     'lkLab='+fldFab.Value
+  Else If (fldSetor.value<>'') Then
+    Table1.Filter:='lkSetor='+fldSetor.Value
+  Else If (fldFab.Value<>'') Then
+     Table1.Filter:='lkLab='+fldFab.Value;
+End;
+
+
+
+
+procedure TfrManProd.FormShow(Sender: TObject);
+begin
+   table1.Open;
+   table1.IndexName:='Ind_produto';
+   table1.Filtered:=True;
+   dmmod.tblSetor.Open;
+   dmMod.tblSetor.IndexName:='Ind_Setor';
+   dmmod.tblLab.Open;
+   Edit1.Text:='';
+   rgOrdem.ItemIndex:=1;
+   fldTotal1.Caption:='';
+   Edit1.SetFocus;
+   dmMod.tblAliquotas.Open;
+   RxDBGrid1.ColumNs[16].PicKList.Clear;
+   While not dmMod.tblAliquotas.Eof do
+   Begin
+     RxDBGrid1.ColumNs[16].PicKList.Add(dmMod.tblAliquotasCts.Value+' - '+
+     dmMod.tblAliquotastributacao.Value);
+     dmMOd.tblAliquotas.Next;
+   End;
+   If tag<2 Then
+   Begin
+    PageControl1.ActivePageIndex:=1;
+    rxDbGrid1.Columns[6].Visible:= dmMod3.tbUsuarioPrecoCusto.Value;
+    rxDbGrid1.Columns[2].Visible:=False;
+    rxDbGrid1.Columns[5].Visible:=False;
+    rxDbGrid1.Columns[10].Visible:=False;
+  end;
+ 
+end;
+
+
+
+
+procedure TfrManProd.Edit1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+Var
+  Codigo:String;
+begin
+ If (Key = VK_DOWN) or (Key=VK_UP) Then
+     rxDbGrid1.SetFocus;
+  If Edit1.Text='' Then
+     Exit;
+  If PageControl1.ActivePageIndex=1 Then
+     table1.Locate('Produto',Edit1.Text,[loPartialKey,loCaseInsensitive])
+  Else If PageControl1.ActivePageIndex=0 Then
+     table1.Locate('Codigo',GeraCod(Edit1.Text,5),[loPartialKey,
+     loCaseInsensitive]);
+end;
+
+procedure TfrManProd.PageControl1Change(Sender: TObject);
+begin
+   If PageControl1.ActivePageIndex=0 Then
+      table1.IndexName:='Ind_Codigo'
+   Else If PageControl1.ActivePageIndex=1 Then
+      table1.IndexName:='Ind_Produto'
+   Else If PageControl1.ActivePageIndex=2 Then
+      table1.IndexName:='Ind_Controle' ;
+
+
+   table1.First;
+end;
+
+procedure TfrManProd.fldSetorClick(Sender: TObject);
+begin
+Filtra;
+end;
+
+procedure TfrManProd.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+   CloseAll(dmMod,true,true);
+   table1.Close;
+  action:=cafree;
+end;
+
+procedure TfrManProd.Button1Click(Sender: TObject);
+Var
+  Soma:Currency;
+  Itens:Integer;
+  Posicao:TBookMark;
+begin
+  Soma:=0;
+  Itens:=0;
+  Posicao:=Table1.GetBookMark;
+  table1.DisableControls;
+  table1.First;
+  While Not table1.Eof do
+  Begin
+    If rgOrdem.ItemIndex=0 Then
+      If rxDbgrid1.Columns[10].Visible Then
+         Soma:=Soma+(table1EstFiscal.Value*table1PrecoCusto.Value)
+      Else
+        Soma:=Soma+(table1Quant.Value*table1PrecoCusto.Value)
+    Else If rgOrdem.ItemIndex=1 Then
+    Begin
+       If rxDbgrid1.Columns[10].Visible Then
+          Soma:=Soma+(table1EstFiscal.Value*table1PrecoVenda.Value)
+       Else
+         Soma:=Soma+(table1Quant.Value*table1PrecoVenda.Value);
+    End
+    Else If rgOrdem.ItemIndex=2 Then
+    Begin
+       If rxDbgrid1.Columns[10].Visible Then
+          Soma:=Soma+(table1EstFiscal.Value*table1Pfiscalcusto.Value)
+       Else
+         Soma:=Soma+(table1Quant.Value*table1Pfiscalcusto.Value);
+    End
+    Else If rgOrdem.ItemIndex=3 Then
+    Begin
+       Inc(Itens);
+       Soma:=Soma+table1Quant.value;
+    End;
+    table1.Next;
+
+    End;
+  table1.EnableControls;
+  IF rgOrdem.ItemIndex=3 Then
+     fldTotal1.Caption:='Itens: '+Strzero(itens,3)+' Estoque:'+Floattostrf(
+     soma,ffNumber,8,2)
+  Else
+     fldTotal1.Caption:=FloatToStrf(Soma,ffCurrency,12,2);
+  Table1.GotoBookMark(Posicao);
+  Table1.FreeBookMark(Posicao);
+end;
+
+procedure TfrManProd.AlteraoEstoqueGeral1Click(Sender: TObject);
+begin
+   FormAcesso:=TFormAcesso.Create(Application);
+   FormAcesso.ShowModal;
+   If FormAcesso.Retorno Then
+   Begin
+      FrManProd.rxdbGrid1.ReadOnly:=False;
+      Log('autorizado alterar manutencao de produto');
+   End;
+   FormAcesso.Release;
+
+end;
+
+procedure TfrManProd.AlteraoEstoqueFiscal1Click(Sender: TObject);
+begin
+  FormAcesso:=TFormAcesso.Create(Application);
+  FormAcesso.ShowModal;
+  If FormAcesso.Retorno Then
+  Begin
+      FrManProd.rxdbGrid1.ReadOnly:=False;
+      Log('autorizado alterar manutencao de produto fiscal');
+  end;
+  FormAcesso.Release;
+  If not rxDbGrid1.ReadOnly Then
+  Begin
+    rxDbGrid1.Columns[10].Visible:=True;
+    rxDbGrid1.Columns[5].Visible:=True;
+  End;
+
+end;
+
+procedure TfrManProd.FormActivate(Sender: TObject);
+begin
+ rxDbGrid1.readOnly:=True;
+end;
+
+procedure TfrManProd.RxDBGrid1ColExit(Sender: TObject);
+begin
+  If Table1.State In [dsEdit] Then
+    Table1.Post;
+
+
+end;
+
+procedure TfrManProd.Table1BeforePost(DataSet: TDataSet);
+begin
+
+
+//em funcão do preço de custo
+  If (rxDbGrid1.SelectedIndex=6) Then
+  Begin
+
+     If (Table1Lucro.Value<>0) Then
+        Table1PrecoVenda.Value:= Table1PrecoCusto.Value+
+        ( Table1PrecoCusto.Value*(Table1Lucro.Value/100));
+     If Table1MargemRevenda.Value<>0  Then
+        table1PrecoRevenda.Value:=table1PrecoVEnda.Value*(1-Table1MargemRevenda.Value/100)
+     Else If (table1PrecoRevenda.Value<>0)  and
+            (Table1MargemRevenda.Value<>0) Then
+         Table1MargemRevenda.Value:=((Table1PrecoVenda.Value-Table1PrecoreVenda.Value)*100)/
+                           Table1PrecoVEnda.Value;
+  End;
+
+ //em funcão do preço do preco de venda
+  If (rxDbGrid1.SelectedIndex=7)  Then
+  Begin
+    If Table1PrecoCusto.Value<>0 Then
+       Table1Lucro.Value:=((Table1PrecoVenda.Value-Table1PrecoCusto.Value)*100)/
+                           Table1PrecoCusto.Value;
+     If Table1MargemRevenda.Value<>0  Then
+        table1PrecoRevenda.Value:=table1PrecoVEnda.Value*(1-Table1MargemRevenda.Value/100)
+     Else If (table1PrecoRevenda.Value<>0)  and
+            (Table1MargemRevenda.Value<>0) Then
+         Table1MargemRevenda.Value:=((Table1PrecoVenda.Value-Table1PrecoreVenda.Value)*100)/
+                           Table1PrecoVEnda.Value;
+  End;
+  //em função da margem de lucro
+   If  rxDbGrid1.SelectedIndex=11 Then
+       If (table1Lucro.Value<>0) Then
+          table1PrecoVenda.Value:=table1PrecoCusto.Value+
+          (table1PrecoCusto.Value*(table1Lucro.Value/100));
+  //em função do estoque fiscal
+   // If (rxDbGrid1.SelectedIndex=8) and (rxdbGrid1.Columns[9].Visible) Then
+   //   table1EstFiscal.Value:=table1Quant.Value;
+   //em função do preco de revenda
+    If (rxDbGrid1.SelectedIndex=13) Then
+    Begin
+       Table1MArgemRevenda.Value:=Abs(((Table1Precovenda.Value-Table1precoreVenda.Value)*100)/
+                           Table1PrecoVEnda.Value);
+       If Table1precoreVenda.Value=0 Then
+         Table1MArgemRevenda.Value:=0;
+    End;
+
+
+
+  //em função do margem de revenda
+    If (rxDbGrid1.SelectedIndex=12)  Then
+    BEgin
+       If Table1MargemRevenda.Value<>0  Then
+         table1PrecoRevenda.Value:=table1PrecoVEnda.Value*(1-Table1MargemRevenda.Value/100)
+       Else
+        table1PrecoRevenda.Value:=0;
+    End;
+end;
+
+procedure TfrManProd.Button2Click(Sender: TObject);
+begin
+    If Confirma('Deseja recompor código de produtos')=idNo Then
+       Exit;
+    Table1.First;
+    Table1.DisableControls;
+    While not Table1.Eof Do
+    Begin
+       Table1.Edit;
+       If TipoString(Table1Codigo.Value) Then
+       Table1Codigo.Value:=StrZero(Trunc(StrToFloat(Table1Codigo.Value)),5);
+       Table1.Post;
+       Table1.Next;
+   End;
+   Table1.EnableControls;
+   Table1.First;
+end;
+
+procedure TfrManProd.Button3Click(Sender: TObject);
+
+Var
+  I:Integer;
+begin
+   If not dmmod3.tbUsuarioPermitirExcluir.Value Then
+   Begin
+       Mensagem('Usuario nao tem permissao');
+       Exit;
+   End;
+  If FrManProd.rxdbGrid1.ReadOnly Then
+  Begin
+     Mensagem('Clique c/ botão direito sobre a tabela p/ permissão');
+     Table1.First;
+     Exit;
+  End;
+  If (table1Codigo.Value='99999') or
+         (table1Codigo.Value='99998') Then
+  Begin
+     Mensagem('Esse código não pode ser excluido');
+     Exit;
+  End;
+  if table1quant.value<>0 Then
+  begin
+     Mensagem('Produto com estoque pendente');
+     exit;
+  end;
+  If Confirma('Confirma exclusão de item(s)')=idYes Then
+  Begin
+     if rxDBGrid1.SelectedRows.Count>0 then
+     with rxDBGrid1.DataSource.DataSet do
+     Begin
+        for i:=0 to rxDBGrid1.SelectedRows.Count-1 do
+        begin
+           GotoBookmark(pointer(rxDBGrid1.SelectedRows.Items[i]));
+           log('excluido produto '+table1produto.value);
+            table1.Delete;
+           rxDbGrid1.Refresh;
+        End;
+     End
+     Else
+     begin
+        log('excluido produto '+table1produto.value);
+        table1.Delete;
+     end;   
+  End;
+end;
+
+procedure TfrManProd.Direta1Click(Sender: TObject);
+Var
+  Soma:Currency;
+begin
+  Soma:=0;
+  FormAcesso:=TFormAcesso.Create(Application);
+  FormAcesso.ShowModal;
+  If FormAcesso.Retorno Then
+  Begin
+     IF  Confirma('Confirma geração de entrada direta usando o estoque atual')=idNo Then
+        exit;
+     table2.open;
+     table2.append;
+     table2Data.value:=date;
+     Table2Codigo.Value:=Strzero(AutoIncrementoManual('estoque1','tabest2','codigo'),8);
+     table2.post;
+     Table3.Open;
+     table1.First;
+     table1.DisableControls;
+     While not Table1.Eof Do
+     Begin
+         Table3.Append;
+         Table3Data.Value:=date;
+         Table3lkProduto.Value:=table1Codigo.value;
+         Table3PrecoCusto.value:=Table1PrecoCusto.Value;
+         Table3Precovenda.value:=Table1PrecoVenda.Value;
+         Table3lkEst2.Value:=Table2Codigo.Value;
+         Table3Quant.Value:=Table1Quant.value;
+         Soma:=Soma+(Table1PrecoCusto.Value*Table1Quant.Value);
+         Table3Situacao.Value:=true;
+         Table1.Next;
+     End;
+     Table1.EnableControls;
+     Table2.Edit;
+     Table2Total.Value:=Soma;
+     Table2.Post;
+     Table2.Close;
+     Table3.Close;
+  End;
+end;
+
+procedure TfrManProd.fldFabClick(Sender: TObject);
+begin
+  If fldfab.Value='' Then
+     table1.Filter:=''
+  Else
+     table1.Filter:='Lklab='+IntToStr(fldFab.Keyvalue);
+  table1.First;
+end;
+
+procedure TfrManProd.Habilitar1Click(Sender: TObject);
+Var
+  Cont:Smallint;
+begin
+  FormAcesso:=TFormAcesso.Create(Application);
+  FormAcesso.ShowModal;
+  If FormAcesso.Retorno Then
+  Begin
+      FrManProd.rxdbGrid1.ReadOnly:=False;
+      rxDbGrid1.Columns[2].Visible:=true;
+      For Cont:=1 To 3 Do
+        Menu.Items[4][Cont].Enabled:=true;
+  End;
+  FormAcesso.Release;
+end;
+
+procedure TfrManProd.Filtrar1Click(Sender: TObject);
+begin
+ If Uppercase(menu.Items[4][1].Caption)='FILTRAR' Then
+  Begin
+     Table1.Filter:='etiquetas>0';
+     menu.Items[4][1].Caption:='Desfazer Filtro'
+  End
+  Else
+  Begin
+    menu.Items[4][1].Caption:='Filtrar';
+    Table1.Filter:='';
+  End;
+  Table1.First;
+end;
+
+procedure TfrManProd.Imprimir1Click(Sender: TObject);
+Var
+  Campo,cStr11,cStr1,cStr2,cStr3:String;
+  Pos,Cont1,Cont2,nCol,nLin,nCont:Integer;
+begin
+   If Not rxDbGrid1.Columns[2].Visible Then
+        Exit;
+     If Confirma('Confirma Impressão de Etiquetas')=idNo Then
+     Begin
+        rxDbGrid1.SetFocus;
+        Exit;
+     End;
+    Table1.Filter:='etiquetas>0';
+    menu.Items[4][1].Caption:='Desfazer Filtro' ;
+    // If not OnLine(0) Then
+       // Exit;
+     tblMem.Open;
+     //Auxiliar:=Copy(dmMod1.tblEmpFone1.Value,6,8);
+     Table1.First;
+      While not table1.Eof Do
+     Begin
+        If table1Etiquetas.Value<>0 Then
+            GeraEt1(tblMem,Copy(table1Produto.Value,1,26),
+                  Copy(table1Produto.Value,27,10)+' Cod.:'+Alltrim(table1Codigo.Value),
+                 ' R$ '+FloatToStrf(table1PrecoVenda.Value,ffNumber,10,2),'',
+                  Trunc(table1Etiquetas.Value));
+           table1.Next;
+  End;
+  nLin:=2;
+  tblMem.First;
+  nCont:=1;
+  ImpMat1.PoeStr(nLin,1,c10CPI+cINegrito+'  ');
+
+  inc(nLin);
+  If Not Flag Then
+  begin
+    ImpMat1.PoeStr(nLin,1,'  ');
+    inc(nLin);
+  End;
+  //ImpMat1.PoeStr(nLin,1,'  ');
+  //inc(nLin);
+  cStr11:='';cStr1:='';cStr2:='';cStr3:='';
+  nCont:=0;
+  While Not tblMem.Eof Do
+  Begin
+      cStr1:=cStr1+TamStr(tblMemDescricao1.Value,26,'E');
+      cStr11:=cStr11+TamStr(tblMemDescricao4.Value,26,'E');
+      cStr2:=cStr2+TamStr(tblMemDescricao2.Value,26,'E');
+      cStr3:=cStr3+TamStr(tblMemDescricao3.Value,26,'E');
+      tblMem.Next;
+      Inc(nCont);
+      If nCont=2 Then
+      Begin
+        For Cont1:=1 To 4 do
+        Begin
+           nCol:=1; Pos:=1;
+           For Cont2:=1 To 2 Do
+           Begin
+              If Cont1=1 Then
+                ImpMat1.PoeStr(nLin,nCol,Copy(cStr1,Pos,26))
+              Else If Cont1=2 Then
+                ImpMat1.PoeStr(nLin,nCol,Copy(cStr11,Pos,26))
+              Else If Cont1=3 Then
+                ImpMat1.PoeStr(nLin,nCol,(Copy(cStr2,Pos,26)))
+              Else
+                ImpMat1.PoeStr(nLin,nCol,Copy(cStr3,Pos,26));
+              nCol:=nCol+29;
+              Pos:=Pos+26;
+           End;
+           Inc(nLin);
+           If nLin>=65 Then
+           Begin
+              nLin:=1;
+              Impmat1.ImprimeJob;
+              ImpMat1.limpaBuffer;
+           End;
+         End;
+       cStr11:=''; cStr1:='';cStr2:='';cStr3:='';
+        nCont:=0;
+        ImpMat1.PoeStr(nLin,01,'   ');
+       nlin:=nlin+2;
+      End;
+   End;
+   If (nCont<2) Then
+   Begin
+      For Cont1:=1 To 4 do
+      Begin
+         nCol:=1;Pos:=1;
+         For Cont2:=1 To 2 Do
+         Begin
+            If Cont1=1 Then
+             Begin
+               ImpMat1.PoeStr(nLin,nCol,Copy(cStr1,Pos,26));
+            End
+            Else If Cont1=2 Then
+               ImpMat1.PoeStr(nLin,nCol,Copy(cStr11,Pos,26))
+            Else If Cont1=3 Then
+               ImpMat1.PoeStr(nLin,nCol,Copy(cStr2,Pos,26))
+            Else
+              ImpMat1.PoeStr(nLin,nCol,Copy(cStr3,Pos,26));
+            nCol:=nCol+29;
+            Pos:=Pos+26;
+
+       End;
+       nLin:=nLin+1;
+      End;
+   End;
+   Flag:=true;
+  // ImpMat1.PoeStr(nLin,1,'  '+c11Cpi+'   ');
+   Impmat1.ImprimeJob;
+   ImpMat1.limpaBuffer;
+   tblMem.Close
+end;
+
+
+procedure TfrManProd.Zerar1Click(Sender: TObject);
+begin
+   Table1.Filter:='Etiquetas>0';
+   Table1.First;
+   While Not Table1.Eof Do
+   begin
+      Table1.Edit;
+      Table1Etiquetas.value:=0;
+      Table1.Post;
+   End;
+   Table1.Filter:='';
+   Table1.First;
+end;
+
+procedure TfrManProd.RxDBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (ssAlt in Shift) and (chr(Key) in ['C', 'c','D','d','S','s']) then
+    Edit1.SetFocus;
+end;
+
+procedure TfrManProd.Table1FilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+begin
+ // Accept:=(dataset.fieldByName('codigo').asString<>'99999') and
+  //(dataset.fieldByName('codigo').asString<>'99998'); 
+end;
+
+procedure TfrManProd.RxDBGrid1GetCellParams(Sender: TObject;
+  Field: TField; AFont: TFont; var Background: TColor; Highlight: Boolean);
+begin
+  IF (Sender as TrxDBGrid).DataSource.DataSet.FieldByName('naosaitabela').AsBoolean Then
+      Background :=$00F9FCBC;
+  If ckbDestaque.Checked Then
+  Begin
+  If (Sender as TrxDBGrid).DataSource.DataSet.FieldByName('quant').AsFloat<=
+    (Sender as TrxDBGrid).DataSource.DataSet.FieldByName('EstMinimo').AsFloat Then
+       AFont.Color :=clred;
+
+  if Highlight then begin
+    AFont.Color := clHighlightText;
+    Background := clHighlight;
+ end;
+ End;
+end;
+
+procedure TfrManProd.ckbDestaqueClick(Sender: TObject);
+begin
+   table1.Refresh;
+end;
+
+procedure TfrManProd.Edit1Exit(Sender: TObject);
+begin
+ If (edit1.Text<>'') Then
+ begin
+   if (PageControl1.ActivePageIndex=1) Then
+   Begin
+     If not table1.Locate('Produto',Edit1.Text,[loPartialKey,loCaseInsensitive]) Then
+        PesquisaAvancada(table1,'Produto',Edit1.text);
+   End;
+   if pagecontrol1.activepageindex=2 Then
+      table1.Locate('codigoauxliar',Edit1.Text,[]);
+  end;
+end;
+
+procedure TfrManProd.Table1NaoSaiTabelaGetText(Sender: TField;
+  var Text: String; DisplayText: Boolean);
+begin
+  If sender.value=true Then
+     TExt:='S'
+  Else
+     Text:='N';
+end;
+
+procedure TfrManProd.Table1NaoSaiTabelaSetText(Sender: TField;
+  const Text: String);
+begin
+    IF TEXT='S' Then
+      sender.value:=true
+    Else
+      sender.value:=false;
+end;
+
+procedure TfrManProd.Table1AfterPost(DataSet: TDataSet);
+begin
+   DBISaveChanges(table1.Handle);
+   table1.FlushBuffers;
+   table1.Refresh;
+end;
+
+end.

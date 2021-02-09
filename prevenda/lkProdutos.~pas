@@ -1,0 +1,237 @@
+unit lkProdutos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, Grids, DBGrids, ExtCtrls, ComCtrls, Db, DBTables,DBiProcs,
+  RxQuery, RxHook, Enter, RXDBCtrl, Buttons, RxLookup, DBCtrls;
+
+type
+  TFormlkProd = class(TForm)
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Panel1: TPanel;
+    Image1: TImage;
+    Label1: TLabel;
+    Panel2: TPanel;
+    Edit1: TEdit;
+    DataSource1: TDataSource;
+    Query1: TRxQuery;
+    MREnter1: TMREnter;
+    dbGrid1: TRxDBGrid;
+    Panel3: TPanel;
+    Button1: TButton;
+    Button2: TButton;
+    TabSheet3: TTabSheet;
+    SpeedButton1: TSpeedButton;
+    Label2: TLabel;
+    fldGrupo: TRxDBLookupCombo;
+    Label7: TLabel;
+    fldForn: TRxDBLookupCombo;
+    Label8: TLabel;
+    Query1codigo: TStringField;
+    Query1produto: TStringField;
+    Query1unidade: TStringField;
+    Query1precovenda: TCurrencyField;
+    Query1quant: TFloatField;
+    Query1estfiscal: TFloatField;
+    Query1cts: TStringField;
+    Query1lklab: TIntegerField;
+    Query1codigoauxliar: TStringField;
+    Query1lksetor: TIntegerField;
+    Query1local: TStringField;
+    Query1precorevenda: TCurrencyField;
+    Query1Fabricante: TStringField;
+    Query1lkfornec: TStringField;
+    chkRevenda: TCheckBox;
+    Query1Fornecedor: TStringField;
+    Button3: TButton;
+    Query2: TQuery;
+    Panel4: TPanel;
+    rgTipo: TRadioGroup;
+    DBText1: TDBText;
+    DBText2: TDBText;
+    Query1naosaitabela: TBooleanField;
+    procedure FormShow(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
+    procedure Edit1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure dbGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Edit1Exit(Sender: TObject);
+    procedure fldGrupoClick(Sender: TObject);
+    procedure fldFornClick(Sender: TObject);
+    procedure chkRevendaClick(Sender: TObject);
+    procedure DataSource1DataChange(Sender: TObject; Field: TField);
+    procedure Query1FilterRecord(DataSet: TDataSet; var Accept: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+
+  end;
+
+var
+  FormlkProd: TFormlkProd;
+  ultimoReg:String='';
+implementation
+
+uses Dados,rotinas, dados1;
+
+{$R *.DFM}
+
+procedure TFormlkProd.FormShow(Sender: TObject);
+begin
+ // :=false;
+  rgTipo.ItemIndex:=0;
+  dmmod.tblSetor.Open;
+  dbGrid1.Columns[7].Visible:=chkRevenda.Checked;
+  dmmod1.tblImp.Open;
+  label2.Caption:='';
+  Edit1.text:='';
+  If tag=1 Then
+     Edit1.Text:=geral;
+   Edit1.SetFocus;
+   Panel4.Caption:='';
+   Edit1.OnExit:=edit1Exit;
+End;
+
+procedure TFormlkProd.PageControl1Change(Sender: TObject);
+begin
+  Edit1.TExt:='';
+  Edit1.SetFocus;
+ 
+end;
+
+procedure TFormlkProd.Edit1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+
+begin
+  If Key=27 Then
+  Begin
+    edit1.OnExit:=Nil;
+    Close;
+  End;
+  If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+end;
+
+procedure TFormlkProd.Button1Click(Sender: TObject);
+begin
+   Geral:=Query1Codigo.value;
+   UltimoReg:=Geral;
+end;
+
+procedure TFormlkProd.Button2Click(Sender: TObject);
+begin
+   Geral:='';
+end;
+
+procedure TFormlkProd.dbGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+
+
+  If (Key=9) or (key=vk_return) Then
+  Begin
+     Button1Click(Sender);
+     Close;
+  End;
+  If Key=27 Then
+  Begin
+     Close;
+     geral:='';
+  End;
+
+end;
+
+procedure TFormlkProd.Edit1Exit(Sender: TObject);
+begin
+  Query1.Close;
+  Query1.sql.Clear;
+  Query1.sql.Add('Select codigo,produto,unidade,precovenda,quant,estfiscal,cts,'+
+  'lklab,codigoauxliar,lksetor,lkfornec,local,precorevenda,naosaitabela from tabest1'+
+  ' Where (%Tributacao) and (%grupo) and (%forn) and ');
+  If PageControl1.ActivePageIndex=0 Then
+  Begin
+     Query1.sql.add('produto like:comeco');
+     If rgTipo.itemindex=0 Then
+       Query1.Params[0].asString:=Alltrim(edit1.text)+'%'
+     Else If rgTipo.itemindex=1 Then
+         Query1.Params[0].asString:='%'+Alltrim(edit1.text)+'%'
+     Else
+       Query1.Params[0].asString:='%'+Alltrim(edit1.text);
+  End
+  Else If PageControl1.ActivePageIndex=1 Then
+  Begin
+     Query1.sql.add('codigo=:comeco');
+     Edit1.Text:=GeraCod(edit1.text,5);
+     Query1.Params[0].asString:=Alltrim(edit1.text);
+  End
+  Else If PageControl1.ActivePageIndex=2 Then
+  Begin
+     Query1.sql.add('codigoauxliar=:comeco');
+     Query1.Params[0].asString:=Alltrim(edit1.text);
+  End;
+  Query1.sql.add('order by produto');
+  Query1.Open;
+  If (Edit1.text<>'') And (Query1.Eof and Query1.Bof) Then
+  Begin
+      Query1.close;
+      Query1.Params[0].asString:=''+'%';
+      Query1.Open;
+      PesquisaAvancada(Query1,'Produto',Edit1.text);
+      ultimoReg:='';
+  End;
+  DBGrid1.SelectedIndex := 1;
+   If Ultimoreg<>'' Then
+     Query1.Locate('codigo',ultimoReg,[]);
+  dbGrid1.SetFocus;
+end;
+
+procedure TFormlkProd.fldGrupoClick(Sender: TObject);
+Var
+  Valor:String;
+begin
+   Valor:='0=0';
+   If fldGrupo.Value<>'' Then
+     Valor:='lksetor='+fldGrupo.Value;
+   Query1.Close;
+   Query1.MacroByName('grupo').AsString:=Valor;
+   Query1.Open;
+end;
+
+procedure TFormlkProd.fldFornClick(Sender: TObject);
+Var
+  Valor:String;
+begin
+  Valor:='0=0';
+   If fldForn.Value<>'' Then
+     Valor:='lkLab='+QuotedStr(fldForn.Value);
+   Query1.Close;
+   Query1.MacroByName('forn').AsString:=Valor;
+   Query1.Open;
+end;
+
+procedure TFormlkProd.chkRevendaClick(Sender: TObject);
+begin
+  dbGrid1.Columns[6].Visible:=chkRevenda.Checked;
+end;
+
+procedure TFormlkProd.DataSource1DataChange(Sender: TObject;
+  Field: TField);
+begin
+   Panel4.Caption:=FloatToStrf(Query1PrecoVenda.Value,ffCurrency,12,2);
+end;
+
+procedure TFormlkProd.Query1FilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+begin
+   accept:=query1naosaitabela.value<>true;
+end;
+
+end.

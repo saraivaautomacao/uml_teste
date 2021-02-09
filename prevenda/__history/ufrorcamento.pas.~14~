@@ -1,0 +1,508 @@
+unit ufrorcamento;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db, StdCtrls, DBTables,  Grids, DBGrids, ExtCtrls, Mask,
+  ImpMat, DBCtrls, Buttons, ImpMat2, rxCurrEdit, rxToolEdit,clientevo,clientecontroller,
+  ACBrBase, ACBrEnterTab, ZAbstractRODataset, ZAbstractDataset, ZAbstractTable, ZDataset;
+
+type
+  TfrOrcamento = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DataSource1: TDataSource;
+    Label1: TLabel;
+    fldEndereco: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    fldObservacao: TEdit;
+    DataSource2: TDataSource;
+    fldNome: TComboEdit;
+    fldOrc: TComboEdit;
+    DBGrid1: TDBGrid;
+    Label4: TLabel;
+    fldNOrc: TLabel;
+    Panel3: TPanel;
+    Button3: TButton;
+    Button4: TButton;
+    Button5: TButton;
+    Label5: TLabel;
+    Button2: TButton;
+    fldTotal: TCurrencyEdit;
+    fldDesc: TCurrencyEdit;
+    Panel4: TPanel;
+    Button6: TButton;
+    Button7: TButton;
+    Button1: TButton;
+    ImpMat1: TImpMat2;
+    ckbPrecoRevenda: TCheckBox;
+    tbReceita: TZTable;
+    tbReceitaORCAMENTO: TIntegerField;
+    tbReceitaNOME: TWideStringField;
+    tbReceitaENDERECO: TWideStringField;
+    tbReceitaOBSERVACAO: TWideStringField;
+    tbReceitaDESCONTO: TFloatField;
+    tbReceitaTOTAL: TFloatField;
+    tbReceitaFORMAPAGTO: TWideStringField;
+    tbReceitaHAVER: TFloatField;
+    tbReceitaSELECAO: TWideStringField;
+    tbREceita1: TZTable;
+    tbREceita1LKORC: TIntegerField;
+    tbREceita1CODIGO: TWideStringField;
+    tbREceita1PRECOUNIT: TFloatField;
+    tbREceita1QUANT: TFloatField;
+    tbREceita1DESCONTO: TFloatField;
+    Label6: TLabel;
+    DBEdit1: TDBEdit;
+    Label7: TLabel;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Label8: TLabel;
+    DBLookupComboBox2: TDBLookupComboBox;
+    tbREceita1Total: TCurrencyField;
+    tbREceita1Produto: TStringField;
+    tbREceita1unidade: TStringField;
+    procedure FormShow(Sender: TObject);
+    procedure tbREceita1NewRecord(DataSet: TDataSet);
+    procedure DBGrid1ColExit(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure tbREceita1CalcFields(DataSet: TDataSet);
+    procedure DBGrid1EditButtonClick(Sender: TObject);
+    procedure DBGrid1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Button5Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure fldNomeButtonClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button6Click(Sender: TObject);
+    procedure fldObservacaoExit(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    Novo:Boolean;
+    Procedure Limpa;
+  public
+    { Public declarations }
+  end;
+
+var
+  frOrcamento: TfrOrcamento;
+
+implementation
+
+uses Dados,rotinas,dados2,dados1,
+  lkClientes, lkProdutos,prevenda1, lkReceita, vias, relorcamento;
+
+{$R *.DFM}
+Procedure tfrOrcamento.Limpa;
+Begin
+   fldNome.Text:='';
+     fldEndereco.Text:='';
+     fldObservacao.Text:='';
+     fldDesc.text:='0';
+     fldTotal.text:='0';
+
+     fldNorc.caption:='';
+End;
+
+procedure TfrOrcamento.FormShow(Sender: TObject);
+begin
+    tbreceita.databasename:=ExtractFileDir(Application.ExeName);
+    tbreceita1.databasename:=ExtractFileDir(Application.ExeName);
+    fldOrc.Text:=StrZero(0,5);
+    Limpa;
+    tbReceita.Open;
+    panel1.visible:=false;
+    panel2.visible:=false;
+    panel3.visible:=false;
+end;
+
+procedure TfrOrcamento.tbREceita1NewRecord(DataSet: TDataSet);
+begin
+   (dataset).FieldByname('lkorc').AsInteger:=StrToInt(fldOrc.Text);
+   (dataset).FieldByname('Quant').AsInteger:=1;
+end;
+
+procedure TfrOrcamento.DBGrid1ColExit(Sender: TObject);
+begin
+    If tbReceita1.State In [dsEdit,dsInsert] Then
+    Begin
+      If dbGrid1.SelectedIndex=0 Then
+      Begin
+          tbReceita1Codigo.value:=GeraCod(tbReceita1Codigo.value,5);
+          If dmMod.tblProd.Locate('codigo',GeraCod(tbReceita1Codigo.value,5),[]) then
+          begin
+              if ckbPrecoRevenda.Checked Then
+                 tbReceita1PrecoUnit.Value:=dmMod.tblProdPrecoRevenda.value
+               else
+                 tbReceita1PrecoUnit.Value:=dmMod.tblProdPrecoVenda.Value;
+          end;
+      End;
+    End;
+end;
+
+procedure TfrOrcamento.Button2Click(Sender: TObject);
+Var
+   Soma:Currency;
+begin
+    Soma:=0;
+    tbReceita1.First;
+    While not tbReceita1.Eof Do
+    begin
+        Soma:=soma+tbReceita1Total.Value;
+        tbReceita1.Next;
+    End;
+    fldTotal.Text:=FloattoStr(Soma*(1-(StrToFloat(fldDesc.Text)/100)));
+    tbReceita.Edit;
+    tbReceitaTotal.Value:=Soma*(1-(StrToFloat(fldDesc.Text)/100));
+    tbReceitaDesconto.Value:=StrToFloat(fldDesc.Text);
+//    tbReceitaHaver.Value:=fldHaver.Value;
+  //  tbReceitaformapagto.Value:=fldFormapgto.text;
+    tbReceita.Post;
+end;
+
+procedure TfrOrcamento.tbREceita1CalcFields(DataSet: TDataSet);
+begin
+  With dataset Do
+   FieldByname('Total').AsCurrency:=FieldByName('Quant').AsFloat*
+      (tbReceita1PrecoUnit.value-trunc( (tbReceita1PrecoUnit.value*(tbReceita1Desconto.Value)/100)*100)/100);
+end;
+
+procedure TfrOrcamento.DBGrid1EditButtonClick(Sender: TObject);
+begin
+   formLkProd.ShowModal;
+  If Geral<>'' Then
+  Begin
+     tbReceita1.Edit;
+     tbReceita1codigo.VAlue:=geral;
+  End;
+end;
+
+procedure TfrOrcamento.DBGrid1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+If (Key=Vk_F2) And (dbGrid1.SelectedIndex=0) Then
+   Begin
+     formlkProd.ShowModal;
+     if Geral<>'' Then
+      Begin
+        tbReceita1.Edit;
+        tbReceita1Codigo.VAlue:=Geral;
+     End;
+   End;
+end;
+
+procedure TfrOrcamento.Button5Click(Sender: TObject);
+begin
+   If tbReceita1.recordCount<>0 then
+       tbReceita1.Delete;
+end;
+
+procedure TfrOrcamento.Button3Click(Sender: TObject);
+Var
+  Contador:Smallint;
+begin
+{  tbReceita1.First;
+  Contador:=1;
+  While not tbreceita1.Eof Do
+  Begin
+    With formBalcao1 Do
+    Begin
+      dmMod.tblProd.Locate('codigo',tbReceita1codigo.value,[]);
+     // If (dmMod.tblProdQuant.Value-tbReceita1Quant.value>=0) Then
+   //   Begin
+        tblSaida.Append;
+        tblSaidaCodigo.value:=dmMod.tblprodCodigo.Value;
+        tblSaidaCont.Value:=contador;
+        Inc(Contador);
+        tblSaidaCodigoAuxiliar.Value:=dmMod.tblprodCodigoAuxliar.Value;
+        tblSaidaQuant.Value:=tbReceita1Quant.Value;
+        tblSaidaDesc.Value:=-tbReceita1Desconto.Value;
+        tblSaidaPrecoUnit.Value:=tbReceita1precoUnit.value;
+        tblSaidaProduto.Value:=fldCodigo.Text;
+        tblSaidacts.Value:=dmMod.tblProdCts.Value;
+        tblSAidaunid.Value:=dmMod.tblProdUnidade.Value;
+        tblSaidalkSetor.Value:=dmMod.tblProdLkSetor.Value;
+        tblSaidaFiscal.Value:=rxFiscal.StateOn;
+        tblSaida.Post;
+    // End;
+    End;
+    tbReceita1.Next;
+  End;
+  With FormBalcao1 Do
+  BEgin
+    Soma:=Soma1(tblSaida,'Total');
+    FldTotal.Caption:=FloatToStrf(Soma,ffCurrency,12,2);
+    fldDesconto.Text:=FormReceita.fldDesc.Text;
+    fldQuant.TExt:='0';
+    fldQuant.SetFocus;
+ End;
+  Close;}
+end;
+
+procedure TfrOrcamento.Button4Click(Sender: TObject);
+Var
+ Cont, nLin:SmallInt;
+begin
+    dmMod1.tblEmp.Open;
+    formvias:=tFormVias.Create(Application);
+    If FormVias.showModal<>mrOk Then
+       exit;
+    if formvias.rgRelat.itemindex=0 then
+    begin
+
+      ImpMat1.ArqDestino := porta;
+      nLin := 2;
+      If Not Cabecalho Then
+      Begin
+        ImpMat1.PoeStr(nLin, 2, dmMod1.tblEmpFantasia.value);
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, dmMod1.tblEmpReferecia.value);
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, 'Fone:' + dmMod1.tblEmpFone1.value);
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, FormatDateTime('dd "de" mmmmm "de" yyyy',
+            date));
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, 'HORA:' + FormatDateTime('hh":"mm', time));
+        Inc(nLin);
+        Cabecalho := true;
+      End;
+      ImpMat1.PoeStr(nLin, 2, '================================');
+      Inc(nLin);
+      ImpMat1.PoeStr(nLin, 10, 'ORCAMENTO No ' + fldOrc.Text);
+      Inc(nLin);
+      ImpMat1.PoeStr(nLin, 2, '================================');
+      Inc(nLin);
+
+      If fldNome.Text <> '' Then
+      Begin
+        ImpMat1.PoeStr(nLin, 2, 'PARA ' + fldNome.Text);
+        Inc(nLin);
+      End;
+      If fldEndereco.Text <> '' Then
+      Begin
+        ImpMat1.PoeStr(nLin, 2, fldEndereco.Text);
+        Inc(nLin);
+      End;
+      If fldObservacao.Text <> '' Then
+      Begin
+        ImpMat1.PoeStr(nLin, 2, fldObservacao.Text);
+        Inc(nLin);
+      End;
+      ImpMat1.PoeStr(nLin, 2, '----------------------------------------');
+      Inc(nLin);
+      ImpMat1.PoeStr(nLin, 2, 'Quant. Descricao Un Desc(%) Preco  Total ');
+      Inc(nLin);
+      ImpMat1.PoeStr(nLin, 2, '-----------------------------------------');
+      Inc(nLin);
+
+      tbREceita1.First;
+      While Not tbREceita1.Eof Do
+      Begin
+        ImpMat1.PoeStr(nLin, 1, trim(tbREceita1Codigo.value) + ' ' + Copy
+            (tbREceita1Produto.value, 1, 30));
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 3, 'X');
+        ImpMat1.PoeStr(nLin, 5, TamStr(FloattoStr(tbREceita1Quant.value), 6,
+            'd'));
+        ImpMat1.PoeStr(nLin, 16, tbREceita1unidade.value);
+        If tbREceita1Desconto.value <> 0 Then
+          ImpMat1.PoeStr(nLin, 19, TamStr(FloatToStrf(tbREceita1Desconto.value,
+                ffNumber, 5, 2), 6, 'd') + '%');
+        ImpMat1.PoeStr(nLin, 26, TamStr(FloatToStrf(tbREceita1Precounit.value,
+              ffNumber, 8, 2), 6, 'd'));
+        ImpMat1.PoeStr(nLin, 33, TamStr(FloatToStrf(tbREceita1Total.value,
+              ffNumber, 8, 2), 6, 'd'));
+        Inc(nLin);
+        tbREceita1.Next;
+      End;
+      ImpMat1.PoeStr(nLin, 2, '-----------------------------------------');
+      Inc(nLin);
+      ImpMat1.PoeStr(nLin, 2, 'TOTAL: ' + FloatToStrf(fldTotal.value,
+          ffcurrency, 12, 2));
+      Inc(nLin);
+      If tbReceitaDesconto.value <> 0 Then
+      Begin
+        ImpMat1.PoeStr(nLin, 2, 'DESCONTO(%):' + fldDesc.Text + ' %');
+        Inc(nLin);
+      End;
+
+      ImpMat1.PoeStr(nLin, 2, 'TOTAL A NEGOCIAR R$:' + fldTotal.Text);
+      nLin := nLin + 3;
+      ImpMat1.PoeStr(nLin, 2, '----------------------------------------');
+      Inc(nLin);
+      ImpMat1.PoeStr(nLin, 2, '           RESPONSAVEL                  ');
+      Inc(nLin);
+      If configuracao.AvancoLinha <> 0 Then
+        nLin := nLin + configuracao.AvancoLinha
+      Else
+        nLin := nLin + 7;
+      If Cabecalho Then
+      Begin
+
+        ImpMat1.PoeStr(nLin, 2, dmMod1.tblEmpFantasia.value);
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, dmMod1.tblEmpReferecia.value);
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, 'Fone:' + dmMod1.tblEmpFone1.value);
+        Inc(nLin);
+        ImpMat1.PoeStr(nLin, 2, FormatDateTime('dd "de" mmmmm "de" yyyy',
+            date));
+        Inc(nLin);
+      End;
+      ImpMat1.ImprimeJob;
+      ImpMat1.LimpaBuffer;
+    end
+    Else
+    Begin
+       formRelOrcamento:=tFormRelOrcamento.create(Application);
+       with formrelorcamento do
+       begin
+           qrLabelNome.caption:='Nome:'+ fldNome.text;
+           qrLabelEndereco.caption:='Endereco: '+fldEndereco.Text;
+           qrLabelObservacao.caption:='Observaçao: '+fldObservacao.Text;
+           qrLabelDesconto.caption:='DESCONTO%: '+FloatToStrf(fldDesc.value,ffNumber,6,2);
+           qrLabelTotal.caption:='TOTAL: '+FloatToStrf(fldTotal.value,ffcurrency,12,2);
+           quickrep1.preview;
+           release;
+       end;
+
+    End;
+
+end;
+
+procedure TfrOrcamento.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+case key of
+    vk_Escape:
+    Begin
+       Geral:='';
+       Close;
+    End;
+  End;
+end;
+
+procedure TfrOrcamento.fldNomeButtonClick(Sender: TObject);
+Var
+   Cliente:TClienteVo;
+begin
+   formlkClientes.ShowModal;
+   If geral<>'' Then
+   Begin
+      Cliente:=TClienteVo.Create;
+      Cliente:=TClienteController.ConsultaCodigo(geral);
+      fldNome.Text:=geral+'-'+cliente.nome;
+      fldEndereco.TExt:=cliente.endereco;
+   End;
+
+
+
+end;
+
+procedure TfrOrcamento.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+    If tbreceita.Active Then
+    Begin
+      If Not tbReceita1.isEmpty Then
+      Begin
+       tbreceita.edit;
+       tbReceitaDesconto.Value:=StrToFloat(fldDesc.Text);
+       tbReceita.Post;
+      End;
+    End;
+    tbReceita.Close;
+    tbReceita1.close;
+end;
+
+procedure TfrOrcamento.Button6Click(Sender: TObject);
+begin
+    panel2.visible:=true;
+    panel1.visible:=true;
+     panel3.visible:=true;
+    fldOrc.Text:=StrZero(0,5);
+    Limpa;
+    novo:=true;
+    fldNome.SetFocus;
+    tbReceita1.Close;
+end;
+
+procedure TfrOrcamento.fldObservacaoExit(Sender: TObject);
+begin
+   If Novo Then
+    Begin
+       dmMod2.tbCodigo.OPEN;
+       dmMod2.tbCodigo.Edit;
+       dmMod2.tbCodigocampo1.Value:= dmMod2.tbCodigocampo1.Value+1;
+       dmMod2.tbCodigo.Post;
+       tbReceita.Append ;
+       tbReceitaorcamento.value:=dmMod2.tbCodigocampo1.Value-1;
+       fldOrc.Text:=StrZero(dmMod2.tbCodigocampo1.Value-1,5);
+       dmMod2.tbCodigo.close;
+    End
+    Else
+       tbReceita.Edit;
+    tbReceitaNome.Value:=fldNome.Text;
+    tbReceitaEndereco.Value:=fldEndereco.Text;
+    tbReceitaObservacao.Value:=fldObservacao.TExt;
+    tbReceitaSelecao.value:='N';
+    tbReceita.Post;
+    fldNOrc.CAption:=StrZero(tbReceitaorcamento.value,6);
+    tbReceita1.Filter:='lkOrc='+fldOrc.Text;
+    tbReceita1.Open;
+    If tbReceita1.isempty Then
+       tbReceita1.Append;
+   Novo:=false;
+   dbgrid1.setfocus;
+end;
+
+procedure TfrOrcamento.Button7Click(Sender: TObject);
+begin
+    geral:='';
+    try
+    formlkreceita:=TFormlkreceita.create(Application);
+    If formlkReceita.ShowModal=mrOk Then
+       fldOrc.Text:=StrZero(geral,5)
+    Else
+       Exit;
+    If fldOrc.TExt='' Then
+       Exit;
+    panel2.visible:=true;
+    panel1.visible:=true;
+    panel3.visible:=true;
+    Novo:=true;
+    fldOrc.TExt:=StrZero(StrToInt(fldOrc.Text),5);
+    If tbReceita.Locate('orcamento',fldOrc.Text,[]) Then
+    Begin
+       fldNome.Text:=tbReceitaNome.Value;
+       fldEndereco.Text:=tbReceitaEndereco.TExt;
+       fldObservacao.Text:=tbReceitaobservacao.Text;
+       fldDesc.Text:=FloatToStr(tbReceitaDesconto.Value);
+       fldTotal.TExt:=FloatToStr(tbReceitaTotal.Value);
+       novo:=false;
+       fldObservacaoExit(self);
+       fldNOrc.Caption:=Strzero(tbReceitaorcamento.value,6);
+    End
+    Else
+       limpa;
+    finally
+      freeandnil(formlkreceita);
+    end;
+
+end;
+
+procedure TfrOrcamento.Button1Click(Sender: TObject);
+begin
+    Limpa;
+    panel1.Visible:=false;
+    panel2.visible:=false;
+end;
+
+end.

@@ -1,0 +1,318 @@
+unit lkClientes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Grids, DBGrids, ComCtrls, Mask, DBCtrls, Db, DBTables,
+  RXDBCtrl, Buttons, RxQuery;
+
+type
+  TformLkClientes = class(TForm)
+    pgPesq: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    Panel1: TPanel;
+    fldNome: TEdit;
+    Image1: TImage;
+    Label1: TLabel;
+    fldCodigo: TEdit;
+    fldCpf: TMaskEdit;
+    fldcnpj: TMaskEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Bevel3: TBevel;
+    DataSource1: TDataSource;
+    TabSheet5: TTabSheet;
+    fldContato: TEdit;
+    Panel2: TPanel;
+    Button1: TButton;
+    Button2: TButton;
+    dbGrid1: TRxDBGrid;
+    Query1: TRxQuery;
+    Query1codigo: TStringField;
+    Query1nome: TStringField;
+    Query1endereco: TStringField;
+    Query1bairro: TStringField;
+    Query1cidade: TStringField;
+    Query1cep: TStringField;
+    Query1telefone: TStringField;
+    Query1abrevia: TStringField;
+    Query1lktipo: TIntegerField;
+    Query1lkvend: TIntegerField;
+    Query1rg: TStringField;
+    Query1cpf: TStringField;
+    Query1cnpj: TStringField;
+    Query1insc: TStringField;
+    Query1datanasc: TDateField;
+    Query1contato: TStringField;
+    Query1estado: TStringField;
+    Panel3: TPanel;
+    Label4: TLabel;
+    fldBairro: TEdit;
+    SpeedButton1: TSpeedButton;
+    Query1limitecred: TCurrencyField;
+    rgTipo: TRadioGroup;
+    SpeedButton2: TSpeedButton;
+    procedure pgPesqChange(Sender: TObject);
+    procedure fldNomeKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+    procedure fldCodigoKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure fldCpfKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure fldcnpjKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure fldAbrevKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Button1Click(Sender: TObject);
+    procedure fldContatoKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dbGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure fldNomeExit(Sender: TObject);
+    procedure rgTipoClick(Sender: TObject);
+    procedure fldCodigoExit(Sender: TObject);
+    procedure fldCpfExit(Sender: TObject);
+    procedure fldcnpjExit(Sender: TObject);
+    procedure fldContatoExit(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  formLkClientes: TformLkClientes;
+
+implementation
+Uses Rotinas;
+{$R *.DFM}
+
+procedure TformLkClientes.pgPesqChange(Sender: TObject);
+begin
+  fldNome.Text:='';fldCodigo.Text:='';
+  fldCpf.Text:='';fldCnpj.Text:='';
+
+  fldContato.Text:='';
+ 
+end;
+
+procedure TformLkClientes.fldNomeKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+
+ {  If fldNome.Text<>'' Then
+      Query1.Locate('nome',fldNome.text,[loPartialKey,loCaseInsensitive]);}
+end;
+
+procedure TformLkClientes.FormShow(Sender: TObject);
+begin
+  pgPesq.ActivePageIndex:=0;
+  fldNome.Text:='';
+  fldNome.SetFocus;
+  fldBairro.Text:='';
+  speedButton1.Down:=false;
+  rgTipo.ItemIndex:=0;
+  If posRegistro<>'' Then
+  Begin
+     fldCodigo.TExt:=posRegistro;
+     fldCodigoExit(self);
+ End;
+end;
+
+procedure TformLkClientes.fldCodigoKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+
+end;
+
+procedure TformLkClientes.fldCpfKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+end;
+
+procedure TformLkClientes.fldcnpjKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+
+   
+end;
+
+procedure TformLkClientes.fldAbrevKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+
+                        end;
+
+procedure TformLkClientes.Button1Click(Sender: TObject);
+begin
+   Geral:=Query1Codigo.Value;
+end;
+
+procedure TformLkClientes.fldContatoKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  If (Key = VK_DOWN) or (Key=VK_UP) Then
+      DbGrid1.SetFocus;
+
+  
+end;
+
+procedure TformLkClientes.dbGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  If (Key=9) or (key=vk_return) Then
+   Begin
+
+     Button1Click(Sender);
+     Close;
+  End;
+  If Key=27 Then
+     Close;
+end;
+
+procedure TformLkClientes.SpeedButton1Click(Sender: TObject);
+Var
+  Valor:String;
+begin     
+  Valor:='0=0';
+  If (speedButton1.Down) And (fldBairro.Text<>'') Then
+     Valor:='bairro='+QuotedStr(fldBairro.Text);
+   Query1.Close;
+   Query1.MaCroByName('Bairro').AsString:=Valor;
+   Query1.Open;
+end;
+
+procedure TformLkClientes.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+   PosRegistro:=Query1Codigo.Value;
+   query1.close;
+end;
+
+procedure TformLkClientes.fldNomeExit(Sender: TObject);
+begin
+
+  If fldNome.Text='' Then
+  begin
+    //dbgrid1.setfocus;
+     exit;
+  end;
+  Query1.Close;
+  query1.sql.Clear;
+  query1.sql.Add('Select codigo,nome,endereco,bairro,cidade,cep,telefone,'+
+  'abrevia,limitecred,lktipo,lkvend,rg,cpf,cnpj,insc,datanasc,contato,estado');
+  query1.Sql.Add(' from tabcli');
+  query1.Sql.Add(' where %bairro and codigo<>'+QuotedStr('99999'));
+  If rgTipo.itemindex<>3 Then
+    query1.SQL.Add(' and nome like:Inicio');
+  If rgTipo.ItemIndex=0 Then
+  Begin
+
+     query1.params[0].AsString:=fldNome.Text+'%';
+  End
+  Else If rgTipo.itemindex=1 Then
+      Query1.Params[0].asString:='%'+Alltrim(fldNome.text)+'%'
+  Else If rgTipo.itemindex=2 Then
+     Query1.Params[0].asString:='%'+Alltrim(fldNome.text);
+
+  Query1.Sql.Add('order by nome');
+  Query1.open;
+  If rgTipo.itemindex=3 Then
+     query1.locate('nome',fldNome.text,[loPartialkey,locaseinsensitive]);
+  If query1.IsEmpty Then
+  begin
+     Mensagem('Nenhuma referência encontrada');
+     fldNome.setfocus;
+  end   
+  Else
+    dbgrid1.setFocus;
+end;
+
+procedure TformLkClientes.rgTipoClick(Sender: TObject);
+begin
+   fldNomeExit(self);
+end;
+
+procedure TformLkClientes.fldCodigoExit(Sender: TObject);
+begin
+   If fldCodigo.Text<>'' Then
+   Begin
+     Query1.Close;
+     query1.sql.Clear;
+     query1.sql.Add('Select codigo,nome,endereco,bairro,cidade,cep,telefone,'+
+    'abrevia,limitecred,lktipo,lkvend,rg,cpf,cnpj,insc,datanasc,contato,estado');
+    query1.Sql.Add(' from tabcli');
+    query1.Sql.Add(' where %bairro and codigo<>'+QuotedStr('99999')+
+    ' and codigo=:codigo');
+    query1.params[0].AsString:=StrZero(StrToInt(fldCodigo.text),5);
+    query1.Open;
+  End;
+end;
+
+procedure TformLkClientes.fldCpfExit(Sender: TObject);
+begin
+  If RemoveChar(fldCpf.Text)<>'' Then
+   Begin
+     Query1.Close;
+     query1.sql.Clear;
+     query1.sql.Add('Select codigo,nome,endereco,bairro,cidade,cep,telefone,'+
+    'abrevia,limitecred,lktipo,lkvend,rg,cpf,cnpj,insc,datanasc,contato,estado');
+    query1.Sql.Add(' from tabcli');
+    query1.Sql.Add(' where %bairro and codigo<>'+QuotedStr('99999')+
+    ' and cpf=:cpf');
+    query1.params[0].AsString:=fldCpf.Text;
+    query1.Open;
+    dbgrid1.setfocus;
+  End;
+end;
+
+procedure TformLkClientes.fldcnpjExit(Sender: TObject);
+begin
+   If removechar(fldCnpj.Text)<>'' Then
+   Begin
+     Query1.Close;
+     query1.sql.Clear;
+     query1.sql.Add('Select codigo,nome,endereco,bairro,cidade,cep,telefone,'+
+    'abrevia,limitecred,lktipo,lkvend,rg,cpf,cnpj,insc,datanasc,contato,estado');
+    query1.Sql.Add(' from tabcli');
+    query1.Sql.Add(' where %bairro and codigo<>'+QuotedStr('99999')+
+    ' and cnpj=:cnpj');
+    query1.params[0].AsString:=fldcnpj.Text;
+    query1.Open;
+    dbgrid1.setfocus;
+  End;
+end;
+
+procedure TformLkClientes.fldContatoExit(Sender: TObject);
+begin
+  If fldContato.Text<>'' Then
+  Begin
+     Query1.Close;
+     query1.sql.Clear;
+     query1.sql.Add('Select codigo,nome,endereco,bairro,cidade,cep,telefone,'+
+    'abrevia,limitecred,lktipo,lkvend,rg,cpf,cnpj,insc,datanasc,contato,estado');
+     query1.Sql.Add(' from tabcli');
+     query1.Sql.Add(' where %bairro and codigo<>'+QuotedStr('99999')+
+     ' and contato like:Inicio');
+     query1.params[0].AsString:=fldContato.Text+'%';
+     query1.Open;
+     dbgrid1.setfocus;
+  end;
+ End;
+end.

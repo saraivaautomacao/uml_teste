@@ -1,0 +1,60 @@
+{
+
+@author Fabio Saraiva
+*******************************************************************************}
+Unit vendedorcontroller;
+
+interface
+
+uses
+  Classes, SQLExpr, SysUtils,  Db, DBTables,rotinas,VendedorVO;
+
+type
+  TVendedorController = class
+  public
+    class Function ConsultaCodigo(pCodigo: String): TVendedorVO;
+end;
+
+implementation
+
+var
+  ConsultaSQL: String;
+  Query: TQuery;
+
+
+
+{ TProdutoController }
+
+class function TVendedorController.ConsultaCodigo(
+  pCodigo: String): TVendedorVO;
+var
+  Vendedor: TvendedorVO;
+begin
+  ConsultaSQL := 'select * from tabvend where codvend=:p00';
+  try
+    try
+      Query := TQuery.Create(nil);
+      Query.databasename:='estoque1';
+      Query.sql.Text := ConsultaSQL;
+      query.Params[0].asInteger:=StrtoInt(pCodigo);
+      Query.Open;
+      If not query.IsEmpty Then
+      begin
+        Vendedor := TVendedorVO.Create;
+        Vendedor.Codigo   := Query.FieldByName('codvend').AsInteger;
+        Vendedor.nome     := Query.FieldByName('cognome').AsString;
+        Vendedor.senha := Query.FieldByName('senha').AsString;
+        result := vendedor;
+      End
+      Else
+        result := nil;
+    except
+      result := nil;
+    end;
+  finally
+      Query.Free;
+   end;
+
+end;
+
+end.

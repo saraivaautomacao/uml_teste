@@ -1,0 +1,246 @@
+object frconPrevenda: TfrconPrevenda
+  Left = 401
+  Top = 218
+  BorderStyle = bsDialog
+  Caption = 'Consulta Pre-Vendas Pendentes'
+  ClientHeight = 351
+  ClientWidth = 737
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 14
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 737
+    Height = 303
+    Align = alTop
+    DataSource = dtsConsulta
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'Numero_pv'
+        Title.Alignment = taCenter
+        Title.Caption = 'N'#250'mero'
+        Width = 63
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Data_emissao'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Hora_emissao'
+        Title.Alignment = taCenter
+        Title.Caption = 'Hora'
+        Width = 76
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Cliente'
+        Title.Alignment = taCenter
+        Width = 272
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Valor'
+        Title.Alignment = taCenter
+        Width = 84
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Codvend'
+        Title.Alignment = taCenter
+        Title.Caption = 'Cod. Vend'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Finalizado'
+        Title.Alignment = taCenter
+        Visible = True
+      end>
+  end
+  object Button1: TButton
+    Left = 200
+    Top = 313
+    Width = 125
+    Height = 27
+    Caption = 'Fechar'
+    ModalResult = 2
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 338
+    Top = 313
+    Width = 125
+    Height = 27
+    Caption = 'Cancelar Pre-Venda'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+  object tbConsulta: TTable
+    DatabaseName = 'estoque1'
+    Filter = 'finalizado='#39'N'#39
+    Filtered = True
+    TableName = 'prevenda_cabecalho.DB'
+    Left = 184
+    Top = 104
+    object tbConsultaNumero_pv: TIntegerField
+      FieldName = 'Numero_pv'
+      DisplayFormat = '00000'
+    end
+    object tbConsultaData_emissao: TDateField
+      FieldName = 'Data_emissao'
+    end
+    object tbConsultaHora_emissao: TTimeField
+      FieldName = 'Hora_emissao'
+    end
+    object tbConsultaCpf_cnpj: TStringField
+      FieldName = 'Cpf_cnpj'
+      Size = 14
+    end
+    object tbConsultaCliente: TStringField
+      FieldName = 'Cliente'
+      Size = 80
+    end
+    object tbConsultaEndereco: TStringField
+      FieldName = 'Endereco'
+      Size = 80
+    end
+    object tbConsultaNumero: TStringField
+      FieldName = 'Numero'
+      Size = 5
+    end
+    object tbConsultaComplemento: TStringField
+      FieldName = 'Complemento'
+      Size = 15
+    end
+    object tbConsultaTaxa_acrescimo: TFloatField
+      FieldName = 'Taxa_acrescimo'
+    end
+    object tbConsultaAcrescimo: TCurrencyField
+      FieldName = 'Acrescimo'
+    end
+    object tbConsultaTaxa_Desconto: TFloatField
+      FieldName = 'Taxa_Desconto'
+    end
+    object tbConsultaDesconto: TCurrencyField
+      FieldName = 'Desconto'
+    end
+    object tbConsultaSubtotal: TCurrencyField
+      FieldName = 'Subtotal'
+    end
+    object tbConsultaValor: TCurrencyField
+      FieldName = 'Valor'
+    end
+    object tbConsultaLkcliente: TStringField
+      FieldName = 'Lkcliente'
+      Size = 8
+    end
+    object tbConsultaSituacao: TStringField
+      FieldName = 'Situacao'
+      Size = 1
+    end
+    object tbConsultaCodvend: TIntegerField
+      FieldName = 'Codvend'
+    end
+    object tbConsultaFinalizado: TStringField
+      FieldName = 'Finalizado'
+      Size = 1
+    end
+    object tbConsultaCancelado: TStringField
+      FieldName = 'Cancelado'
+      Size = 1
+    end
+  end
+  object dtsConsulta: TDataSource
+    DataSet = tbConsulta
+    Left = 216
+    Top = 184
+  end
+  object ZTable1: TZTable
+    Connection = dmMod.zConPrinc
+    TableName = 'prevenda_cabecalho'
+    Left = 304
+    Top = 112
+    object ZTable1NUMERO_PV: TIntegerField
+      FieldName = 'NUMERO_PV'
+      Required = True
+    end
+    object ZTable1DATA_EMISSAO: TDateField
+      FieldName = 'DATA_EMISSAO'
+    end
+    object ZTable1HORA_EMISSAO: TTimeField
+      FieldName = 'HORA_EMISSAO'
+    end
+    object ZTable1CPF_CNPJ: TWideStringField
+      FieldName = 'CPF_CNPJ'
+      Size = 14
+    end
+    object ZTable1CLIENTE: TWideStringField
+      FieldName = 'CLIENTE'
+      Size = 80
+    end
+    object ZTable1ENDERECO: TWideStringField
+      FieldName = 'ENDERECO'
+      Size = 80
+    end
+    object ZTable1NUMERO: TWideStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object ZTable1COMPLEMENTO: TWideStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 15
+    end
+    object ZTable1TAXA_ACRESCIMO: TFloatField
+      FieldName = 'TAXA_ACRESCIMO'
+    end
+    object ZTable1ACRESCIMO: TFloatField
+      FieldName = 'ACRESCIMO'
+    end
+    object ZTable1TAXA_DESCONTO: TFloatField
+      FieldName = 'TAXA_DESCONTO'
+    end
+    object ZTable1DESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object ZTable1SUBTOTAL: TFloatField
+      FieldName = 'SUBTOTAL'
+    end
+    object ZTable1VALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object ZTable1LKCLIENTE: TWideStringField
+      FieldName = 'LKCLIENTE'
+      Size = 8
+    end
+    object ZTable1SITUACAO: TWideStringField
+      FieldName = 'SITUACAO'
+      Size = 1
+    end
+  end
+end

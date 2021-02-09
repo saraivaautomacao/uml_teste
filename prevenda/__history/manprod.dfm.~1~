@@ -1,0 +1,977 @@
+object frManProd: TfrManProd
+  Left = 204
+  Top = 88
+  Width = 797
+  Height = 570
+  Caption = 'Manuten'#231#227'o de Produtos'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 781
+    Height = 89
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    TabOrder = 0
+    object PageControl1: TPageControl
+      Left = 0
+      Top = 0
+      Width = 781
+      Height = 89
+      ActivePage = TabSheet3
+      Align = alTop
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      OnChange = PageControl1Change
+      object TabSheet1: TTabSheet
+        Caption = '&C'#243'digo'
+      end
+      object TabSheet2: TTabSheet
+        Caption = '&Descri'#231#227'o'
+        ImageIndex = 1
+      end
+      object TabSheet3: TTabSheet
+        Caption = 'Codigo Auxiliar'
+        ImageIndex = 2
+      end
+    end
+    object Edit1: TEdit
+      Left = 7
+      Top = 42
+      Width = 290
+      Height = 32
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      Text = 'Edit1'
+      OnExit = Edit1Exit
+      OnKeyUp = Edit1KeyUp
+    end
+  end
+  object RxDBGrid1: TRxDBGrid
+    Left = 0
+    Top = 89
+    Width = 781
+    Height = 382
+    Align = alClient
+    BiDiMode = bdLeftToRight
+    BorderStyle = bsNone
+    DataSource = DataSource1
+    FixedColor = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    ParentBiDiMode = False
+    ParentFont = False
+    ParentShowHint = False
+    PopupMenu = Menu
+    ShowHint = False
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBlue
+    TitleFont.Height = -13
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = [fsBold]
+    OnColExit = RxDBGrid1ColExit
+    OnKeyDown = RxDBGrid1KeyDown
+    TitleButtons = True
+    OnGetCellParams = RxDBGrid1GetCellParams
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'Codigo'
+        Title.Alignment = taCenter
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 90
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Produto'
+        Title.Alignment = taCenter
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 264
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Etiquetas'
+        Title.Caption = 'Etiq.'
+        Width = 39
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'Unidade'
+        Title.Alignment = taCenter
+        Title.Caption = 'Unid.'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 37
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Laboratorio'
+        Title.Alignment = taCenter
+        Title.Caption = 'Fabricante'
+        Width = 89
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Pfiscalcusto'
+        Title.Alignment = taCenter
+        Title.Caption = 'Refer.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PrecoCusto'
+        Title.Alignment = taCenter
+        Title.Caption = 'P Custo'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 57
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PrecoVenda'
+        Title.Alignment = taCenter
+        Title.Caption = 'P. Venda'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 61
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'EstMinimo'
+        Title.Alignment = taCenter
+        Title.Caption = 'Est. Min'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 52
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Quant'
+        Title.Alignment = taCenter
+        Title.Caption = 'Est. Atual'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clBlue
+        Title.Font.Height = -11
+        Title.Font.Name = 'MS Sans Serif'
+        Title.Font.Style = [fsBold]
+        Width = 66
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'EstFiscal'
+        Title.Caption = 'Est. Fiscal'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Lucro'
+        Title.Caption = 'Lucro(%)'
+        Width = 73
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MargemRevenda'
+        Title.Caption = 'Rev (%)'
+        Width = 59
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PrecoRevenda'
+        Title.Caption = 'Revenda'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Local'
+        Width = 63
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CodigoAuxliar'
+        Title.Alignment = taCenter
+        Title.Caption = 'Cod. Auxiliar'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Cts'
+        Title.Caption = 'Sit. Trib.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'setor'
+        Title.Alignment = taCenter
+        Title.Caption = 'Grupo'
+        Width = 89
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Fornecedor'
+        Width = 183
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Desconto'
+        Title.Caption = 'Max. Desconto %'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Fracao'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Movestoque'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NaoSaiTabela'
+        PickList.Strings = (
+          'S'
+          'N')
+        Title.Caption = 'Inativo'
+        Visible = True
+      end>
+  end
+  object fldSetor: TRxDBLookupCombo
+    Left = 305
+    Top = 41
+    Width = 231
+    Height = 33
+    DropDownCount = 8
+    DisplayEmpty = '<Todos>'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LookupField = 'Controle'
+    LookupDisplay = 'Setor'
+    LookupSource = dmMod.dsSetor
+    ParentFont = False
+    TabOrder = 2
+    OnClick = fldSetorClick
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 471
+    Width = 781
+    Height = 61
+    Align = alBottom
+    BevelInner = bvLowered
+    TabOrder = 3
+    object fldTotal1: TmyLabel3d
+      Left = 574
+      Top = 6
+      Width = 201
+      Height = 44
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'fldTotal1'
+      Color = clWindow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      WordWrap = True
+      AStyle3D = Raised3d
+      AShadeLTSet = False
+    end
+    object Label1: TLabel
+      Left = 224
+      Top = 42
+      Width = 199
+      Height = 13
+      Caption = '*Verde - produtos marcados como inativos'
+    end
+    object rgOrdem: TRadioGroup
+      Left = 4
+      Top = 4
+      Width = 293
+      Height = 34
+      Caption = 'Refer'#234'ncias'
+      Columns = 4
+      Items.Strings = (
+        'P. Custo'
+        'P.  Venda'
+        'Ref.'
+        'Total Itens')
+      TabOrder = 0
+    end
+    object Button1: TButton
+      Left = 504
+      Top = 10
+      Width = 65
+      Height = 25
+      Caption = 'Somar'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 400
+      Top = 10
+      Width = 95
+      Height = 25
+      Caption = 'Recompor C'#243'digo'
+      TabOrder = 2
+      OnClick = Button2Click
+    end
+    object Button3: TButton
+      Left = 304
+      Top = 10
+      Width = 95
+      Height = 25
+      Caption = 'Excluir'
+      TabOrder = 3
+      OnClick = Button3Click
+    end
+    object ckbDestaque: TCheckBox
+      Left = 8
+      Top = 41
+      Width = 209
+      Height = 17
+      Caption = 'Destacar produtos em estoque m'#237'nimo'
+      TabOrder = 4
+      OnClick = ckbDestaqueClick
+    end
+  end
+  object fldFab: TRxDBLookupCombo
+    Left = 543
+    Top = 41
+    Width = 231
+    Height = 33
+    DropDownCount = 8
+    DisplayEmpty = '<Todos>'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LookupField = 'Controle'
+    LookupDisplay = 'Laboratorio'
+    LookupSource = dmMod.dsLab
+    ParentFont = False
+    TabOrder = 4
+    OnClick = fldSetorClick
+  end
+  object Menu: TPopupMenu
+    AutoHotkeys = maManual
+    AutoLineReduction = maManual
+    Left = 352
+    Top = 176
+    object AlteraoEstoqueGeral1: TMenuItem
+      Caption = 'Permitir Altera'#231#245'es na Tabela'
+      OnClick = AlteraoEstoqueGeral1Click
+    end
+    object AlteraoEstoqueFiscal1: TMenuItem
+      Caption = 'Manuten'#231#227'o Estoque Fiscal'
+      OnClick = AlteraoEstoqueFiscal1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object GerarNotaEntrada1: TMenuItem
+      Caption = 'Gerar Nota Entrada'
+      object Direta1: TMenuItem
+        Caption = 'Direta'
+        OnClick = Direta1Click
+      end
+    end
+    object Etiquetas1: TMenuItem
+      Caption = 'Etiquetas'
+      object Habilitar1: TMenuItem
+        AutoHotkeys = maManual
+        AutoLineReduction = maManual
+        Caption = 'Habilitar'
+        OnClick = Habilitar1Click
+      end
+      object Filtrar1: TMenuItem
+        AutoHotkeys = maManual
+        AutoLineReduction = maManual
+        Caption = 'Filtrar'
+        OnClick = Filtrar1Click
+      end
+      object Imprimir1: TMenuItem
+        Caption = 'Imprimir'
+        OnClick = Imprimir1Click
+      end
+      object Zerar1: TMenuItem
+        Caption = 'Zerar'
+        OnClick = Zerar1Click
+      end
+    end
+    object AcompdePreos1: TMenuItem
+      Caption = 'Acomp. de Pre'#231'os - F7'
+    end
+    object ZerarPosicaodeEstoque1: TMenuItem
+      Caption = 'Zerar Posicao de Estoque'
+      object EstoqueGeral1: TMenuItem
+        Caption = 'Estoque Geral'
+      end
+      object EstoqueExtra1: TMenuItem
+        Caption = 'Estoque Fiscal'
+      end
+    end
+    object QAjsute1: TMenuItem
+      Caption = 'Ajuste Precos pela NF'
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = Table1
+    Left = 192
+    Top = 288
+  end
+  object Table1: TTable
+    BeforePost = Table1BeforePost
+    AfterPost = Table1AfterPost
+    DatabaseName = 'estoque1'
+    Filter = 'codigo<>'#39'99999'#39' and codigo<>'#39'99998'#39' '
+    Filtered = True
+    FieldDefs = <
+      item
+        Name = 'Codigo'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'Controle'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'CodigoAuxliar'
+        DataType = ftString
+        Size = 15
+      end
+      item
+        Name = 'CodigoInterno'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'Produto'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'LkSetor'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Fabricante'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'LkFornec'
+        DataType = ftString
+        Size = 8
+      end
+      item
+        Name = 'PrecoCusto'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CustoMedio'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'PrecoVenda'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Quant'
+        DataType = ftFloat
+      end
+      item
+        Name = 'EstMinimo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Unidade'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Lucro'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Moeda'
+        DataType = ftString
+        Size = 5
+      end
+      item
+        Name = 'UltReaj'
+        DataType = ftDate
+      end
+      item
+        Name = 'Foto'
+        DataType = ftGraphic
+      end
+      item
+        Name = 'Obs'
+        DataType = ftMemo
+        Size = 20
+      end
+      item
+        Name = 'NaoSaiTabela'
+        DataType = ftBoolean
+      end
+      item
+        Name = 'Inativo'
+        DataType = ftBoolean
+      end
+      item
+        Name = 'CodigoIpi'
+        DataType = ftString
+        Size = 12
+      end
+      item
+        Name = 'IPI'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Cts'
+        DataType = ftString
+        Size = 2
+      end
+      item
+        Name = 'Icms'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Basecalculo'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Desconto'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Local'
+        DataType = ftString
+        Size = 14
+      end
+      item
+        Name = 'Peso'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Pedido'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Vencimento'
+        DataType = ftDate
+      end
+      item
+        Name = 'LkLab'
+        DataType = ftInteger
+      end
+      item
+        Name = 'EstFiscal'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Situacao'
+        DataType = ftBoolean
+      end
+      item
+        Name = 'Etiquetas'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'MargemRevenda'
+        DataType = ftFloat
+      end
+      item
+        Name = 'PrecoRevenda'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'EnqFoto'
+        DataType = ftBoolean
+      end
+      item
+        Name = 'Pfiscalcusto'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Inventario'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Fracao'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'Movestoque'
+        DataType = ftString
+        Size = 1
+      end>
+    IndexDefs = <
+      item
+        Name = 'Table1Index1'
+        Fields = 'Codigo'
+        Options = [ixPrimary, ixUnique]
+      end
+      item
+        Name = 'Ind_Setor'
+        Fields = 'LkSetor'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'Ind_Forn'
+        Fields = 'LkFornec'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'Ind_Produto'
+        Fields = 'Produto'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'Ind_Codigo'
+        Fields = 'Codigo'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'Ind_Est1'
+        Fields = 'LkSetor;Produto'
+        Options = [ixCaseInsensitive]
+      end>
+    StoreDefs = True
+    TableName = 'TabEst1.DB'
+    Left = 224
+    Top = 176
+    object Table1Controle: TAutoIncField
+      FieldName = 'Controle'
+      ReadOnly = True
+    end
+    object Table1CodigoAuxliar: TStringField
+      FieldName = 'CodigoAuxliar'
+      Size = 15
+    end
+    object Table1CodigoInterno: TStringField
+      FieldName = 'CodigoInterno'
+    end
+    object Table1Produto: TStringField
+      FieldName = 'Produto'
+      Size = 50
+    end
+    object Table1LkSetor: TIntegerField
+      FieldName = 'LkSetor'
+    end
+    object Table1Fabricante: TStringField
+      FieldName = 'Fabricante'
+    end
+    object Table1LkFornec: TStringField
+      FieldName = 'LkFornec'
+      Size = 8
+    end
+    object Table1PrecoCusto: TCurrencyField
+      FieldName = 'PrecoCusto'
+    end
+    object Table1CustoMedio: TCurrencyField
+      FieldName = 'CustoMedio'
+    end
+    object Table1PrecoVenda: TCurrencyField
+      FieldName = 'PrecoVenda'
+    end
+    object Table1Quant: TFloatField
+      FieldName = 'Quant'
+    end
+    object Table1EstMinimo: TFloatField
+      FieldName = 'EstMinimo'
+    end
+    object Table1Unidade: TStringField
+      FieldName = 'Unidade'
+      Size = 2
+    end
+    object Table1Lucro: TFloatField
+      FieldName = 'Lucro'
+      DisplayFormat = '###.## %'
+    end
+    object Table1Moeda: TStringField
+      FieldName = 'Moeda'
+      Size = 5
+    end
+    object Table1UltReaj: TDateField
+      FieldName = 'UltReaj'
+    end
+    object Table1Obs: TMemoField
+      FieldName = 'Obs'
+      BlobType = ftMemo
+      Size = 60
+    end
+    object Table1NaoSaiTabela: TBooleanField
+      FieldName = 'NaoSaiTabela'
+      OnGetText = Table1NaoSaiTabelaGetText
+      OnSetText = Table1NaoSaiTabelaSetText
+    end
+    object Table1Inativo: TBooleanField
+      FieldName = 'Inativo'
+    end
+    object Table1CodigoIpi: TStringField
+      FieldName = 'CodigoIpi'
+      Size = 12
+    end
+    object Table1IPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object Table1Cts: TStringField
+      FieldName = 'Cts'
+      Size = 2
+    end
+    object Table1Icms: TFloatField
+      FieldName = 'Icms'
+    end
+    object Table1Basecalculo: TFloatField
+      FieldName = 'Basecalculo'
+    end
+    object Table1Desconto: TFloatField
+      FieldName = 'Desconto'
+      DisplayFormat = '##0.00 %'
+    end
+    object Table1Local: TStringField
+      FieldName = 'Local'
+      Size = 14
+    end
+    object Table1Peso: TFloatField
+      FieldName = 'Peso'
+    end
+    object Table1Pedido: TFloatField
+      FieldName = 'Pedido'
+    end
+    object Table1Vencimento: TDateField
+      FieldName = 'Vencimento'
+    end
+    object Table1LkLab: TIntegerField
+      FieldName = 'LkLab'
+    end
+    object Table1EstFiscal: TFloatField
+      FieldName = 'EstFiscal'
+    end
+    object Table1Situacao: TBooleanField
+      FieldName = 'Situacao'
+    end
+    object Table1Codigo: TStringField
+      FieldName = 'Codigo'
+      Size = 15
+    end
+    object Table1Laboratorio: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Laboratorio'
+      LookupDataSet = dmMod.tblLab
+      LookupKeyFields = 'Controle'
+      LookupResultField = 'Laboratorio'
+      KeyFields = 'LkLab'
+      Size = 30
+      Lookup = True
+    end
+    object Table1Etiquetas: TSmallintField
+      FieldName = 'Etiquetas'
+    end
+    object Table1MargemRevenda: TFloatField
+      FieldName = 'MargemRevenda'
+      DisplayFormat = '##0.00'
+    end
+    object Table1PrecoRevenda: TCurrencyField
+      FieldName = 'PrecoRevenda'
+    end
+    object Table1setor: TStringField
+      FieldKind = fkLookup
+      FieldName = 'setor'
+      LookupDataSet = dmMod.tblSetor
+      LookupKeyFields = 'Controle'
+      LookupResultField = 'Setor'
+      KeyFields = 'LkSetor'
+      Size = 30
+      Lookup = True
+    end
+    object Table1Fornecedor: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Fornecedor'
+      LookupDataSet = dmMod.tblForn
+      LookupKeyFields = 'Codigo'
+      LookupResultField = 'Empresa'
+      KeyFields = 'LkFornec'
+      Size = 40
+      Lookup = True
+    end
+    object Table1Foto: TGraphicField
+      FieldName = 'Foto'
+      BlobType = ftGraphic
+    end
+    object Table1Pfiscalcusto: TCurrencyField
+      FieldName = 'Pfiscalcusto'
+    end
+    object Table1Fracao: TStringField
+      FieldName = 'Fracao'
+      Size = 1
+    end
+    object Table1Movestoque: TStringField
+      FieldName = 'Movestoque'
+      Size = 1
+    end
+  end
+  object Table2: TTable
+    DatabaseName = 'estoque1'
+    TableName = 'TabEst2.DB'
+    Left = 408
+    Top = 232
+    object Table2Controle: TAutoIncField
+      FieldName = 'Controle'
+      ReadOnly = True
+    end
+    object Table2Codigo: TStringField
+      FieldName = 'Codigo'
+      Size = 8
+    end
+    object Table2Data: TDateField
+      FieldName = 'Data'
+    end
+    object Table2Total: TCurrencyField
+      FieldName = 'Total'
+    end
+  end
+  object Table3: TTable
+    DatabaseName = 'fiscal'
+    TableName = 'TabEst2a.DB'
+    Left = 416
+    Top = 288
+    object Table3Data: TDateField
+      FieldName = 'Data'
+    end
+    object Table3LkEst2: TStringField
+      FieldName = 'LkEst2'
+      Size = 8
+    end
+    object Table3LkProduto: TStringField
+      FieldName = 'LkProduto'
+      Size = 15
+    end
+    object Table3Quant: TFloatField
+      FieldName = 'Quant'
+    end
+    object Table3PrecoCusto: TCurrencyField
+      FieldName = 'PrecoCusto'
+    end
+    object Table3PrecoVenda: TCurrencyField
+      FieldName = 'PrecoVenda'
+    end
+    object Table3Situacao: TBooleanField
+      FieldName = 'Situacao'
+    end
+  end
+  object ImpMat1: TImpMat
+    Linhas = 66
+    Colunas = 120
+    TipoImp = tiBobina
+    ControleServico = False
+    ArqDestino = 'LPT1'
+    ImprimeLinhasFinais = False
+    ImprimeEspDireita = False
+    Acentuacao = acNenhum
+    Left = 128
+    Top = 144
+  end
+  object DataSource2: TDataSource
+    Left = 392
+    Top = 400
+  end
+  object tblMem: TMemoryTable
+    TableName = 'Tabela'
+    Left = 310
+    Top = 32
+    object tblMemDescricao1: TStringField
+      FieldName = 'Descricao1'
+      Size = 33
+    end
+    object tblMemDescricao2: TStringField
+      FieldName = 'Descricao2'
+      Size = 33
+    end
+    object tblMemDescricao3: TStringField
+      FieldName = 'Descricao3'
+      Size = 33
+    end
+    object tblMemdescricao4: TStringField
+      FieldName = 'descricao4'
+      Size = 33
+    end
+  end
+end

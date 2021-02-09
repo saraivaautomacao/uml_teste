@@ -1,0 +1,147 @@
+unit dados3;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db,  ZAbstractRODataset, ZAbstractDataset, ZDataset, ZAbstractTable, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TdmMod3 = class(TDataModule)
+    tbUnid: TZTable;
+    tbUnidCODIGO: TIntegerField;
+    tbUnidUNIDADE: TWideStringField;
+    tbUnidDESCRICAO: TWideStringField;
+    tbUnidFRACAO: TWideStringField;
+    tbUsuario: TZTable;
+    tbUsuarioUSUARIO: TWideStringField;
+    tbUsuarioCADASTRO: TDateField;
+    tbUsuarioULTIMOACESSO: TDateField;
+    tbUsuarioSENHA: TWideStringField;
+    tbUsuarioNIVEL: TWideStringField;
+    tbUsuarioA1: TWideStringField;
+    tbUsuarioA2: TWideStringField;
+    tbUsuarioA3: TWideStringField;
+    tbUsuarioA4: TWideStringField;
+    tbUsuarioA5: TWideStringField;
+    tbUsuarioA6: TWideStringField;
+    tbUsuarioA7: TWideStringField;
+    tbUsuarioA8: TWideStringField;
+    tbUsuarioA9: TWideStringField;
+    tbUsuarioA10: TWideStringField;
+    tbUsuarioA11: TWideStringField;
+    tbUsuarioA12: TWideStringField;
+    tbUsuarioA13: TWideStringField;
+    tbUsuarioA14: TWideStringField;
+    tbUsuarioA15: TWideStringField;
+    tbUsuarioA16: TWideStringField;
+    tbUsuarioA17: TWideStringField;
+    tbUsuarioA18: TWideStringField;
+    tbUsuarioA19: TWideStringField;
+    tbUsuarioA20: TWideStringField;
+    tbUsuarioB1: TWideStringField;
+    tbUsuarioB2: TWideStringField;
+    tbUsuarioB3: TWideStringField;
+    tbUsuarioB4: TWideStringField;
+    tbUsuarioB5: TWideStringField;
+    tbUsuarioC1: TWideStringField;
+    tbUsuarioC2: TWideStringField;
+    tbUsuarioC3: TWideStringField;
+    tbUsuarioC4: TWideStringField;
+    tbUsuarioC5: TWideStringField;
+    tbUsuarioD1: TWideStringField;
+    tbUsuarioD2: TWideStringField;
+    tbUsuarioE1: TWideStringField;
+    tbUsuarioE2: TWideStringField;
+    tbUsuarioE3: TWideStringField;
+    tbUsuarioE4: TWideStringField;
+    tbUsuarioE5: TWideStringField;
+    tbUsuarioF1: TWideStringField;
+    tbUsuarioF2: TWideStringField;
+    tbUsuarioF3: TWideStringField;
+    tbUsuarioG1: TWideStringField;
+    tbUsuarioH1: TWideStringField;
+    tbUsuarioH2: TWideStringField;
+    tbUsuarioH3: TWideStringField;
+    tbUsuarioH4: TWideStringField;
+    tbUsuarioH5: TWideStringField;
+    tbUsuarioH6: TWideStringField;
+    tbUsuarioH7: TWideStringField;
+    tbUsuarioH8: TWideStringField;
+    tbUsuarioH9: TWideStringField;
+    tbUsuarioH10: TWideStringField;
+    tbUsuarioH11: TWideStringField;
+    tbUsuarioH12: TWideStringField;
+    tbUsuarioH13: TWideStringField;
+    tbUsuarioH14: TWideStringField;
+    tbUsuarioH15: TWideStringField;
+    tbUsuarioH16: TWideStringField;
+    tbUsuarioH17: TWideStringField;
+    tbUsuarioH18: TWideStringField;
+    tbUsuarioH19: TWideStringField;
+    tbUsuarioH20: TWideStringField;
+    tbUsuarioH21: TWideStringField;
+    tbUsuarioH22: TWideStringField;
+    tbUsuarioH23: TWideStringField;
+    tbUsuarioH24: TWideStringField;
+    tbUsuarioH25: TWideStringField;
+    tbUsuarioH26: TWideStringField;
+    tbUsuarioH27: TWideStringField;
+    tbUsuarioH28: TWideStringField;
+    tbUsuarioH29: TWideStringField;
+    tbUsuarioH30: TWideStringField;
+    tbUsuarioH31: TWideStringField;
+    tbUsuarioH32: TWideStringField;
+    tbUsuarioH33: TWideStringField;
+    tbUsuarioI1: TWideStringField;
+    tbUsuarioI2: TWideStringField;
+    tbUsuarioI3: TWideStringField;
+    tbUsuarioI4: TWideStringField;
+    tbUsuarioI5: TWideStringField;
+    tbUsuarioI6: TWideStringField;
+    tbUsuarioI7: TWideStringField;
+    tbUsuarioI8: TWideStringField;
+    tbUsuarioI9: TWideStringField;
+    tbUsuarioI10: TWideStringField;
+    tbUsuarioI11: TWideStringField;
+    tbUsuarioI12: TWideStringField;
+    tbUsuarioI13: TWideStringField;
+    tbUsuarioI14: TWideStringField;
+    tbUsuarioI15: TWideStringField;
+    tbUsuarioI16: TWideStringField;
+    tbUsuarioPRECOCUSTO: TWideStringField;
+    tbUsuarioDESCONTOPDV: TWideStringField;
+    tbUsuarioALTERARPVENDA: TWideStringField;
+    tbUsuarioDESCONTOBAIXACONTA: TWideStringField;
+    tbUsuarioPERMITIREXCLUIR: TWideStringField;
+    tbUsuarioSENHA1: TWideStringField;
+    tbUsuarioP1: TWideStringField;
+    tbUsuarioP2: TWideStringField;
+    tbUsuarioP3: TWideStringField;
+    tbUsuarioP4: TWideStringField;
+    tbUsuarioP5: TWideStringField;
+    tbUsuarioP6: TWideStringField;
+    tbUsuarioP7: TWideStringField;
+    tbUsuarioP8: TWideStringField;
+    tbUsuarioP9: TWideStringField;
+    tbUsuarioP10: TWideStringField;
+    qryErro: TZQuery;
+    qryGeral: TFDQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmMod3: TdmMod3;
+
+implementation
+
+uses Dados;
+
+{$R *.DFM}
+
+end.

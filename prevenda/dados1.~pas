@@ -1,0 +1,98 @@
+unit dados1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db, DBTables,DbiProcs;
+
+type
+  TdmMod1 = class(TDataModule)
+    tblFinan: TTable;
+    tblFinanDataAbertura: TDateField;
+    tblFinanHoraAbertura: TTimeField;
+    tblFinanValorabertura: TCurrencyField;
+    tblFinanDataFecha: TDateField;
+    tblFinanHoraFecha: TTimeField;
+    tblFinanDinheiro: TCurrencyField;
+    tblFinanCheque: TCurrencyField;
+    tblFinanVale: TCurrencyField;
+    tblFinanPromissoria: TCurrencyField;
+    tblFinanPreDatado: TCurrencyField;
+    tblFinanEstorno: TCurrencyField;
+    tblFinanSangria: TCurrencyField;
+    tblFinanReforco: TCurrencyField;
+    tblFinanFecha: TStringField;
+    dsFinan: TDataSource;
+    tblFinanPagas: TCurrencyField;
+    tblEmp: TTable;
+    dsEmp: TDataSource;
+    tblEmpRazaoSocial: TStringField;
+    tblEmpFantasia: TStringField;
+    tblEmpReferecia: TStringField;
+    tblEmpEndereco: TStringField;
+    tblEmpCidade: TStringField;
+    tblEmpEstado: TStringField;
+    tblEmpCep: TStringField;
+    tblEmpFone1: TStringField;
+    tblEmpFone2: TStringField;
+    tblEmpCgc: TStringField;
+    tblEmpCgf: TStringField;
+    tblFiscal: TTable;
+    dsFiscal: TDataSource;
+    tblFiscalCts: TStringField;
+    tblFiscalTributacao: TStringField;
+    tblImp: TTable;
+    dsImp: TDataSource;
+    tblImpModelo: TStringField;
+    tblImpPorta: TStringField;
+    tblImpMensagem: TStringField;
+    tblMatricial: TTable;
+    dsMatricial: TDataSource;
+    tblMatricialEstacao: TStringField;
+    tblMatricialCompartilha: TStringField;
+    tblMatricialTipo: TStringField;
+    tblImpDesabiltar: TBooleanField;
+    tblMatricialPath: TStringField;
+    tblFinanCartao: TCurrencyField;
+    tblEmpLogo: TGraphicField;
+    tblFinanAVISTA: TCurrencyField;
+    tblFinanRECEBIMENTO: TCurrencyField;
+    tblImpMensagem1: TStringField;
+    tblImpMensagem2: TStringField;
+    tblFinanCodvend: TIntegerField;
+    tblImpTaxatrs: TStringField;
+    procedure tblFinanAfterPost(DataSet: TDataSet);
+    procedure tblMatricialMarcaSetText(Sender: TField; const Text: String);
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmMod1: TdmMod1;
+
+implementation
+
+{$R *.DFM}
+
+procedure TdmMod1.tblFinanAfterPost(DataSet: TDataSet);
+begin
+    DbiSaveChanges((Dataset As TTable).Handle);
+end;
+
+procedure TdmMod1.tblMatricialMarcaSetText(Sender: TField;
+  const Text: String);
+begin
+    //tEXTdmMod1.tblImpMatricialEstacao.Value;
+
+end;
+
+procedure TdmMod1.DataModuleCreate(Sender: TObject);
+begin
+   tblFinan.open;
+end;
+
+end.

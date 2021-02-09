@@ -1,0 +1,55 @@
+unit vias;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, Mask, ExtCtrls;
+
+type
+  TFormVias = class(TForm)
+    fldNVias: TMaskEdit;
+    Label1: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    rgRelat: TRadioGroup;
+    Button3: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Button3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormVias: TFormVias;
+
+implementation
+
+uses obsboleto;
+
+{$R *.DFM}
+
+procedure TFormVias.FormShow(Sender: TObject);
+begin
+  fldnVias.Text:='01';
+  button1.SetFocus;
+  
+end;
+
+procedure TFormVias.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   If Key=86 Then
+      fldNVias.SetFocus;
+end;
+
+procedure TFormVias.Button3Click(Sender: TObject);
+begin
+  FormObsBoleto.ShowModal;
+end;
+
+end.

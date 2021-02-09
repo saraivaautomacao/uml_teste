@@ -1,0 +1,44 @@
+unit udmOrcamento;
+
+interface
+
+uses
+  SysUtils, Classes, ZAbstractConnection, ZConnection,dialogs;
+
+type
+  TdmOrcamento = class(TDataModule)
+    zConOrcamento: TZConnection;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmOrcamento: TdmOrcamento;
+
+implementation
+
+uses
+  Forms;
+
+{$R *.dfm}
+
+procedure TdmOrcamento.DataModuleCreate(Sender: TObject);
+begin
+  try
+    dmOrcamento.zConOrcamento.connected:=false;
+    ShowMessage(ExtractFileDir(Application.ExeName)+'\orcamento.fdb');
+    dmOrcamento.zconOrcamento.database:=ExtractFileDir(Application.ExeName)+'\orcamento.fdb';
+    dmOrcamento.zConOrcamento.connected:=false;
+    except
+    on E: Exception do
+    BEGIN
+      MessageDlg('Erro ao conectar!'#13'Erro: ' + E.Message, mtError, [mbOK],  0);
+      Application.Terminate;
+    END;
+   end;
+end;
+
+end.

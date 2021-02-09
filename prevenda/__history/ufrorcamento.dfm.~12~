@@ -1,0 +1,484 @@
+object frOrcamento: TfrOrcamento
+  Left = 232
+  Top = 266
+  BorderStyle = bsDialog
+  Caption = 'Or'#231'amento'
+  ClientHeight = 545
+  ClientWidth = 823
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 14
+  object Panel1: TPanel
+    Left = 0
+    Top = 44
+    Width = 823
+    Height = 104
+    Align = alTop
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 13
+      Top = 12
+      Width = 36
+      Height = 14
+      Caption = 'Nome:'
+    end
+    object Label2: TLabel
+      Left = 9
+      Top = 42
+      Width = 56
+      Height = 14
+      Caption = 'Endereco:'
+    end
+    object Label3: TLabel
+      Left = 5
+      Top = 69
+      Width = 67
+      Height = 14
+      Caption = 'Observa'#231#227'o:'
+    end
+    object Label4: TLabel
+      Left = 562
+      Top = 19
+      Width = 146
+      Height = 22
+      Caption = 'N'#186' OR'#199'AMENTO'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -18
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object fldNOrc: TLabel
+      Left = 529
+      Top = 46
+      Width = 219
+      Height = 28
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'fldNOrc'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -18
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object fldEndereco: TEdit
+      Left = 78
+      Top = 37
+      Width = 354
+      Height = 22
+      TabOrder = 2
+      Text = 'fldEndereco'
+    end
+    object fldObservacao: TEdit
+      Left = 79
+      Top = 66
+      Width = 233
+      Height = 22
+      TabOrder = 3
+      Text = 'Edit1'
+      OnExit = fldObservacaoExit
+    end
+    object fldNome: TComboEdit
+      Left = 78
+      Top = 10
+      Width = 302
+      Height = 22
+      ClickKey = 113
+      GlyphKind = gkEllipsis
+      ButtonWidth = 23
+      NumGlyphs = 1
+      TabOrder = 1
+      Text = 'fldNome'
+      OnButtonClick = fldNomeButtonClick
+    end
+    object fldOrc: TComboEdit
+      Left = 689
+      Top = 110
+      Width = 105
+      Height = 22
+      GlyphKind = gkEllipsis
+      ButtonWidth = 23
+      NumGlyphs = 1
+      TabOrder = 0
+      Text = 'fldOrc'
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 148
+    Width = 823
+    Height = 324
+    Align = alClient
+    TabOrder = 1
+    object DBGrid1: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 821
+      Height = 322
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = DataSource2
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      OnColExit = DBGrid1ColExit
+      OnEditButtonClick = DBGrid1EditButtonClick
+      OnKeyUp = DBGrid1KeyUp
+      Columns = <
+        item
+          ButtonStyle = cbsEllipsis
+          Expanded = False
+          FieldName = 'Codigo'
+          Title.Alignment = taCenter
+          Width = 91
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Produto'
+          ReadOnly = True
+          Title.Alignment = taCenter
+          Width = 351
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'unidade'
+          ReadOnly = True
+          Title.Alignment = taCenter
+          Title.Caption = 'Unid.'
+          Width = 33
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Quant'
+          Title.Alignment = taCenter
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Precounit'
+          Title.Alignment = taCenter
+          Title.Caption = 'Preco Unit.'
+          Width = 84
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Total'
+          Title.Alignment = taCenter
+          Width = 89
+          Visible = True
+        end>
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 472
+    Width = 823
+    Height = 73
+    Align = alBottom
+    TabOrder = 2
+    object Label5: TLabel
+      Left = 601
+      Top = 6
+      Width = 106
+      Height = 25
+      Caption = 'Desconto:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Button3: TButton
+      Left = 18
+      Top = -23
+      Width = 80
+      Height = 27
+      Caption = '&Lancar'
+      TabOrder = 1
+      Visible = False
+      OnClick = Button3Click
+    end
+    object Button4: TButton
+      Left = 5
+      Top = 26
+      Width = 81
+      Height = 27
+      Caption = '&Imprimir'
+      TabOrder = 2
+      OnClick = Button4Click
+    end
+    object Button5: TButton
+      Left = 94
+      Top = 26
+      Width = 80
+      Height = 27
+      Caption = 'E&xcluir'
+      TabOrder = 3
+      OnClick = Button5Click
+    end
+    object Button2: TButton
+      Left = 574
+      Top = 38
+      Width = 71
+      Height = 27
+      Caption = '&SOMAR'
+      TabOrder = 4
+      OnClick = Button2Click
+    end
+    object fldTotal: TCurrencyEdit
+      Left = 650
+      Top = 36
+      Width = 144
+      Height = 31
+      Margins.Left = 2
+      Margins.Top = 2
+      AutoSize = False
+      Ctl3D = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentCtl3D = False
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 5
+    end
+    object fldDesc: TCurrencyEdit
+      Left = 708
+      Top = 10
+      Width = 87
+      Height = 20
+      Margins.Left = 4
+      Margins.Top = 1
+      AutoSize = False
+      Ctl3D = True
+      DisplayFormat = ' ,00.00 %;'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 0
+      ZeroEmpty = False
+    end
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 0
+    Width = 823
+    Height = 44
+    Align = alTop
+    TabOrder = 3
+    object Button6: TButton
+      Left = 17
+      Top = 10
+      Width = 81
+      Height = 27
+      Caption = '&Novo'
+      TabOrder = 0
+      OnClick = Button6Click
+    end
+    object Button7: TButton
+      Left = 114
+      Top = 10
+      Width = 81
+      Height = 27
+      Caption = '&Abrir'
+      TabOrder = 1
+      OnClick = Button7Click
+    end
+    object Button1: TButton
+      Left = 209
+      Top = 10
+      Width = 81
+      Height = 27
+      Caption = 'Cancelar'
+      TabOrder = 2
+      OnClick = Button1Click
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = tbReceita
+    Left = 384
+    Top = 168
+  end
+  object tbReceita: TTable
+    DatabaseName = 'estoque1'
+    FieldDefs = <
+      item
+        Name = 'Orcamento'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Nome'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Endereco'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Observacao'
+        DataType = ftString
+        Size = 40
+      end
+      item
+        Name = 'Desconto'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Total'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Formapagto'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'Haver'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'Selecao'
+        DataType = ftString
+        Size = 1
+      end>
+    IndexDefs = <
+      item
+        Name = 'tbReceitaIndex1'
+        Fields = 'Orcamento'
+        Options = [ixPrimary, ixUnique]
+      end>
+    StoreDefs = True
+    TableName = 'receita.db'
+    Left = 312
+    Top = 168
+    object tbReceitaOrcamento: TIntegerField
+      FieldName = 'Orcamento'
+    end
+    object tbReceitaNome: TStringField
+      FieldName = 'Nome'
+      Size = 40
+    end
+    object tbReceitaEndereco: TStringField
+      FieldName = 'Endereco'
+      Size = 40
+    end
+    object tbReceitaObservacao: TStringField
+      FieldName = 'Observacao'
+      Size = 40
+    end
+    object tbReceitaDesconto: TFloatField
+      FieldName = 'Desconto'
+    end
+    object tbReceitaTotal: TCurrencyField
+      FieldName = 'Total'
+    end
+    object tbReceitaFormapagto: TStringField
+      FieldName = 'Formapagto'
+    end
+    object tbReceitaHaver: TCurrencyField
+      FieldName = 'Haver'
+    end
+    object tbReceitaSelecao: TStringField
+      FieldName = 'Selecao'
+      Size = 1
+    end
+  end
+  object tbREceita1: TTable
+    OnCalcFields = tbREceita1CalcFields
+    OnNewRecord = tbREceita1NewRecord
+    DatabaseName = 'estoque1'
+    Filtered = True
+    TableName = 'receita1.db'
+    Left = 312
+    Top = 240
+    object tbREceita1LkOrc: TIntegerField
+      FieldName = 'LkOrc'
+    end
+    object tbREceita1Codigo: TStringField
+      FieldName = 'Codigo'
+      Size = 13
+    end
+    object tbREceita1Precounit: TCurrencyField
+      FieldName = 'Precounit'
+    end
+    object tbREceita1Quant: TFloatField
+      FieldName = 'Quant'
+    end
+    object tbREceita1Total: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'Total'
+      Calculated = True
+    end
+    object tbREceita1Produto: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Produto'
+      LookupDataSet = dmMod.tblProd
+      LookupKeyFields = 'Codigo'
+      LookupResultField = 'Produto'
+      KeyFields = 'Codigo'
+      Size = 40
+      Lookup = True
+    end
+    object tbREceita1unidade: TStringField
+      FieldKind = fkLookup
+      FieldName = 'unidade'
+      LookupDataSet = dmMod.tblProd
+      LookupKeyFields = 'Codigo'
+      LookupResultField = 'Unidade'
+      KeyFields = 'Codigo'
+      Size = 2
+      Lookup = True
+    end
+    object tbREceita1Desconto: TFloatField
+      FieldName = 'Desconto'
+    end
+  end
+  object DataSource2: TDataSource
+    DataSet = tbREceita1
+    Left = 376
+    Top = 248
+  end
+  object ImpMat1: TImpMat2
+    TipoImp = tiBobina
+    ControleServico = False
+    ArqDestino = 'LPT1'
+    ImprimeLinhasFinais = False
+    Acentuacao = False
+    Medidas = tlDefault
+    MargemX = 1.000000000000000000
+    MargemY = 1.000000000000000000
+    CPI = 17
+    LPI = 6
+    Left = 336
+  end
+end

@@ -1,0 +1,273 @@
+unit conhistcli;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db,  Grids, DBGrids, RXDBCtrl, StdCtrls, Mask,
+  rxToolEdit, ExtCtrls, ImpMat, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TfrHistoricoCli = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    fldCodigo: TComboEdit;
+    fldNome: TStaticText;
+    DataSource1: TDataSource;
+    RxDBGrid2: TRxDBGrid;
+    RxDBGrid3: TRxDBGrid;
+    DataSource2: TDataSource;
+    DataSource3: TDataSource;
+    Label3: TLabel;
+    Label4: TLabel;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    DataSource4: TDataSource;
+    lblPeriodo: TLabel;
+    Button7: TButton;
+    Label2: TLabel;
+    edVenda: TEdit;
+    rxQuery1: TFDQuery;
+    rxQuery4: TFDQuery;
+    rxQuery1LKCLIENTE: TWideStringField;
+    rxQuery1DATACOMPRA: TDateField;
+    rxQuery1VENC: TDateField;
+    rxQuery1JURO: TFloatField;
+    rxQuery1HAVER: TFloatField;
+    rxQuery1VALOR: TFloatField;
+    rxQuery1DATAPAG: TDateField;
+    rxQuery1VRPAGO: TFloatField;
+    rxQuery1BAIXA: TWideStringField;
+    rxQuery1ORDEM: TIntegerField;
+    rxQuery1ESTORNO1: TFloatField;
+    rxQuery1COMPRAS: TFloatField;
+    rxQuery1RESTANTE: TFloatField;
+    rxQuery4DATA: TDateField;
+    rxQuery4LKPROD: TWideStringField;
+    rxQuery4ORDEM: TIntegerField;
+    rxQuery4LKVEND: TIntegerField;
+    rxQuery4QUANT: TFloatField;
+    rxQuery4DESCONTO: TFloatField;
+    rxQuery4VRUNIT: TFloatField;
+    rxQuery4LKCLIENTE: TWideStringField;
+    rxQuery4Produto: TStringField;
+    rxQuery4Unidade: TStringField;
+    rxQuery4Total: TCurrencyField;
+    rxQuery2: TFDQuery;
+    rxQuery3: TFDQuery;
+    rxQuery3LKCLIENTE: TWideStringField;
+    rxQuery3DATACOMPRA: TDateField;
+    rxQuery3VENC: TDateField;
+    rxQuery3JURO: TFloatField;
+    rxQuery3HAVER: TFloatField;
+    rxQuery3VALOR: TFloatField;
+    rxQuery3DATAPAG: TDateField;
+    rxQuery3VRPAGO: TFloatField;
+    rxQuery3BAIXA: TWideStringField;
+    rxQuery3ORDEM: TIntegerField;
+    rxQuery2DATA: TDateField;
+    rxQuery2ORDEM: TIntegerField;
+    rxQuery2LKVEND: TIntegerField;
+    rxQuery2QUANT: TFloatField;
+    rxQuery2LKPROD: TWideStringField;
+    rxQuery2VRUNIT: TFloatField;
+    rxQuery2LKCLIENTE: TWideStringField;
+    rxQuery2BAIXA: TWideStringField;
+    rxQuery2SELECIONAR: TWideStringField;
+    rxQuery2DESCONTO: TFloatField;
+    rxQuery2LKSETOR: TSmallintField;
+    rxQuery2FISCAL: TWideStringField;
+    rxQuery2FLAGESTACAO: TWideStringField;
+    rxQuery2LIVROCAIXA: TWideStringField;
+    rxQuery2ENCARREGADO: TWideStringField;
+    rxQuery2ESTORNO: TFloatField;
+    rxQuery2FORMAPGTO: TWideStringField;
+    rxQuery2VALE: TWideStringField;
+    rxQuery2LKCARTAO: TSmallintField;
+    rxQuery2OBS: TWideStringField;
+    rxQuery2LKCAIXA: TSmallintField;
+    rxQuery2LKVENDCOMISSAO: TSmallintField;
+    rxQuery2Produto: TStringField;
+    rxQuery2Unidade: TStringField;
+    rxQuery2Cliente: TStringField;
+    rxQuery2TipoVenda: TStringField;
+    rxQuery2Total: TCurrencyField;
+    procedure RxQuery2CalcFields(DataSet: TDataSet);
+    procedure FormShow(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure fldCodigoExit(Sender: TObject);
+    procedure fldCodigoButtonClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure RxQuery4CalcFields(DataSet: TDataSet);
+    procedure Button7Click(Sender: TObject);
+    procedure edVendaExit(Sender: TObject);
+    procedure fldCodigoKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+    ano,mes,dia:Word;
+  public
+    { Public declarations }
+  end;
+
+var
+  frHistoricoCli: TfrHistoricoCli;
+
+implementation
+
+uses Dados, IntDatas,Rotinas, lkClientes,  dados1, dados3;
+
+{$R *.DFM}
+procedure Filtragem;
+Begin
+   With frHistoricoCli Do
+   Begin
+       rxQuery4.close;
+       rxQuery1.Close;
+       rxQuery1.Params[1].Asdate:=formIntDatas.FromDAte;
+       rxQuery1.Params[2].Asdate:=formIntDatas.ToDAte;
+       rxQuery1.Params[3].asString:=iif(trim(edVenda.text)='','%',edVenda.Text);
+       rxQuery1.Open;
+       rxQuery4.open;
+       rxQuery3.close;
+       rxQuery2.close;
+       rxQuery3.Params[1].Asdate:=formIntDatas.FromDAte;
+       rxQuery3.Params[2].Asdate:=formIntDatas.ToDAte;
+       rxQuery3.Params[3].asString:=IIf(trim(edVenda.text)='','%',edVenda.Text);
+       rxQuery3.open;
+       rxQuery2.open;
+       lblPeriodo.Caption:=DateToStr(formIntDatas.fromdate)+' ate '+
+                           DateToStr(formIntDatas.toDate);
+    End;
+End;
+
+procedure TfrHistoricoCli.RxQuery2CalcFields(DataSet: TDataSet);
+begin
+  RxQuery2Total.Value:=(RxQuery2VrUnit.value+
+                       (rxQuery2VrUnit.Value*
+                       (rxQuery2Desconto.Value/100)))*rxQuery2Quant.Value;
+   If rxQuery2Cliente.Value='' Then
+      rxQuery2TipoVenda.value:='À VISTA'
+   Else
+      rxQuery2TipoVenda.value:=rxQuery2Cliente.Value;
+
+
+end;
+
+procedure TfrHistoricoCli.FormShow(Sender: TObject);
+begin
+
+  decodedate(date,ano,mes,dia);
+   formIntDatas.FromDAte:=EncodeDate(2005,1,1);
+   FormIntDatas.ToDate:=EncodeDate(ano,12,31);
+   fldCodigo.Text:='';
+  fldNome.Caption:='';
+  dmMod.tblClientes.Open;
+  lblperiodo.caption:='';
+  dmMod.tblClientes.IndexFieldNames:='Codigo';
+  edvenda.clear;
+end;
+
+procedure TfrHistoricoCli.Button4Click(Sender: TObject);
+begin
+   If FormIntDatas.ShowModal=mrOk Then
+  
+
+end;
+
+procedure TfrHistoricoCli.fldCodigoExit(Sender: TObject);
+
+Var
+  Valor:String;
+begin
+   fldNome.Caption:='';
+   if fldCodigo.Text='' Then
+      Exit;
+   If TipoString(fldCodigo.Text) Then
+      fldCodigo.Text:=StrZero(StrToInt(fldCodigo.Text),5);
+   If Not dmMod.tblClientes.Locate('Codigo',fldCodigo.Text,[]) Then
+   Begin
+      Mensagem('Código não foi encontrado');
+      fldCodigo.Clear;
+      fldCodigo.SetFocus;
+      Exit;
+   End
+   Else
+      fldNome.Caption:=dmMod.tblClientesnome.Value;
+
+   rxQuery3.close;
+   rxQuery3.Params[0].AsString:=fldCodigo.Text;
+
+   rxQuery1.Close;
+   rxQuery1.Params[0].AsString:=fldCodigo.Text;
+
+   filtragem;
+
+
+
+end;
+
+
+procedure TfrHistoricoCli.fldCodigoButtonClick(Sender: TObject);
+begin
+   geral:='';
+   try
+   FormlkClientes:=tFormlkclientes.create(application);
+   FormlkClientes.ShowModal;
+   If geral<>'' Then
+      fldCodigo.Text:=Geral;
+   finally
+     FreeAndNil(FormlkClientes);
+   end;
+
+end;
+
+procedure TfrHistoricoCli.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+
+   rxQuery1.Close;
+   rxQuery2.Close;
+   rxQuery3.Close;
+end;
+
+procedure TfrHistoricoCli.RxQuery4CalcFields(DataSet: TDataSet);
+begin
+   RxQuery4Total.Value:=(RxQuery4VrUnit.value+
+                       (rxQuery4VrUnit.Value*
+                       (rxQuery4desconto.Value/100)))*rxQuery4Quant.Value;
+end;
+
+procedure TfrHistoricoCli.Button7Click(Sender: TObject);
+begin
+   if fldCodigo.Text='' Then
+   Begin
+      Mensagem('informe codigo do cliente');
+      exit;
+   end;
+   if formIntDatas.showmodal=mrok Then
+       filtragem;
+
+end;
+
+procedure TfrHistoricoCli.edVendaExit(Sender: TObject);
+begin
+   rxQuery3.close;
+   rxQuery1.close;
+   rxQuery1.PArams[3].asString:=iif(Trim(edVenda.text)='','%',trim(edVenda.TExt));
+   rxQuery3.PArams[3].asString:=iif(Trim(edVenda.text)='','%',trim(edVenda.TExt));
+   rxQuery1.Open;
+   rxQuery3.open;
+end;
+procedure TfrHistoricoCli.fldCodigoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+if Key = #13 then
+   begin
+      Key := #0;
+      Perform(WM_NEXTDLGCTL, 0, 0);
+   end;
+end;
+
+end.

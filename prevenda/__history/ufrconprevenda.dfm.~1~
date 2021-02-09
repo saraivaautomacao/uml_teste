@@ -1,0 +1,185 @@
+object frconPrevenda: TfrconPrevenda
+  Left = 401
+  Top = 218
+  BorderStyle = bsDialog
+  Caption = 'Consulta Pre-Vendas Pendentes'
+  ClientHeight = 326
+  ClientWidth = 622
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 106
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 622
+    Height = 281
+    Align = alTop
+    DataSource = dtsConsulta
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'Numero_pv'
+        Title.Alignment = taCenter
+        Title.Caption = 'N'#250'mero'
+        Width = 63
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Data_emissao'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data'
+        Width = 74
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Hora_emissao'
+        Title.Alignment = taCenter
+        Title.Caption = 'Hora'
+        Width = 76
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Cliente'
+        Title.Alignment = taCenter
+        Width = 272
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Valor'
+        Title.Alignment = taCenter
+        Width = 84
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Codvend'
+        Title.Alignment = taCenter
+        Title.Caption = 'Cod. Vend'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Finalizado'
+        Title.Alignment = taCenter
+        Visible = True
+      end>
+  end
+  object Button1: TButton
+    Left = 186
+    Top = 291
+    Width = 116
+    Height = 25
+    Caption = 'Fechar'
+    ModalResult = 2
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 314
+    Top = 291
+    Width = 116
+    Height = 25
+    Caption = 'Cancelar Pre-Venda'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+  object tbConsulta: TTable
+    DatabaseName = 'estoque1'
+    Filter = 'finalizado='#39'N'#39
+    Filtered = True
+    TableName = 'prevenda_cabecalho.DB'
+    Left = 224
+    Top = 128
+    object tbConsultaNumero_pv: TIntegerField
+      FieldName = 'Numero_pv'
+      DisplayFormat = '00000'
+    end
+    object tbConsultaData_emissao: TDateField
+      FieldName = 'Data_emissao'
+    end
+    object tbConsultaHora_emissao: TTimeField
+      FieldName = 'Hora_emissao'
+    end
+    object tbConsultaCpf_cnpj: TStringField
+      FieldName = 'Cpf_cnpj'
+      Size = 14
+    end
+    object tbConsultaCliente: TStringField
+      FieldName = 'Cliente'
+      Size = 80
+    end
+    object tbConsultaEndereco: TStringField
+      FieldName = 'Endereco'
+      Size = 80
+    end
+    object tbConsultaNumero: TStringField
+      FieldName = 'Numero'
+      Size = 5
+    end
+    object tbConsultaComplemento: TStringField
+      FieldName = 'Complemento'
+      Size = 15
+    end
+    object tbConsultaTaxa_acrescimo: TFloatField
+      FieldName = 'Taxa_acrescimo'
+    end
+    object tbConsultaAcrescimo: TCurrencyField
+      FieldName = 'Acrescimo'
+    end
+    object tbConsultaTaxa_Desconto: TFloatField
+      FieldName = 'Taxa_Desconto'
+    end
+    object tbConsultaDesconto: TCurrencyField
+      FieldName = 'Desconto'
+    end
+    object tbConsultaSubtotal: TCurrencyField
+      FieldName = 'Subtotal'
+    end
+    object tbConsultaValor: TCurrencyField
+      FieldName = 'Valor'
+    end
+    object tbConsultaLkcliente: TStringField
+      FieldName = 'Lkcliente'
+      Size = 8
+    end
+    object tbConsultaSituacao: TStringField
+      FieldName = 'Situacao'
+      Size = 1
+    end
+    object tbConsultaCodvend: TIntegerField
+      FieldName = 'Codvend'
+    end
+    object tbConsultaFinalizado: TStringField
+      FieldName = 'Finalizado'
+      Size = 1
+    end
+    object tbConsultaCancelado: TStringField
+      FieldName = 'Cancelado'
+      Size = 1
+    end
+  end
+  object dtsConsulta: TDataSource
+    DataSet = tbConsulta
+    Left = 232
+    Top = 168
+  end
+end

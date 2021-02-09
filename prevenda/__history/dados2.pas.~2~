@@ -1,0 +1,60 @@
+unit dados2;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db, ZAbstractRODataset, ZAbstractDataset, ZAbstractTable, ZDataset;
+
+type
+  TdmMod2 = class(TDataModule)
+    tbCodigo: TZTable;
+    tbCodigoPRODUTO: TIntegerField;
+    tbCodigoCLIENTE: TIntegerField;
+    tbCodigoFORNECEDOR: TIntegerField;
+    tbCodigoVENDEDOR: TIntegerField;
+    tbCodigoGRUPO: TIntegerField;
+    tbCodigoFABRICANTE: TIntegerField;
+    tbCodigoPAGAR: TIntegerField;
+    tbCodigoCAMPO1: TIntegerField;
+    tbCodigoCAMPO2: TIntegerField;
+    tbCodigoCAMPO3: TIntegerField;
+    tbCodigoDAV: TIntegerField;
+    tbCodigoPREVENDA: TIntegerField;
+    tbCodigoPRODCODIGOINTERNO: TIntegerField;
+    tbMPag: TZTable;
+    tbMPagDESCRICAO: TWideStringField;
+    tbMPagSEQ: TWideStringField;
+    tbMPagECF: TWideStringField;
+    tbMPagSGE: TWideStringField;
+    tbMPagIDCAIXA: TWideStringField;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure tbCodigoAfterPost(DataSet: TDataSet);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmMod2: TdmMod2;
+
+implementation
+
+uses Dados;
+
+{$R *.DFM}
+
+procedure TdmMod2.DataModuleCreate(Sender: TObject);
+begin
+     tbCodigo.open;
+end;
+
+procedure TdmMod2.tbCodigoAfterPost(DataSet: TDataSet);
+begin
+
+ tbCodigo.Refresh;
+
+end;
+
+end.

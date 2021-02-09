@@ -1,0 +1,1150 @@
+unit prevenda1;
+
+interface
+
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Db,  Grids, DBGrids, StdCtrls,
+  Mask, Buttons, RXCtrls, ExtCtrls,configuracaovo,produtocontroller,produtovo,
+   ACBrBase, ACBrEnterTab,ClienteVO,ClienteController,vendedorvo,
+  ImpMat2, ImpMat,  INIFILES, JvComponentBase,
+  JvEnterTab, JvExControls,  JvExDBGrids, JvDBGrid,
+   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+
+  JvDBUltimGrid,rdprint, JvMemoryDataset, RxCurrEdit, RxToolEdit;
+
+type
+  TfrPrevenda1 = class(TForm)
+    Panel1: TPanel;
+    RxLabel1: TRxLabel;
+    RxLabel2: TRxLabel;
+    RxLabel3: TRxLabel;
+    RxLabel4: TRxLabel;
+    edCodigo: TComboEdit;
+    edNome: TEdit;
+    EdEnd: TEdit;
+    Panel3: TPanel;
+    dtsPreDet: TDataSource;
+    Panel2: TPanel;
+    RxLabel14: TRxLabel;
+    RxLabel15: TRxLabel;
+    RxLabel16: TRxLabel;
+    edPerc: TCurrencyEdit;
+    edTotalProd: TCurrencyEdit;
+    edTotalOrc: TCurrencyEdit;
+    btnFinalizar: TButton;
+    btnCancelar: TButton;
+    Panel4: TPanel;
+    btnNovo: TButton;
+    Button2: TButton;
+    lblNumeroPv: TLabel;
+    Button3: TButton;
+    Button4: TButton;
+    Panel5: TPanel;
+    edCodProd: TComboEdit;
+    edQuant: TCurrencyEdit;
+    edVrUnit: TCurrencyEdit;
+    btnLancar: TButton;
+    edProd: TEdit;
+    edEstoque: TEdit;
+    RxLabel11: TRxLabel;
+    Label1: TLabel;
+    edDesconto: TCurrencyEdit;
+    edTotal: TCurrencyEdit;
+    edDoc: TMaskEdit;
+    ckbPrecoRevenda: TCheckBox;
+    RxLabel7: TRxLabel;
+    Timer1: TTimer;
+    lblDesconto: TLabel;
+    edPrecovenda: TEdit;
+    Label2: TLabel;
+    lblVendedor: TLabel;
+    RxLabel8: TRxLabel;
+    RxLabel12: TRxLabel;
+    RxLabel13: TRxLabel;
+    RxLabel5: TRxLabel;
+    RxLabel6: TRxLabel;
+    dbgrid1: TJvDBUltimGrid;
+    GroupBox1: TGroupBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    stDebito: TStaticText;
+    stVencimento: TStaticText;
+    stLimite: TStaticText;
+    Button1: TButton;
+    tbitens: TFDMemTable;
+    tbitensdata_emissao: TDateField;
+    tbitensitem: TSmallintField;
+    tbitensquantidade: TFloatField;
+    tbitensvalor_unitario: TCurrencyField;
+    tbitensnome_produto: TStringField;
+    tbitensunidade_produto: TStringField;
+    tbitensidControle: TIntegerField;
+    tbitensvalor_total: TCurrencyField;
+    tbitensgtin: TStringField;
+    tbitensnumero_pv: TIntegerField;
+    tbitenscancelado: TStringField;
+    tbitenstaxa_desconto: TFloatField;
+    tbitensvalor_desconto: TCurrencyField;
+    tbitensTaxa_acrescimo: TFloatField;
+    tbitensValor_acrescimo: TCurrencyField;
+    tbitenscst: TStringField;
+    ACBrEnterTab1: TACBrEnterTab;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edCodigoButtonClick(Sender: TObject);
+    procedure edCodigoExit(Sender: TObject);
+    procedure edCodProdButtonClick(Sender: TObject);
+    procedure edCodProdExit(Sender: TObject);
+    procedure btnLancarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnFinalizarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure EdEndExit(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure edDescontoExit(Sender: TObject);
+    procedure edPercExit(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edQuantKeyPress(Sender: TObject; var Key: Char);
+    procedure FormActivate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure edQuantExit(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure edVrUnitExit(Sender: TObject);
+    procedure edVrUnitKeyPress(Sender: TObject; var Key: Char);
+    procedure edDescontoKeyPress(Sender: TObject; var Key: Char);
+    procedure edTotalKeyPress(Sender: TObject; var Key: Char);
+    procedure btnLancarKeyPress(Sender: TObject; var Key: Char);
+    procedure edTotalExit(Sender: TObject);
+
+
+
+  private
+    { Private declarations }
+    numitem,numeropv:integer;
+    Produto:TProdutoVo;
+    Cliente:TClienteVo;
+    Debito:Currency;
+    ExisteDesconto:Boolean;
+    maxDescGrupo,maxDescItem:Extended;
+
+    Procedure Limpa_Var;
+    Procedure SomaPreVenda;
+  public
+    { Public declarations }
+
+
+  end;
+
+var
+  frPrevenda1: TfrPrevenda1;
+  Vendedor:TVendedorVo;
+
+implementation
+
+uses Dados, lkClientes,rotinas, dados3, dados2, lkProdutos,
+     senhavendedor, senha, acesso, limitecredito, dados1, ufrconsultapreco,
+  conhistcli, ufrconprevenda, ufrConfImp, ufrConfiguracao,ComCtrls;
+
+  //Const
+//ScreenWidth: LongInt =1366; {I designed my form in 800x600 mode.}
+//ScreenHeight: LongInt = 768;
+
+
+
+
+{$R *.DFM}
+
+//remove garbage
+procedure TrimAppMemorySize;
+var
+MainHandle : THandle;
+begin
+  try
+   MainHandle := OpenProcess(PROCESS_ALL_ACCESS, false, GetCurrentProcessID) ;
+  SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF) ;
+  CloseHandle(MainHandle) ;
+ except
+ end;
+  Application.ProcessMessages;
+end;
+
+procedure TfrPrevenda1.Limpa_Var;
+begin
+   edDoc.clear;
+   edNome.Clear;
+   edEnd.clear;
+   edCodigo.clear;
+   edCodProd.clear;
+   edProd.clear;
+   edEstoque.clear;
+   edPrecovenda.clear;
+   edQuant.Value:=1;
+   edVrunit.Clear;
+   edTotalProd.Clear;
+   edPerc.clear;
+   edTotalOrc.Clear;
+   stDebito.Caption:='';
+   stVencimento.caption:='';
+   stLimite.caption:='';
+   lblDesconto.caption:='';
+   lblVendedor.caption:='';
+end;
+
+procedure TfrPrevenda1.FormActivate(Sender: TObject);
+begin
+  repaint;
+  timer1.enabled:=true;
+  onactivate:=nil;
+
+end;
+
+procedure TfrPrevenda1.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+     if tag=0 Then
+     begin
+       dmMod.tblClientes.close;
+       dmMod.tblProd.close;
+     end;
+     tbItens.close;
+end;
+
+procedure TfrPrevenda1.edCodigoButtonClick(Sender: TObject);
+begin
+ try
+   formlkClientes:=tformlkClientes.Create(application);
+
+   formlkClientes.showModal;
+   If geral<>'' Then
+     edCodigo.Text:=geral;
+ finally
+    FreeAndNil(formlkClientes);
+    geral:='';
+ end;
+end;
+
+procedure TfrPrevenda1.edCodigoExit(Sender: TObject);
+Var
+  Vencimento:tDate;
+begin
+
+  if edcodigo.text<>'' Then
+  begin
+
+    if edCodigo.Text='99999' Then
+    begin
+       Cliente:=TClienteVo.Create;
+       edNome.Text:='CLIENTE - COMPRA A VISTA';
+       edDoc.EditMask:='!999.999.999-99;1; ';
+       cliente.cpf:='999.999.999-99';
+       edDoc.Text:=cliente.cpf;
+       cliente.nome:='CLIENTE - COMPRA A VISTA';
+       cliente.Codigo:='99999';
+       exit;
+    end;
+    Cliente:=TClienteController.ConsultaCodigo(edCodigo.Text);
+    If Cliente=Nil Then
+    Begin
+       Mensagem('Código não foi encontrado');
+       edCodigo.clear;
+       edCodigo.SetFocus;
+       Exit;
+    End;
+    if cliente.tipopessoa='J' then
+      edDoc.EditMask:='!99.999.999/9999-99;1; '
+    Else
+      edDoc.EditMask:='!999.999.999-99;1; ';
+    //fazendo as validacoes
+    //cliente esta bloqueado?
+    if cliente.codbloqueio=4 Then
+    begin
+       Mensagem('Cliente foi temporariamente desativado, ver c/ administração');
+       edCodigo.clear;
+       edCodigo.SetFocus;
+       Exit;
+    End;
+      //permissao de credito com senha de permissao codigo
+     if cliente.codBloqueio=3 then
+    Begin
+        FormAcesso := TFormAcesso.Create(Application);
+       FormAcesso.ShowModal;
+       If not FormAcesso.retorno Then
+       Begin
+          Mensagem('Cliente: permissão com senha de acesso');
+          edCodigo.clear;
+          edCodigo.SetFocus;
+          Exit;
+       End;
+    End;
+    //conta ja vencida alem do prazo
+    With dmMod.sqlReceber Do
+    Begin
+         Close;
+         params[0].asString:=cliente.codigo;
+         Open;
+         vencimento:=date;
+         Debito:=0;
+         While Not Eof Do
+         Begin
+            Debito:=Debito+FieldByname('Valor').AsCurrency;
+            If FieldByName('Venc').asDatetime<Vencimento Then
+               Vencimento:=FieldByName('Venc').asDateTime;
+            Next;
+         End;
+    End;
+    stDebito.Caption:=FloatToStrf(debito,ffcurrency,12,2);
+    stVencimento.caption:=DatetoStr(vencimento);
+    stLimite.Caption:=FloatToStrf(Cliente.limitecredito,ffcurrency,12,2);
+    If  dmMod3.tbUsuario.fieldbyName('p4').asString<>'S' Then
+    begin
+      If (debito<>0)  AND (configuracao.PrazoCliente<>0) Then
+      Begin
+        If (vencimento+configuracao.PrazoCliente<date ) Then
+        Begin
+           If Confirma(Pchar('Vencimento de debito acima de '+
+              InttoStr(configuracao.PrazoCliente)+' dias, Permitir venda ? '))=idYes Then
+           Begin
+              FormAcesso.ShowModal;
+              If  not FormAcesso.Retorno Then
+              BEgin
+                 Limpa_Var;
+                 edCodigo.SetFocus;
+                 exit;
+              End;
+           End
+           Else
+           Begin
+              Limpa_Var;
+              edCodigo.SetFocus;
+              exit;
+              Exit;
+           End;
+        End;
+      End;
+    end;
+     if cliente.tipopessoa='F' then
+      eddoc.Text:=Cliente.cpf
+    Else
+        eddoc.Text:=Cliente.cnpj;
+    edNome.Text:=cliente.nome;
+    edEnd.Text:=cliente.Endereco;
+    panel3.Enabled:=false;
+  end;
+
+end;
+
+procedure TfrPrevenda1.edCodProdButtonClick(Sender: TObject);
+begin
+ try
+  formLkProd:=tformLkProd.create(Application);
+
+  formLkProd.ShowModal;
+  if Geral<>'' Then
+  Begin
+     edCodProd.text:=geral;
+  End;
+ finally
+  geral:='';
+  FreeAndNil(formLkProd);
+ end;
+end;
+
+procedure TfrPrevenda1.edCodProdExit(Sender: TObject);
+begin
+
+ edPerc.ReadOnly:=existeDesconto;
+ if edCodProd.TExt<>'' Then
+ begin
+  Produto:=TProdutoController.ConsultaCodigo(edCodProd.Text);
+  If Produto=Nil Then
+  Begin
+     Produto:=TProdutoController.ConsultaCodigoAuxiliar(edCodProd.Text);
+     if Produto=NIL then
+     begin
+       MEnsagem('Codigo não encontrado');
+       edCodProd.Clear;
+       edCodProd.SetFocus;
+       exit;
+     end;
+  end;
+  edCodProd.Text:=Produto.Codigo;
+  edProd.Text:=Produto.Produto;
+  edEstoque.TExt:=FloatToStr(Produto.Estoque);
+  if ckbPrecorevenda.checked then
+     edVrUnit.value:=Produto.PrecoRevenda
+  Else
+     edVrUnit.value:=Produto.PrecoVenda;
+  edQuant.value:=1;
+  edTotal.value:=produto.precoVenda;
+  MaxDescItem:=Produto.descontoExtra+Produto.desconto;
+   //desconto promocional
+  MaxDescGrupo:=0;
+  dmmod.tblSetor.open;
+  If dmmod.tblSetor.Locate('controle',produto.codsetor,[]) Then
+     MaxDescGrupo:=dmMod.tblSetorsgf_MaximoDesc.Value;
+  dmmod.tblSetor.Close;
+ if Produto.desconto<>0 Then
+    lblDesconto.caption:='Desc. Item: '+FloatTostrf(produto.desconto,ffnumber,5,2)+'%'+
+    '   Desc. Adicional: '+FloatTostrf(produto.descontoExtra,ffnumber,5,2)+'%' +
+    '    Desc. TOTAL: '+FloatTostrf(produto.desconto+produto.descontoExtra,ffnumber,5,2)+'%'
+  else
+    lblDesconto.caption:='Desc. Grupo '+FloatTostrf(maxdescgrupo,ffnumber,5,2)+'%' ;
+  If  produto.desconto<>0 Then
+  begin
+     edDesconto.value:=produto.desconto;
+     edTotal.value:=edquant.value*(
+     edVrunit.value+ (edVrunit.value*(-1*edDesconto.value)/100) );
+   end;
+ End
+ Else
+ Begin
+     if not tbItens.IsEmpty Then
+         btnFinalizar.setFocus;
+ End;
+
+
+end;
+
+procedure TfrPrevenda1.btnLancarClick(Sender: TObject);
+
+begin
+
+   if edCodProd.Text='' Then
+   begin
+      Mensagem('informe codigo produto');
+      edCodProd.SetFocus;
+      exit;
+   end;
+  //avaliacao de estoque na pre-venda
+   If (configuracao.ImporEstoque='S') and
+      (produto.MovEstoque='S') Then
+   Begin
+     If configuracao.EstoqueNegativo='N' Then
+     Begin
+         If produto.Estoque<edQuant.value Then
+         Begin
+            Mensagem('Estouro da posição de estoque');
+            edCodProd.clear;
+            Exit;
+         End;
+     end;
+   End;
+   If (edQuant.value<=0) or (edVrUnit.value<=0) Then
+   begin
+       Mensagem('Informe os valores corretamente');
+       exit;
+   end;
+
+
+    tbItens.append;
+    tbItensdata_emissao.asdatetime:= date;       //data emissao
+    tbItensItem.asInteger:=numitem;          //numero item
+    tbItensidControle.asinteger:=produto.idcontrole;  //codigo produto
+    tbItensQuantidade.asFloat:=edQuant.value;     //quantidade
+    tbItensValor_unitario.asCurrency:=edVrUnit.value; //valor untario
+    tbItenstaxa_desconto.value:=edDesconto.Value;
+    tbItensValor_Total.asCurrency:=edTotal.value;
+    tbItensNome_produto.asString:=edProd.text;      //nome produto
+    tbItensUnidade_produto.asString:= produto.Unidade; //unidade
+    tbItensGtin.asString:=Produto.Codigo;              //codigo
+    tbItensCancelado.asString:='N';
+    if produto.cst=emptystr then
+       tbItensCST.asString:='FF'
+    Else
+      tbItensCst.asString:=produto.cst;
+    tbItens.Post;
+    somaPrevenda;
+    //permissao com limite estourado
+    If (dmMod3.tbUsuario.fieldbyName('p5').asString<>'S') and
+       (edCodigo.text<>'99999')Then
+    begin
+      If cliente.limitecredito<(debito+edTotalOrc.value) Then
+      Begin
+         tbItens.Delete;
+         If Confirma('Limite de credito estourado...Reajustar ? ')=idYes Then
+         Begin
+             FormAcesso:=TFormAcesso.Create(Application);
+             FormAcesso.ShowModal;
+             If FormAcesso.Retorno Then
+             BEgin
+               try
+               formLimCredito:=TFormLimCredito.Create(Application);
+               formLimCredito.editRenda.value:=cliente.renda;
+               formLimCredito.editPercentual.value:=cliente.percentualrenda;
+               formLimCredito.editLimite.value:=cliente.Limitecredito;
+               If formLimCredito.ShowModal=mrOk Then
+               Begin
+                 dmMod.tblclientes.open;
+                 dmMod.tblClientes.locate('codigo',cliente.codigo,[]);
+                 dmMod.tblClientes.Edit;
+                 dmMod.tblClientesLimiteCred.Value:=formLimCredito.editlimite.value;
+                 dmMod.tblClientesRenda.value:=formLimCredito.editrenda.value;
+                 dmMod.tblClientesPercentualRenda.value:=formLimCredito.editpercentual.value;
+                 dmMod.tblClientes.Post;
+                 cliente.limitecredito:=formLimCredito.editlimite.value;
+                 stLimite.Caption:=FloatToStrf(cliente.limitecredito,ffCurrency,12,2);
+                 dmMod.tblClientes.Close;
+                 edCodProd.SetFocus;
+                 exit;
+               End;
+               finally
+                 FreeAndNil(formLimCredito);
+               end;
+             End;
+         End;
+         edcodProd.SetFocus;
+         Exit;
+      End;
+    end;
+    inc(numitem);
+     edCodProd.clear;
+    edProd.clear;
+    edEstoque.clear;
+    edPrecoVenda.clear;
+    edQuant.Value:=1;
+    edVrunit.Clear;
+    edDesconto.Clear;
+    edTotal.clear;
+    edCodProd.SetFocus;
+    FreeAndNil(produto);
+end;
+
+procedure TfrPrevenda1.btnLancarKeyPress(Sender: TObject; var Key: Char);
+begin
+ if key=#27 then
+    edCodprod.setfocus;
+end;
+
+procedure TfrPrevenda1.FormShow(Sender: TObject);
+begin
+
+   Limpa_var;
+
+   btnNovo.Setfocus;
+   dmMod3.tbUsuario.open;
+   configuracao:=TConfiguracaoVO.Create;
+   dmMod.tblParam.open;
+   ConfiguraRegiaoBR;
+   configuracao.ImporEstoque:=dmMod.tblParamFImporEstoque.value;
+   configuracao.EstoqueNegativo:=dmMod.tblParamFEstNegativo.value;
+   configuracao.PrazoCliente:=dmMod.tblParamBloqueiocliente.value;
+   configuracao.ImprimeComp:=dmMod.tblParamImpboleto.value;
+   configuracao.AvancoLinha:=dmMod.tblParamAvancoLinha.value;
+
+   dmMod.tblParam.Close;
+   Panel3.Enabled:=false;
+   Panel1.Enabled:=false;
+   btnNovo.Enabled:=true;
+   if impmodelo<>emptyStr then
+      ConfiguraImpressora(impModelo);
+   TrimAppMemorySize;
+end;
+
+Function AbrangeInteger(valor:string):Boolean;
+begin
+  result := True;
+  try
+  StrToInt(valor);
+  except
+   On EConvertError do result := False;
+  end;
+End;
+
+procedure TfrPrevenda1.btnFinalizarClick(Sender: TObject);
+Var
+   desconto,acrescimo:Double;
+   nLin:Smallint;
+   descacresc,arquivoorigem,arquivodestino,Montasql:string;
+   flag:boolean;
+   arq:textfile;
+   pathexe,codInterno,idpaf,codBarras:String;
+   i:integer;
+   sr:TSearchRec;
+   qry:TFDquery;
+begin
+   IF  tbItens.IsEmpty Then
+   begin
+     Mensagem('Nenhuma lançamento efetivado');
+     exit;
+   end;
+   if MessageDlg('Confirma geração da pre-venda ?',mtconfirmation,[mbyes,mbno],0)<>idYes Then
+      exit;
+ try
+    qry:=TFDquery.create(nil);
+    qry.Connection:=dmmod.fdConPrinc;
+    try
+       desconto:=0;Acrescimo:=0;
+       If edPerc.value<>0 Then
+       Begin
+          If edPerc.value<0 Then
+             desconto:=Abs(edTotalprod.value*(edPerc.value/100))
+          else
+             Acrescimo:=edTotalprod.value*(edPerc.value/100);
+       end;
+       qry.sql.Text:='Insert into receita '+
+            '( NOME, ENDERECO,  DESCONTO, TOTAL, SELECAO,LKVEND,DATA,HORA,LKCLIENTE,DOCUMENTO)'+
+            '   Values   '+
+            '(:NOME, :ENDERECO, :DESCONTO, :TOTAL, :SELECAO,:LKVEND,:DATA,:HORA,:LKCLIENTE,:DOCUMENTO)';
+       //qry.PArambyname('ORCAMENTO').asInteger:=configuracao.numeroprevenda;
+       qry.PArambyname('NOME').asString:=ednome.text;
+       qry.PArambyname('ENDERECO').asString:=edEnd.Text;
+       qry.PArambyname('DESCONTO').asFloat:=0;
+       qry.PArambyname('TOTAL').asCurrency:=edTotalorc.value;
+      // qry.PArambyname('DOCUMENTO').asString:=edDoc.Text;
+       qry.PArambyname('SELECAO').asString:='N';
+       qry.parambyname('lkvend').asInteger:=vendedor.codigo;
+       qry.parambyname('DATA').asDate:=date;
+       qry.parambyname('HORA').asTime:=time;
+       qry.parambyname('LKCLIENTE').asString:=cliente.codigo;
+       qry.parambyname('DOCUMENTO').asString:=EDdOC.Text;
+       qry.ExecSql;
+       qry.Connection.Commit;
+       qry.Open('select gen_id(gen_receita_id,0) as id from receita');
+       configuracao.NumeroPrevenda :=qry.FieldByName('id').AsInteger;
+       qry.Close;
+       qry.sql.Text:='Insert into receita1 '+
+              '( LKORC, CODIGO, PRECOUNIT, QUANT, DESCONTO)'+
+              '  Values   '+
+              '( :LKORC, :CODIGO, :PRECOUNIT, :QUANT, :DESCONTO)';
+        tbItens.first;
+        while not tbItens.eof do
+        begin
+           qry.PArambyname('LKORC').asInteger:=configuracao.numeroprevenda;
+           qry.PArambyname('CODIGO').asString:= tbItensgtin.value;
+           qry.PArambyname('PRECOUNIT').asCurrency:=tbItensValor_unitario.asCurrency;
+           qry.PArambyname('QUANT').asFloat:=tbItensQuantidade.asExtended;
+           qry.PArambyname('DESCONTO').asFloat:=tbItenstaxa_desconto.asExtended;
+           if edPerc.value<>0 then
+               qry.PArambyname('DESCONTO').asFloat:=edPerc.value;
+           qry.Execsql;
+
+           tbItens.Next;
+        end;
+       qry.Connection.Commit;
+    finally
+       FreeAndNil(qry);
+     end;
+
+     if impName<>emptyStr then
+     Begin
+       with dmMod do
+       begin
+           nLin:=3;
+           rdprint1.SetPrinterByName(impname);
+           RDprint1.abrir;
+           RDprint1.Impressora       :=Bobina;  // Depois do Abrir para FORÇAR o modelo BOBINA (sem comando)
+           RDprint1.TamanhoQteLinhas := 1;       // Evita o salto indesejado no finaldmMod.
+           RDprint1.MostrarProgresso := false;
+           RDprint1.Acentuacao       := SemAcento;
+           RDprint1.ImpASCII(01,01,'27 64');
+           rdPrint1.imp(nlin,1, cIExpandido+'PRE-VENDA: '+Strzero(configuracao.numeroprevenda,6)+ cFExpandido);
+           Inc(nLin);
+           rdPrint1.imp(nLin,2,'Cod.: '+frprevenda1.edCodigo.text+'-'+
+           frprevenda1.edNome.text);
+           Inc(nLin);
+           rdPrint1.imp(nLin,2,'Documento: '+frprevenda1.edDoc.text);
+           Inc(nLin);
+           rdPrint1.imp(nLin,2,'End.: '+frprevenda1.EdEnd.text);
+           inc(nLin);
+           rdPrint1.imp(nlin,2, '-----------------');
+           inc(nlin);
+           rdPrint1.imp(nLin,2,'SUB-TOTAL:'+FloatToStrf(edTotalProd.value,ffcurrency,12,2)) ;
+           Inc(nlin);
+           if edperc.value<>0 Then
+           begin
+            rdPrint1.imp(nLin,2,'perc(+/-) '+FloatToStrf(edPerc.value,ffnumber,6,2) +' %');
+            Inc(nlin);
+           end;
+           rdPrint1.imp(nLin,2,cIExpandido+'TOTAL:'+FloatToStrf(edTotalOrc.value,ffcurrency,12,2)+cFExpandido) ;
+           Inc(nlin);
+           rdPrint1.imp(nLin,2,'Vendedor: '+lblVendedor.Caption);
+           inc(nlin);
+           //formas de pagamento
+           rdPrint1.imp(nlin,2, '-------------------------');
+           inc(nlin);
+           If  AvancoLinha>0 Then
+               dmMod.rdprint1.imp((nLin)+avancolinha,3,'  ')
+           Else
+              dmMod.rdprint1.Imp(nlin+1,01,guilhotina);
+           rdprint1.fechar;
+       end;
+    end;
+    /// Mensagem(Pchar('Gerada prevenda Nº '+Strzero(configuracao.Numeroprevenda,10)));
+   lblNumeroPv.Caption:='Ultima Pre-Venda: '+Strzero(configuracao.numeroprevenda,5);
+ Finally
+    tbItens.close;
+    btnNovo.Enabled:=true;
+    limpa_var;
+    panel1.Enabled:=false;
+    panel3.Enabled:=false;
+    btnNovo.SetFocus;
+    FreeAndNil(cliente);
+    FreeAndNil(vendedor);
+    dmMod.fdConPrinc.Connected:=false;
+    TrimAppMemorySize;
+ end;
+ if impName<>emptyStr then
+ Begin
+  try
+   try
+     with dmMod do
+     begin
+           nLin:=3;
+           rdprint1.SetPrinterByName(impname);
+           RDprint1.abrir;
+           RDprint1.Impressora       :=Bobina;  // Depois do Abrir para FORÇAR o modelo BOBINA (sem comando)
+           RDprint1.TamanhoQteLinhas := 1;       // Evita o salto indesejado no finaldmMod.
+           RDprint1.MostrarProgresso := false;
+           RDprint1.Acentuacao       := SemAcento;
+           RDprint1.ImpASCII(01,01,'27 64');
+           rdPrint1.imp(nlin,1, cIExpandido+'PRE-VENDA: '+Strzero(configuracao.numeroprevenda,6)+ cFExpandido);
+           Inc(nLin);
+           rdPrint1.imp(nLin,2,'Cod.: '+frprevenda1.edCodigo.text+'-'+
+           frprevenda1.edNome.text);
+           Inc(nLin);
+           rdPrint1.imp(nLin,2,'Documento: '+frprevenda1.edDoc.text);
+           Inc(nLin);
+           rdPrint1.imp(nLin,2,'End.: '+frprevenda1.EdEnd.text);
+           inc(nLin);
+           rdPrint1.imp(nlin,2, '-----------------');
+           inc(nlin);
+           rdPrint1.imp(nLin,2,'SUB-TOTAL:'+FloatToStrf(edTotalProd.value,ffcurrency,12,2)) ;
+           Inc(nlin);
+           if edperc.value<>0 Then
+           begin
+            rdPrint1.imp(nLin,2,'perc(+/-) '+FloatToStrf(edPerc.value,ffnumber,6,2) +' %');
+            Inc(nlin);
+           end;
+           rdPrint1.imp(nLin,2,cIExpandido+'TOTAL:'+FloatToStrf(edTotalOrc.value,ffcurrency,12,2)+cFExpandido) ;
+           Inc(nlin);
+           rdPrint1.imp(nLin,2,'Vendedor: '+lblVendedor.Caption);
+           inc(nlin);
+           //formas de pagamento
+           rdPrint1.imp(nlin,2, '-------------------------');
+           inc(nlin);
+           If  AvancoLinha>0 Then
+               dmMod.rdprint1.imp((nLin)+avancolinha,3,'  ')
+           Else
+              dmMod.rdprint1.Imp(nlin+1,01,guilhotina);
+           rdprint1.fechar;
+       end;
+
+    except
+    end;
+
+  finally
+      TrimAppMemorySize;
+  end;
+ End;
+
+end;
+
+procedure TfrPrevenda1.btnCancelarClick(Sender: TObject);
+Var
+  NumeroItem:String;
+begin
+   if not inputQuery('Cancelamento item','Informe o numero do item',numeroitem) then
+      exit;
+   if Trim(numeroitem)='' then
+     exit;
+   If not tbitens.locate('item',StrtoInt(numeroitem),[]) Then
+   begin
+     Mensagem('Item não localizado');
+     exit;
+   end;
+   if tbItens.isEmpty Then
+   begin
+      Mensagem('Base de dados vazia');
+      abort;
+   End;
+
+   if Confirma(Pchar('Confirma cancelamento do item nº '+numeroitem))=idYes Then
+   begin
+     tbItens.Delete;
+     somaPrevenda;
+   End;
+   edCodigo.setfocus;
+end;
+
+
+procedure TfrPrevenda1.SomaPreVenda;
+Var
+  TotalVenda,TotalVEndaDesc:currency;
+  TaxaDesc:Extended;
+begin
+   TotalVenda:=0;
+   TotalVEndaDesc:=0;
+   TaxaDesc:=0;
+   tbItens.disableControls;
+   tbItens.first;
+
+   TotalVenda:=Soma1(tbItens,'valor_total');
+   if totalvenda<>0 then
+      Taxadesc:=((Totalvenda-TotalVendaDesc)*100)/TotalVenda;
+   edTotalprod.value:=TotalVenda;
+   edTotalOrc.value:= edTotalProd.value*(1+edPerc.value/100);
+   tbItens.enableControls;
+end;
+
+procedure TfrPrevenda1.Timer1Timer(Sender: TObject);
+begin
+
+  timer1.enabled:=false;
+
+  FormSenha:=tFormSenha.Create(Application);
+  If FormSenha.ShowModal<>mrOk Then
+  begin
+      Application.Terminate;
+      abort;
+  end;
+  dmMod3.tbusuario.open;
+  dmMod3.tbusuario.locate('Usuario',usuario.usuario,[]);
+  configuracao.senha:=dmMod3.tbusuarioSenha1.value;
+  dmMod.fdConPrinc.Connected:=false;
+
+end;
+
+procedure TfrPrevenda1.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+IF dtspreDet.dataset.fieldByname('cancelado').asString='S' Then
+ begin
+   DBGrid1.Canvas.Font.Color:= clBlack;
+   DBGrid1.Canvas.Brush.Color:= clRed;
+
+ end;
+ Dbgrid1.DefaultDrawDataCell(Rect, dbgrid1.columns[datacol].field, State);
+
+end;
+
+procedure TfrPrevenda1.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+    if not tbItens.isEmpty Then
+    begin
+       If confirma('Pre-venda nao finalizada, confirma saida?')=idNo Then
+          canclose:=false;
+    end;
+end;
+
+procedure TfrPrevenda1.EdEndExit(Sender: TObject);
+begin
+    if (edCodigo.Text='') or (edNome.Text='') Then
+    begin
+      Mensagem('Campos(*) preenchimento obrigatório');
+      exit;
+    End;
+   // TClienteController.UpdateCliente(cliente.codigo,cliente.tipopessoa,edDoc.text);
+    tbItens.Open;
+    panel3.Enabled:=true;
+    edCodProd.SetFocus;
+    numItem:=1;
+
+end;
+
+procedure TfrPrevenda1.btnNovoClick(Sender: TObject);
+begin
+
+  frSenhaVendedor.ShowModal;
+  If vendedor<>nil Then
+  begin
+    Panel1.Enabled:=true;
+    Panel3.Enabled:=true;
+    edCodigo.Text:='99999';
+    edCodigo.SetFocus;
+    btnNovo.Enabled:=false;
+    existeDesConto:=false;
+    tbitens.close;
+    tbitens.open;
+    lblVendedor.caption:=vendedor.nome;
+    dmMod3.tbusuario.Open();
+    dmMod3.tbusuario.locate('Usuario',usuario.usuario,[]);
+
+
+  End;
+
+end;
+
+procedure TfrPrevenda1.FormCreate(Sender: TObject);
+var
+ i:byte;
+begin
+
+  scaled := true;
+  if (screen.width <> ScreenWidth) then
+  begin
+    height := longint(height) * longint(screen.height) DIV ScreenHeight;
+    width := longint(width) * longint(screen.width) DIV ScreenWidth;
+    scaleBy(screen.width, ScreenWidth);
+     for i := 0 to DBGrid1.Columns.Count-1 do
+      DbGrid1.Columns[i].Width :=
+                Round(DbGrid1.Columns[i].Width*(Screen.Width/1024));
+   end;
+end;
+
+procedure TfrPrevenda1.Button1Click(Sender: TObject);
+begin
+   try
+   frmConfiguracao:=tfrmConfiguracao.create(Application);
+   frmConfiguracao.showmodal;
+   finally
+     FreeAndNil(frmConfiguracao);
+   end;
+
+end;
+
+procedure TfrPrevenda1.Button3Click(Sender: TObject);
+begin
+   try
+     frConsultaPreco:=TfrConsultaPreco.Create(Application);
+     frConsultaPreco.showmodal;
+   finally
+     FreeAndNil(frconsultapreco);
+   end;
+end;
+
+procedure TfrPrevenda1.Button4Click(Sender: TObject);
+begin
+  If dmMod3.tbUsuario.fieldbyName('H10').asString<>'S' Then
+  begin
+     Mensagem('Sem permissao');
+     exit;
+  End;
+  try
+    frHistoricoCli:=TFrHistoricoCli.create(Application);
+    frHistoricoCli.Showmodal;
+  finally
+    FreeAndNil(frHistoricoCli);
+  end;
+
+end;
+
+procedure TfrPrevenda1.edDescontoExit(Sender: TObject);
+begin
+   // edvrunit.readOnly:=(edDesconto.value<>0) or (dmMod3.tbUsuarioALTERARPVENDA.asString<>'S');
+    if edDesconto.value<>0 Then
+    begin
+
+        edDesconto.value:=Abs(edDesconto.value);
+        if (MaxDescitem<>0) or (maxdescgrupo<>0) Then
+        begin
+            //verifica desconto maximo para item
+            if maxDescitem<>0 Then
+            begin
+               If edDesconto.Value>MaxDescItem Then
+               Begin
+                   ShowMessage('Maior desconto permitido para o item: '+
+                   FloattoStrf(maxDescItem,ffNumber,10,2)+'%');
+                   edDesconto.value:=produto.Desconto;
+                   edDesconto.SetFocus;
+                   exit;
+               end;
+            End
+            Else If MaxDescGrupo<>0 Then
+            Begin
+               If edDesconto.Value>MaxDescGrupo Then
+               Begin
+                   ShowMessage('Maior desconto para o grupo: '+
+                   FloattoStrf(maxDescgrupo,ffNumber,10,2)+'%');
+                   edDesconto.value:=maxdescgrupo;
+                   edDesconto.setFocus;
+                   exit;
+               end;
+            end;
+       End ;
+      {Else
+       begin
+          if dmMod3.tbUsuarioDESCONTOPDV.asString<>'S' Then   //nao permitir da desconto
+          begin
+            formAcesso.ShowModal;
+            If not formAcesso.Retorno Then
+                edDesconto.Value:=0;
+          end;
+
+       end; }
+   end;
+
+   edTotal.value:=edquant.value*(
+      edVrunit.value+ edVrunit.value*(-1*edDesconto.value)/100);
+
+   if edDesconto.value<>0 Then
+   begin
+      ExisteDesconto:=true;
+     // btnlancar.setfocus;
+   end;
+
+
+end;
+
+procedure TfrPrevenda1.edDescontoKeyPress(Sender: TObject; var Key: Char);
+begin
+  edDesconto.ReadOnly:=dmMod3.tbUsuarioDESCONTOPDV.asString<>'S';
+
+ If Key=#27 Then
+    edCodProd.setFocus;
+end;
+
+procedure TfrPrevenda1.edPercExit(Sender: TObject);
+begin
+   edTotalOrc.Value:=edTotalProd.Value*(1-edPerc.value/100);
+end;
+
+procedure TfrPrevenda1.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+ if key=vk_f3 Then
+   btnNovo.Click;
+  if key=vk_f7 Then
+   btnFinalizar.Click;
+ if key=vk_f4 Then
+   Button3.Click;
+ if key=vk_delete then
+    btncancelar.click;
+end;
+
+procedure TfrPrevenda1.edQuantExit(Sender: TObject);
+Var
+
+  qry:TFDquery;
+begin
+ if edQuant.value>1 then  //promoção especial
+  begin
+   try
+     qry:=TFDquery.create(nil);
+     qry.Connection:=dmmod.fdConPrinc;
+    //implementacao - venda promocional;
+
+    qry.sql.text:='select quant,valor,codigo from tabest1_sgfpromocao where codigo=:codigo  and quant=:quant';
+    qry.parambyname('codigo').asString:=produto.codigo;
+    qry.parambyname('quant').asinteger:=trunc(edQuant.value);
+    qry.open;
+    if not qry.isempty then
+    begin
+        edvrUnit.Value:=qry.fieldbyname('valor').asCurrency/edQuant.value;
+        edTotal.value:=edVrunit.value*edquant.value;
+        btnLancar.click;
+    end;
+   finally
+      qry.close;
+      FreeAndNil(qry);
+   end;
+  end;
+end;
+
+procedure TfrPrevenda1.edQuantKeyPress(Sender: TObject; var Key: Char);
+begin
+
+ If Key=#27 Then
+    edCodProd.setFocus;
+
+
+end;
+
+procedure TfrPrevenda1.edTotalExit(Sender: TObject);
+begin
+if  (edDesconto.Value<>0) then
+ begin
+     edDesconto.Value:=( (abs((edVrUnit.Value*edQuant.Value)-edTotal.Value))/
+                                      (edVrUnit.Value*edQuant.Value) )*100;
+
+ end;
+end;
+
+procedure TfrPrevenda1.edTotalKeyPress(Sender: TObject; var Key: Char);
+begin
+ If Key=#27 Then
+    edCodProd.setFocus;
+
+
+
+end;
+
+procedure TfrPrevenda1.edVrUnitExit(Sender: TObject);
+var
+  Desconto:real;
+  pedirPermissao:boolean;
+begin
+    //considerações  para farmacias
+    If  (not edvrUnit.ReadOnly)  and ( StrToFloat(FloatToStrf(edVrUnit.Value-produto.PrecoVenda,ffNumber,10,2))<>0) Then
+    Begin
+     { Desconto:=0;
+      PedirPermissao:=false;
+      If StrToFloat(FloatToStrf(edVrUnit.Value-produto.PrecoVenda,ffNumber,10,2))<>0 Then
+      Begin
+          Desconto:=(100*(produto.PrecoVenda-edVrunit.Value))/Produto.PrecoVenda;
+          If edVrunit.Value-produto.PrecoVenda<0 Then
+              edDesconto.Value:=Desconto;
+          If (produto.Desconto<>0) and
+             ( produto.Desconto<Desconto) Then
+          Begin
+
+              ShowMessage('Desconto Máximo do Produto '+FloatToStrf(
+              produto.Desconto,ffNumber,10,2)+' %');
+              PedirPermissao:=true;
+          End
+          Else If (dmMod.tblSetorsgf_MaximoDesc.Value<>0) and
+             ( dmMod.tblSetorsgf_MaximoDesc.Value<Desconto) Then
+          Begin
+               ShowMessage('Desconto Máximo do Grupo ' +dmMod.tblSetorSetor.Value+#13+
+               '  '+FloatToStrf(dmMod.tblSetorSgf_MaximoDesc.Value,ffNumber,10,2)+ '%');
+               PedirPermissao:=true;
+
+          End
+          Else If ( (produto.Desconto=0 ) and
+                     (dmMod.tblSetorsgf_MaximoDesc.Value=0) ) or
+                    (
+                    StrToFloat(FloatToStrf(edVrunit.Value-produto.PrecoVenda,ffNumber,10,2))<>0) Then
+             Pedirpermissao:=true;
+      End;
+      If PedirPermissao Then
+      Begin
+          FormAcesso.ShowModal;
+          If Not FormAcesso.Retorno Then
+          Begin
+             edvrUnit.Value:=produto.PrecoVenda;
+             edDesconto.Value:=0;
+           End;
+
+       End;
+       If Produto.Precovenda>edVrUnit.Value Then
+         edVrUnit.Value:=Produto.Precovenda;
+    End;    }
+
+    { if dmMod3.tbusuarioALTERARPVENDA.AsString<>'S' then
+     begin
+      FormAcesso.ShowModal;
+      If Not FormAcesso.Retorno Then
+      Begin
+           edvrUnit.Value:=produto.PrecoVenda;
+           edDesconto.Value:=0;
+      End; }
+     end;
+     edTotal.value:=edvrunit.value*edQuant.value;
+       // btnlancar.setfocus;
+
+
+
+
+
+
+end;
+
+procedure TfrPrevenda1.edVrUnitKeyPress(Sender: TObject; var Key: Char);
+begin
+// edvrunit.readOnly:=(edDesconto.value<>0) or (dmMod3.tbUsuarioALTERARPVENDA.asString<>'S');
+ If Key=#27 Then
+    edCodProd.setFocus;
+end;
+
+End.
